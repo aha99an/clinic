@@ -39,6 +39,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # local apps
     'pages.apps.PagesConfig',
+    'cause',
+    'investigation',
+    'diagnose',
+    'treatment',
+    'referrer',
+    'operation',
+    'appointment',
+    'patient',	
 ]
 
 MIDDLEWARE = [

@@ -8,7 +8,7 @@ class HomePageView(TemplateView):
 
 
 
-class AppointmentsPageView(TemplateView):
-    template_name = 'appointments.html'
+#class AppointmentsPageView(TemplateView):
+   # template_name = 'appointments.html'
 
 
