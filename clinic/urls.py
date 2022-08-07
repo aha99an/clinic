@@ -21,5 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('pages.urls')), # new
     path('', include('patient.urls')), # new
+    path('', include('referrer.urls')), # new
+
 
 ]

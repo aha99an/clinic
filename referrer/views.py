@@ -1,11 +1,11 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import DeleteView, CreateView, UpdateView
-from .models import Patient
+from .models import Referrer
 from django.urls import reverse_lazy
 # Create your views here.
 
-class ReferrertListView(ListView):
+class ReferrerListView(ListView):
     model = Referrer
     template_name = 'referrers.html'
 

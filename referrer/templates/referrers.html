@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+ <!-- Section -->
+ <section>
+    <a href="{% url 'referrer_new' %}" class="button next">Add referrer</a>
+</section>
+
+
+
+
+
+
+
+
+ <!-- Section -->
+ <h2>All referrer</h2>
+<section>
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for referrer in object_list %}
+                <tr>
+                    <td>
+                        <h><a href="{% url 'referrer_edit' referrer.pk %}">{{ referrer.referrerName }}</a></h><br>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+      </table>
+
+</section>
+{% endblock content %}
