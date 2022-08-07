@@ -1,8 +1,8 @@
 from django.db import models
 
 # Create your models here.
-class Operatoion(models.Model):
-    operatoionName = models.CharField(max_length=255)
+class Operation(models.Model):
+    operationName = models.CharField(max_length=255)
 
     
     created_at = models.DateTimeField(auto_now_add=True)
@@ -10,4 +10,4 @@ class Operatoion(models.Model):
 
 
     def __str__(self):
-        return self.name
+        return self.operationName

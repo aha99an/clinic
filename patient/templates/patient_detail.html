@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+ <!-- Section -->
+<section>
+
+  <!--   <a href="" class="button next">Attachments</a> -->
+    <a href="#" class="button next">Investigation</a>
+    <a href="#" class="button next">Appointment</a>
+</section>
+ <!-- Section -->
+<section>
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Patient name:</th>
+            <th scope="col">{{ patient.name }}</th>
+            <th scope="col"></th>
+
+          </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td> <h>Patient phone number:</h></td>
+                <td><h>{{ patient.phoneNumber }}</h></td>
+                <td> <h></h></td>
+
+            </tr>
+
+            <tr>
+                <td> <h>Age:</h></td>
+                <td><h>{{ patient.age }}</h></td>
+                <td><h>{{ patient.yORm }}</h></td>
+            </tr>
+            <tr>
+                <td> <h>Gender:</h></td>
+                <td><h>{{ patient.gender }}</h></td>
+                <td><h></h></td>
+            </tr>
+
+            <tr>
+                <td> <h>Patient Address:</h></td>
+                <td><h>{{ patient.patientAddress }}</h></td>
+                <td><h></h></td>
+            </tr>
+            <tr>
+                <td> <h>ReferredFrom:</h></td>
+                <td><h>{{ patient.referredFrom }}</h></td>
+                <td><h></h></td>
+            </tr>
+
+            <tr>
+                <td><h>Notes:</h></td>
+                <td><h>{{ patient.note | urlize |linebreaks}}</h></td>
+                <td><h></h></td>
+            </tr>
+            </tbody>
+        </table>
+</section>
+{% endblock content %}
+
+

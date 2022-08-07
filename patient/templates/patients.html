@@ -1,9 +1,44 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>Message board homepage</h1>
-<ul>
+ <!-- Section -->
+<section>
+    <a href="#" class="button next">Add patient</a>
+</section>
+
+ <!-- Section -->
+ <section>
+    <h2>All patient</h2>
 
 
 
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Age</th>
+            <th scope="col">Y/M</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for patient in object_list %}
+
+                <tr>
+                    <td>
+                        <h><a href="{% url 'patient_detail' patient.pk %}">{{ patient.name }}</a></h>
+                    </td>
+                    <td>
+                        <h1><a href="">{{ patient.age }}</a></h1>
+                    </td>
+                    <td>
+                        <h1><a href="">{{ patient.yORm }}</a></h1>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+      </table>
+</section>
 {% endblock content %}
+
+
+
