@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import DeleteView, CreateView, UpdateView
 from .models import Patient
-from django.urls import reverse_lazy # new
+from django.urls import reverse_lazy
 # Create your views here.
 
 
