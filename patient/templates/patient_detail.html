@@ -3,12 +3,15 @@
 
 
  <!-- Section -->
-<section>
+ <section>
 
-  <!--   <a href="" class="button next">Attachments</a> -->
-    <a href="#" class="button next">Investigation</a>
-    <a href="#" class="button next">Appointment</a>
+    <a href="#" class="button next">Attachments</a> 
+    <a href="#" class="button next">Investigations</a>
+    <a href="#" class="button next">Appointments</a>
+    <a href="{% url 'patient_edit' patient.pk %}" class="button next">Edit patient details</a>
 </section>
+
+
  <!-- Section -->
 <section>
     <table class="table table-striped">
@@ -57,6 +60,13 @@
             </tr>
             </tbody>
         </table>
+</section>
+
+
+ <!-- Section -->
+ <section>
+
+    <a href="{% url 'patient_delete' patient.pk %}" class="button next">Delete patient</a>
 </section>
 {% endblock content %}
 

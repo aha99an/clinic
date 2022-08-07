@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+
+ <!-- Section -->
+<section>
+    <h1>Delete patient</h1>
+    <form action="" method="post">{% csrf_token %}
+        <p>Are you sure you want to delete "{{ patient.name }}"?</p>
+        <input type="submit" value="Confirm" />
+        </form>
+    
+
+</section>
+{% endblock content %}
+
+
+
+

@@ -2,6 +2,7 @@ from django.db import models
 from datetime import date
 import datetime
 from referrer.models import Referrer
+from django.urls import reverse
 # Create your models here.
 
 class Patient(models.Model):
@@ -58,3 +59,6 @@ class Patient(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('patient_detail', args=[str(self.id)])
