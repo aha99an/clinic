@@ -4,7 +4,7 @@
 
  <!-- Section -->
  <section>
-    <a href="{% url 'referrer_new' %}" class="button next">Add referrer</a>
+    <a href="{% url 'investigation_new' %}" class="button next">Add investigation</a>
 </section>
 
 
@@ -13,7 +13,7 @@
 <!-- Section -->
 {% comment %} SEARCH {% endcomment %}
 <section>
-    <form method="get" action="{% url 'referrers' %}">
+    <form method="get" action="{% url 'investigations' %}">
         <input style = "width: auto;" id="al-search" type="text" 
            name="search_value" value="{{ request.GET.search_value }}"
            class="form-control" />
@@ -21,7 +21,7 @@
     </form>
 </section>
  <!-- Section -->
- <h2>All referrer</h2>
+ <h2>All investigation</h2>
 <section>
     <table class="table table-striped">
         <thead>
@@ -30,10 +30,10 @@
           </tr>
         </thead>
         <tbody>
-            {% for referrer in object_list %}
+            {% for investigation in object_list %}
                 <tr>
                     <td>
-                        <h><a href="{% url 'referrer_edit' referrer.pk %}">{{ referrer.referrerName }}</a></h><br>
+                        <h><a href="{% url 'investigation_edit' investigation.pk %}">{{ investigation.investigationName }}</a></h><br>
                     </td>
                 </tr>
                 {% endfor %}

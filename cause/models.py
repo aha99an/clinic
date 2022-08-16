@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.urls import reverse
 # Create your models here.
 class Cause(models.Model):
     causeName = models.CharField(max_length=255)
@@ -12,3 +12,7 @@ class Cause(models.Model):
 
     def __str__(self):
         return self.causeName  
+
+
+    def get_absolute_url(self):
+        return reverse('causes')

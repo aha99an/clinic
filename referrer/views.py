@@ -4,19 +4,23 @@ from django.views.generic.edit import DeleteView, CreateView, UpdateView
 from .models import Referrer
 from django.urls import reverse_lazy
 from django.db.models import Q
-from .models import Referrer
 # Create your views here.
 
 class ReferrerListView(ListView):
     model = Referrer
     template_name = 'referrers.html'
-    paginate_by = 10
+    
+
+    def dispatch(self, request, *args, **kwargs):
+        self.paginate_by = self.request.POST.get('pagination_num',default=50)
+        print(self.paginate_by)
+        return super().dispatch(request, *args, **kwargs)        
+        
     def get_queryset(self):
         queryset = Referrer.objects.all()
         # Search
         search_value = self.request.GET.get('search_value',default="")
-        admin_student_list1 = Q(
-            referrerName__contains=search_value)
+        admin_student_list1 = Q(referrerName__contains=search_value)
         queryset = Referrer.objects.filter(admin_student_list1)
         return queryset
 

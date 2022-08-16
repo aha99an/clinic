@@ -22,6 +22,9 @@ urlpatterns = [
     path('', include('pages.urls')), # new
     path('', include('patient.urls')), # new
     path('', include('referrer.urls')), # new
-
+    path('', include('cause.urls')), # new
+    path('', include('investigation.urls')), # new
+    path('', include('diagnose.urls')), # new
+    path('', include('operation.urls')), # new
 
 ]
