@@ -20,13 +20,13 @@ class PatienDetailView(DetailView):
 class PatientCreateView(CreateView):
     model = Patient
     template_name = 'patient_new.html'
-    fields = ['name', 'phoneNumber', 'birthdate' ,'gender','patientAddress','referredFrom','note']
+    fields = ['name', 'phoneNumber', 'birthdate' ,'gender','patientAddress','cause','diagnose','investigation','treatment','referredFrom','note']
 
 
 class PatientUpdateView(UpdateView):
     model = Patient
     template_name = 'patient_edit.html'
-    fields = ['name', 'phoneNumber', 'birthdate' ,'gender','patientAddress','referredFrom','note']
+    fields = ['name', 'phoneNumber', 'birthdate' ,'gender','patientAddress','cause','diagnose','investigation','treatment','referredFrom','note']
 
 
 

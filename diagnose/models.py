@@ -12,7 +12,7 @@ class Diagnose(models.Model):
 
 
     def __str__(self):
-        return self.referrerName
+        return self.diagnoseName
 
 
     def get_absolute_url(self):

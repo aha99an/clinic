@@ -2,7 +2,11 @@ from django.db import models
 from datetime import date
 import datetime
 from referrer.models import Referrer
+from cause.models import Cause
 from django.urls import reverse
+from diagnose.models import Diagnose
+from investigation.models import Investigation
+from treatment.models import Treatment
 # Create your models here.
 
 class Patient(models.Model):
@@ -12,24 +16,26 @@ class Patient(models.Model):
 
     yORm = 'not set yet'
     @property
-    def age(self):
+    def years(self):
         today = date.today()
-        month = today.year - self.birthdate.year
-        if month == 0:
-            age = today.month - self.birthdate.month
-        else:
-            age = today.year - self.birthdate.year - ((today.month, today.day) < (self.birthdate.month, self.birthdate.day))
-        return age
-        
-    
-    def yORm(self):
+        hisYears = today.year - self.birthdate.year
+        hismonths = today.month - self.birthdate.month
+        if hismonths < 0:
+            hisYears = hisYears - 1 
+        elif hismonths >= 0:
+            hismonths = hismonths
+        return hisYears
+
+    def months (self):
         today = date.today()
-        month = today.year - self.birthdate.year
-        if month == 0:
-            yORm = 'M'
-        else: 
-            yORm = 'Y'
-        return yORm   
+        hisYears = today.year - self.birthdate.year
+        hismonths = today.month - self.birthdate.month
+        if hismonths < 0:
+            hismonths = 12 + hismonths
+        elif hismonths >= 0:
+            hismonths = hismonths
+        return hismonths
+  
         
           
     #YORM = (
@@ -44,12 +50,12 @@ class Patient(models.Model):
     gender = models.CharField(max_length=1,blank=True, choices=GENDER)
 
     patientAddress = models.CharField(max_length=255)
-    referredFrom = models.ForeignKey(
-        Referrer, on_delete=models.CASCADE, null=True, blank=True)
-    attachment = models.FileField(
-        null=True, blank=True, verbose_name="attachment")
-    investigation = models.FileField(
-        null=True, blank=True, verbose_name="investigation")
+    referredFrom = models.ForeignKey(Referrer, on_delete=models.CASCADE, null=True, blank=True)
+    cause = models.ManyToManyField(Cause, blank=True)
+    diagnose = models.ManyToManyField(Diagnose, blank=True)
+    investigation = models.ManyToManyField(Investigation, blank=True)
+    treatment = models.ManyToManyField(Treatment, blank=True)    
+    attachment = models.FileField(null=True, blank=True, verbose_name="attachment")
     note = models.TextField(blank=True)
 
     
