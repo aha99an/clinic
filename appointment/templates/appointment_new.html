@@ -1,15 +1,31 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
 
  <!-- Section -->
-<section>
-    <form action="" method="post">{% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Save" />
+ <section>
+     <form action="" method="post">{% csrf_token %}
+         {{ form.as_p }}
+         <label>sa </label>
+         <select class="js-example-basic-multiple" name="states[]" multiple="multiple">
+             <option value="AL">Alabama</option>
+             <option value="WY">Wyoming</option>
+        </select>
+        <br>
+         <input type="submit" value="Save" />
         </form>
-        <script>
-            document.getElementById("id_appointmentDate").type="date";
-            document.getElementById("id_appointmentDate").value="{{form.paid_at.value|date:'Y-m-d'}}"
-            </script>
-</section>
+        
+    </section>
+    
+
+
+
+</div>
+
+
+   
+
+
 {% endblock content %}
+
+ 

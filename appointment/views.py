@@ -6,7 +6,7 @@ from patient.models import Patient
 from operation.models import Operation
 from django.urls import reverse_lazy
 from django.db.models import Q
-from .forms import AddAppointment
+from .forms import AppointmentCreateViewForm
 # Create your views here.
 
 class AppointmentListView(ListView):
@@ -20,8 +20,15 @@ class AppointmentListView(ListView):
 
 class AppointmentCreateView(CreateView):
     model = Appointment
-    form_class = AddAppointment
+    form_class = AppointmentCreateViewForm
     template_name = 'appointment_new.html'
+
+  #  def get_context_data(self):
+   #     ctx = super().get_context_data()
+    #    ctx["operations"] = Operation.objects.all()
+     #   return ctx
+
+
 
 
 
