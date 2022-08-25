@@ -152,8 +152,7 @@
 			{% comment %} <script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script> {% endcomment %}
 
 			{% comment %} <script>
-				document.getElementById("id_appointmentDate").type="date";
-				document.getElementById("id_appointmentDate").value="{{form.paid_at.value|date:'Y-m-d'}}"
+
 		$(document).ready(function(){
 					var multipleCancelButton = new Choices('#choices-multiple-remove-button', {
 					   removeItemButton: true,
@@ -168,8 +167,13 @@
 			$(document).ready(function() {
 				$('.js-example-basic-multiple').select2();
 			});
+			document.getElementById("id_appointmentDate").type="date";
+			document.getElementById("id_appointmentDate").value="{{form.paid_at.value|date:'Y-m-d'}}"
+
+			
 		 </script>
 	</body>
 </html>
 
 
+birthdate

@@ -16,15 +16,20 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls import path, include # new
+from django.conf.urls.static import static
+from django.conf import settings
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('pages.urls')), # new
-    path('patienta/', include('patient.urls')), # new
+    path('patients/', include('patient.urls')), # new
     path('referrers/', include('referrer.urls')), # new
     path('causes/', include('cause.urls')), # new
     path('investigations/', include('investigation.urls')), # new
     path('diagnose/', include('diagnose.urls')), # new
     path('operation/', include('operation.urls')), # new
     path('appointment/', include('appointment.urls')), # new
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

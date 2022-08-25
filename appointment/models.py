@@ -3,28 +3,29 @@ from django.urls import reverse
 from patient.models import Patient 
 from operation.models import Operation
 
-# Create your models here.
-class Appointment(models.Model):
-    patient= models.ForeignKey(Patient, on_delete=models.CASCADE, null=True, blank=True)
-    appointmentDate = models.DateField(null=True, blank=True)
-    appointmentTypes = (
+AppointmentTypes = (
                         ('New Visit','New Visit'),
                         ('Repeat', 'Repeat'),
                         ('Consultation', 'Consultation'),
                         ('Follow up','Follow up'),
                         ('Operative','Operative')
-    )
-    appointmentType = models.CharField(max_length=20,blank=True, choices=appointmentTypes)
-    appointmentStatuss = (
+)
+
+AppointmentStatuss = (
                         ('Waiting','Waiting'),
                         ('On going', 'On going'),
                         ('Done', 'Done'),
                         ('Cancel','Cancel'),
     )
-    appointmentStatus = models.CharField(max_length=20,blank=True, choices=appointmentStatuss)
 
-    operation = models.ManyToManyField(Operation, blank=True)
 
+# Create your models here.
+class Appointment(models.Model):
+    patient= models.ForeignKey(Patient, on_delete=models.CASCADE, null=True, blank=True)
+    appointmentDate = models.DateField(null=True, blank=True)
+    appointmentType = models.CharField(max_length=20,blank=True, choices=AppointmentTypes)
+    appointmentStatus = models.CharField(max_length=20,blank=True, choices=AppointmentStatuss)
+    operation = models.ManyToManyField(Operation, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

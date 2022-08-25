@@ -9,12 +9,15 @@ from investigation.models import Investigation
 from treatment.models import Treatment
 # Create your models here.
 
+GENDER = (
+        ('M', 'Male'),
+        ('F', 'Female')
+    )
+
 class Patient(models.Model):
     name = models.CharField(max_length=255)
-    phoneNumber = models.CharField(max_length=200, default="0")
-    birthdate = models.DateField(null=True, blank=True)
-
-    yORm = 'not set yet'
+    phoneNumber = models.CharField(max_length=200, default="0", null=True)
+    birthdate = models.DateField(blank=True)
     @property
     def years(self):
         today = date.today()
@@ -36,27 +39,16 @@ class Patient(models.Model):
             hismonths = hismonths
         return hismonths
   
-        
-          
-    #YORM = (
-     #   ('Y', 'Year'),
-     #   (M', 'Month'),
-    #)
-    #  = models.CharField(max_length=1, blank=True, choices=YORM, verbose_name="Y/M")
-    GENDER = (
-        ('M', 'Male'),
-        ('F', 'Female'),
-    )
     gender = models.CharField(max_length=1,blank=True, choices=GENDER)
 
-    patientAddress = models.CharField(max_length=255)
+    patientAddress = models.CharField(max_length=255, null=True)
     referredFrom = models.ForeignKey(Referrer, on_delete=models.CASCADE, null=True, blank=True)
     cause = models.ManyToManyField(Cause, blank=True)
     diagnose = models.ManyToManyField(Diagnose, blank=True)
     investigation = models.ManyToManyField(Investigation, blank=True)
     treatment = models.ManyToManyField(Treatment, blank=True)    
     attachment = models.FileField(null=True, blank=True, verbose_name="attachment")
-    note = models.TextField(blank=True)
+    note = models.TextField(blank=True, null=True)
 
     
     created_at = models.DateTimeField(auto_now_add=True)

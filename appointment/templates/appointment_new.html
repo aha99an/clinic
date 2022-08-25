@@ -4,28 +4,14 @@
 
  <!-- Section -->
  <section>
-     <form action="" method="post">{% csrf_token %}
-         {{ form.as_p }}
-         <label>sa </label>
-         <select class="js-example-basic-multiple" name="states[]" multiple="multiple">
-             <option value="AL">Alabama</option>
-             <option value="WY">Wyoming</option>
-        </select>
-        <br>
+     <form action="" method="post" >{% csrf_token %}
+         {{ form.as_p }}  
          <input type="submit" value="Save" />
         </form>
-        
     </section>
+
+
     
-
-
-
-</div>
-
-
-   
-
-
 {% endblock content %}
 
  

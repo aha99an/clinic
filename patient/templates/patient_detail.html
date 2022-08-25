@@ -67,14 +67,14 @@
 
             <tr>
                 <td> <h>Cause:</h></td>
-                <td><h>{{ patient.cause }}</h></td>
+                <td><h>{% for cause in patient.cause.all %}{{ cause }}<br/>{% endfor %}</h></td>
                 <td><h></h></td>
                 <td><h></h></td>
                 <td><h></h></td>
             </tr>
             <tr>
                 <td> <h>Diagnose:</h></td>
-                <td><h>{{ patient.diagnose }}</h></td>
+                <td><h>{% for diagnose in patient.diagnose.all %}{{ diagnose }}<br/>{% endfor %}</h></td>
                 <td><h></h></td>
                 <td><h></h></td>
                 <td><h></h></td>
