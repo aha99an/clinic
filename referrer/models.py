@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
 class Referrer(models.Model):
@@ -11,3 +12,7 @@ class Referrer(models.Model):
 
     def __str__(self):
         return self.referrerName
+
+
+    def get_absolute_url(self):
+            return reverse('referrers')

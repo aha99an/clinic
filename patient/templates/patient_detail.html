@@ -7,7 +7,7 @@
 
     <a href="#" class="button next">Attachments</a> 
     <a href="#" class="button next">Investigations</a>
-    <a href="#" class="button next">Appointments</a>
+    <a href="#" class="button next">Appointments</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
     <a href="{% url 'patient_edit' patient.pk %}" class="button next">Edit patient details</a>
 </section>
 
@@ -20,6 +20,8 @@
             <th scope="col">Patient name:</th>
             <th scope="col">{{ patient.name }}</th>
             <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
 
           </tr>
         </thead>
@@ -27,18 +29,24 @@
             <tr>
                 <td> <h>Patient phone number:</h></td>
                 <td><h>{{ patient.phoneNumber }}</h></td>
-                <td> <h></h></td>
+                <td><h></h></td>
+                <td><h></h></td>
+                <td><h></h></td>
 
             </tr>
 
             <tr>
                 <td> <h>Age:</h></td>
-                <td><h>{{ patient.age }}</h></td>
-                <td><h>{{ patient.yORm }}</h></td>
+                <td><h>{{ patient.years }}</h></td>
+                <td><h>years</h></td>
+                <td><h>{{ patient.months }}</h></td>
+                <td><h>months</h></td>
             </tr>
             <tr>
                 <td> <h>Gender:</h></td>
                 <td><h>{{ patient.gender }}</h></td>
+                <td><h></h></td>
+                <td><h></h></td>
                 <td><h></h></td>
             </tr>
 
@@ -46,16 +54,48 @@
                 <td> <h>Patient Address:</h></td>
                 <td><h>{{ patient.patientAddress }}</h></td>
                 <td><h></h></td>
+                <td><h></h></td>
+                <td><h></h></td>
             </tr>
             <tr>
                 <td> <h>ReferredFrom:</h></td>
                 <td><h>{{ patient.referredFrom }}</h></td>
                 <td><h></h></td>
+                <td><h></h></td>
+                <td><h></h></td>
             </tr>
 
             <tr>
+                <td> <h>Cause:</h></td>
+                <td><h>{% for cause in patient.cause.all %}{{ cause }}<br/>{% endfor %}</h></td>
+                <td><h></h></td>
+                <td><h></h></td>
+                <td><h></h></td>
+            </tr>
+            <tr>
+                <td> <h>Diagnose:</h></td>
+                <td><h>{% for diagnose in patient.diagnose.all %}{{ diagnose }}<br/>{% endfor %}</h></td>
+                <td><h></h></td>
+                <td><h></h></td>
+                <td><h></h></td>
+            </tr>
+            <tr>
+                <td> <h>Investigation:</h></td>
+                <td><h>{{ patient.investigation }}</h></td>
+                <td><h></h></td>
+                <td><h></h></td>
+                <td><h></h></td>
+            </tr>
+            <td> <h>Treatment:</h></td>
+            <td><h>{{ patient.treatment }}</h></td>
+            <td><h></h></td>
+            <td><h></h></td>
+            <td><h></h></td>
+            <tr>
                 <td><h>Notes:</h></td>
                 <td><h>{{ patient.note | urlize |linebreaks}}</h></td>
+                <td><h></h></td>
+                <td><h></h></td>
                 <td><h></h></td>
             </tr>
             </tbody>

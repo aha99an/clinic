@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+
+ <!-- Section -->
+<section>
+    <form action="" method="post">{% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Update" />
+        </form>
+</section>
+
+<section>
+
+    <a href="{% url 'investigation_delete' investigation.pk %}" class="button next">Delete investigation</a>
+</section>
+{% endblock content %}
+
+
+
+
