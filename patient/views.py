@@ -12,12 +12,12 @@ class PatientListView(ListView):
     model = Patient
     template_name = 'patients.html'
 
-    def get_context_data(self):
-        ctx = super().get_context_data()
-        ctx["alloperations"] = Appointment.objects.filter()
-         Appointment.objects.all()
-        ctx["hello"] = "yasser"
-        return ctx
+    # def get_context_data(self):
+    #     ctx = super().get_context_data()
+    #     ctx["alloperations"] = Appointment.objects.filter()
+    #     #  Appointment.objects.all()
+    #     ctx["hello"] = "yasser"
+    #     return ctx
 
 class PatienDetailView(DetailView):
     model = Patient

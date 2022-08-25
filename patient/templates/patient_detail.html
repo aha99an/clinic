@@ -7,7 +7,7 @@
 
     <a href="#" class="button next">Attachments</a> 
     <a href="#" class="button next">Investigations</a>
-    <a href="#" class="button next">Appointments</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+    <a href="#" class="button next">Appointments</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
     <a href="{% url 'patient_edit' patient.pk %}" class="button next">Edit patient details</a>
 </section>
 
@@ -58,8 +58,8 @@
                 <td><h></h></td>
             </tr>
             <tr>
-                <td> <h>ReferredFrom:</h></td>
-                <td><h>{{ patient.referredFrom }}</h></td>
+                <td> <h>Referred From:</h></td>
+                <td><h>{% for referrer in patient.referredFrom.all %}{{ referrer }}<br/>{% endfor %}</h></td>
                 <td><h></h></td>
                 <td><h></h></td>
                 <td><h></h></td>
@@ -81,13 +81,13 @@
             </tr>
             <tr>
                 <td> <h>Investigation:</h></td>
-                <td><h>{{ patient.investigation }}</h></td>
+                <td><h>{% for investigation in patient.investigation.all %}{{ investigation }}<br/>{% endfor %}</h></td>
                 <td><h></h></td>
                 <td><h></h></td>
                 <td><h></h></td>
             </tr>
             <td> <h>Treatment:</h></td>
-            <td><h>{{ patient.treatment }}</h></td>
+            <td><h>{% for treatment in patient.treatment.all %}{{ treatment }}<br/>{% endfor %}</h></td></h></td>
             <td><h></h></td>
             <td><h></h></td>
             <td><h></h></td>

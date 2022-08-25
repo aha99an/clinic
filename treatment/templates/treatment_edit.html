@@ -9,10 +9,10 @@
         </form>
 </section>
 
-<script>
-    document.getElementById("id_birthdate").type="date";
-    $('.js-example-basic-multiple').find(':selected');
-</script>
+<section>
+
+    <a href="{% url 'treatment_delete' treatment.pk %}" class="button next">Delete treatment</a>
+</section>
 {% endblock content %}
 
 

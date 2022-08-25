@@ -59,6 +59,7 @@
 												<li><a href="{% url 'diagnoses' %}">Diagnose</a></li>
 												<li><a href="{% url 'operations' %}">Operation</a></li>
 												<li><a href="{% url 'referrers' %}">Referrer</a></li>
+												<li><a href="{% url 'treatments' %}">Treatment</a></li>
 											</ul>
 										</li>
 									</ul>
@@ -167,13 +168,9 @@
 			$(document).ready(function() {
 				$('.js-example-basic-multiple').select2();
 			});
-			document.getElementById("id_appointmentDate").type="date";
-			document.getElementById("id_appointmentDate").value="{{form.paid_at.value|date:'Y-m-d'}}"
+			
 
 			
 		 </script>
 	</body>
 </html>
-
-
-birthdate

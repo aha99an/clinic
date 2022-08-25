@@ -9,9 +9,14 @@
         </form>
 </section>
 <section>
-
     <a href="{% url 'appointment_delete' appointment.pk %}" class="button next">Delete appointment</a>
 </section>
+
+
+<script>
+    document.getElementById("id_appointmentDate").type="date";
+    $('.js-example-basic-multiple').find(':selected');
+</script>
 {% endblock content %}
 
 

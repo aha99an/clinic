@@ -8,7 +8,7 @@
 
  <!-- Section -->
  <section>
-    <h2>All patient</h2>
+    <h2>All patients</h2>
 
 
 
@@ -36,10 +36,12 @@
                         <h1><a href="">{{ patient.months }}</a></h1>
                     </td>
                     <td>
-                        <h1><a href="">{{ patient.diagnose }}</a></h1>
+                    <h>{% for diagnose in patient.diagnose.all %}{{ diagnose }}<br/>{% endfor %}</h>
                     </td>
                     <td>
-                        <h1><a href="">{{ patient.diagnose }}</a></h1>
+                    {% comment %} <h>{% for operation in alloperation %}{{ operation }}<br/>{% endfor %}</h> {% endcomment %}
+                    <h>{{ alloperation }}</h>
+
                     </td>
                 </tr>
 

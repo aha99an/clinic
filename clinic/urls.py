@@ -29,6 +29,7 @@ urlpatterns = [
     path('investigations/', include('investigation.urls')), # new
     path('diagnose/', include('diagnose.urls')), # new
     path('operation/', include('operation.urls')), # new
+    path('treatment/', include('treatment.urls')), # new
     path('appointment/', include('appointment.urls')), # new
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

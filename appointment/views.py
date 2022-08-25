@@ -19,9 +19,10 @@ class AppointmentListView(ListView):
         return super().dispatch(request, *args, **kwargs)        
 
 class AppointmentCreateView(CreateView):
-    model = Appointment
+    # model = Appointment
     form_class = AppointmentCreateViewForm
     template_name = 'appointment_new.html'
+
 
   #  def get_context_data(self):
    #     ctx = super().get_context_data()
@@ -31,12 +32,15 @@ class AppointmentCreateView(CreateView):
 
 
 
-
 class AppointmentUpdateView(UpdateView):
+    form_class = AppointmentCreateViewForm
     model = Appointment
     template_name = 'appointment_edit.html'
-    fields = ['patient', 'appointmentDate','appointmentType','appointmentStatus','appointmentStatus','operation']
-
+    # fields = ['patient', 'appointmentDate','appointmentType','appointmentStatus','appointmentStatus','operation']
+    # def get_context_data(self):
+    #     ctx = super().get_context_data()
+    #     ctx["hello"] = "hiiii"
+    #     return ctx
 
 
 class AppointmentDeleteView(DeleteView):

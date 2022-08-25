@@ -4,7 +4,9 @@ from referrer.models import Referrer
 from cause.models import Cause
 from diagnose.models import Diagnose
 from investigation.models import Investigation
-#from treatment.models import treatment
+from django.contrib.admin.widgets import FilteredSelectMultiple    
+
+from treatment.models import Treatment
 
 
 def check_size(value):
@@ -18,15 +20,41 @@ class PatientListViewForm(forms.ModelForm):
     birthdate = forms.DateField(label="Birthdate", widget=forms.DateInput(format='%Y-%m-%d'))
     gender = forms.ChoiceField(choices=GENDER, label="Gender")
     patientAddress = forms.CharField(label="Patient address", required=False)
-    # referredFrom = forms.ModelChoiceField(queryset=Referrer.objects.all(),label="Referred from", required=False)
-    cause = forms.ModelChoiceField(queryset=Cause.objects.all(),label="Cause", required=False)
-    # diagnose = forms.ModelChoiceField(queryset=Diagnose.objects.all(),label="Diagnose", required=False)
-    # investigation = forms.ModelChoiceField(queryset=Investigation.objects.all(),label="Investigation", required=False)
-    # #treatment = forms.ModelChoiceField(queryset=treatment.objects.all(),label="Treatment")
-    # attachment = forms.FileField(label="Attachment", required=False)
+    referredFrom = forms.ModelMultipleChoiceField(required=False, queryset = Referrer.objects.all(), label="Referred from",
+                initial=[Referrer.objects.all().values_list("referrerName", flat=True)])
+    
+    cause = forms.ModelMultipleChoiceField(required=False, queryset = Cause.objects.all(), label="Causes",
+                initial=[Cause.objects.all().values_list("causeName", flat=True)])
+    
+    diagnose = forms.ModelMultipleChoiceField(required=False, queryset = Diagnose.objects.all(), label="Diagnoses",
+                initial=[Diagnose.objects.all().values_list("diagnoseName", flat=True)])
+    
+    investigation = forms.ModelMultipleChoiceField(required=False, queryset = Investigation.objects.all(), label="Investigations",
+                initial=[Investigation.objects.all().values_list("investigationName", flat=True)])
+
+    treatment = forms.ModelMultipleChoiceField(required=False, queryset = Treatment.objects.all(), label="Treatments",
+                initial=[Treatment.objects.all().values_list("treatmentName", flat=True)])
+
+    attachment = forms.FileField(label="Attachment", required=False ,widget=forms.ClearableFileInput(attrs={'multiple': True}))
     note = forms.CharField(widget=forms.Textarea, label="Notes", required=False)    
+    
+    
+    
+    
+    def __init__(self, *args, **kwargs):
+        super(PatientListViewForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            if visible.name in ["referredFrom","cause","diagnose","investigation","treatment"]:
+                print(visible.field._queryset)
+                visible.field.widget.attrs["class"] = 'js-example-basic-multiple'
+                visible.field.widget.attrs["name"] = 'states[]'
+                visible.field.widget.attrs["multiple"] = 'multiple'
+
+
+
+
 
     class Meta:
         model = Patient
-        fields = ('name', 'phoneNumber', 'birthdate','gender','patientAddress','referredFrom','cause','diagnose','investigation','attachment','note')
+        fields = ('name', 'phoneNumber', 'birthdate','gender','patientAddress','referredFrom','cause','diagnose','investigation',"treatment",'attachment','note')
      

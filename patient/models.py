@@ -42,12 +42,20 @@ class Patient(models.Model):
     gender = models.CharField(max_length=1,blank=True, choices=GENDER)
 
     patientAddress = models.CharField(max_length=255, null=True)
-    referredFrom = models.ForeignKey(Referrer, on_delete=models.CASCADE, null=True, blank=True)
+    referredFrom = models.ManyToManyField(Referrer, blank=True)
     cause = models.ManyToManyField(Cause, blank=True)
     diagnose = models.ManyToManyField(Diagnose, blank=True)
     investigation = models.ManyToManyField(Investigation, blank=True)
     treatment = models.ManyToManyField(Treatment, blank=True)    
     attachment = models.FileField(null=True, blank=True, verbose_name="attachment")
+
+    def snippet_file_name(self):
+        if len(self.attachment.name) > 20:
+            return "..."+self.attachment.name.rsplit(
+                '/', 1)[1][:20]
+        else:
+            return self.attachment.name
+            
     note = models.TextField(blank=True, null=True)
 
     
