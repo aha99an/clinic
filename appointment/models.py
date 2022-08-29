@@ -21,7 +21,7 @@ AppointmentStatuss = (
 
 # Create your models here.
 class Appointment(models.Model):
-    patient= models.ForeignKey(Patient, on_delete=models.CASCADE, null=True, blank=True)
+    patient= models.ForeignKey(Patient, on_delete=models.CASCADE, null=True, blank=True, related_name="patient_appointments")
     appointmentDate = models.DateField(null=True, blank=True)
     appointmentType = models.CharField(max_length=20,blank=True, choices=AppointmentTypes)
     appointmentStatus = models.CharField(max_length=20,blank=True, choices=AppointmentStatuss)

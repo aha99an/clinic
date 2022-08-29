@@ -6,12 +6,25 @@
     <a href="{% url 'appointment_new' %}" class="button next">Add appointment</a>
 </section>
 
+
+<!-- Section -->
+{% comment %} SEARCH {% endcomment %}
+<section>
+    <form method="get" action="{% url 'appointments' %}">
+        <input style = "width: auto;" id="al-search" type="text" name="search_value" value="{{ request.GET.search_value }}"class="form-control" />
+        <input type="submit" value="Search" class="button primary" />
+    </form>
+</section>
+
+
+
+
+
+
+
  <!-- Section -->
  <section>
     <h2>All appointment</h2>
-
-
-
     <table class="table table-striped">
         <thead>
           <tr>
@@ -38,17 +51,43 @@
                         <h1><a href="">{{ appointment.appointmentStatus }}</a></h1>
                     </td>
                 </tr>
-
-
-                
-
-
-
-
                 {% endfor %}
                 </tbody>
       </table>
 </section>
+
+
+{% comment %} pagination  {% endcomment %}
+<ul>
+    <div c lass="prev_next">
+    <div class="pages">
+    {% if page_obj.has_previous %}
+      <a class="prev btn btn-info" href="{{ request.get_full_path }}&page={{page_obj.previous_page_number}}">Previous</a>
+    {% endif %}
+      {% for pg in page_obj.paginator.page_range %}
+      {% comment %}Ensure that serach filter is applied with pagination  {% endcomment %}
+        {% if 'search_value' in request.get_full_path %}
+            {% if page_obj.number == pg %}
+              <a href="{{ request.get_full_path }}&page={{ pg }}"{{ pg }} class="btn btn-success">{{pg}}</a>
+            {% else %}
+              <a href="{{ request.get_full_path }}&page={{ pg }}"{{ pg }} class="btn">{{pg}}</a>
+            {% endif %}
+        {% else %}
+        {% comment %} If none of them is there {% endcomment %}
+          {% if page_obj.number == pg %}
+            <a href="?page={{pg}}" class="btn btn-success">{{pg}}</a>
+          {% else %}
+            <a href="?page={{pg}}" class="btn">{{pg}}</a>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+      {% if page_obj.has_next %}
+      <a class="next btn btn-info" href="?page={{page_obj.next_page_number}}">Next</a>
+    {% endif %}
+    </div>
+    </div>
+</ul>
+
 {% endblock content %}
 
 

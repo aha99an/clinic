@@ -6,8 +6,8 @@
  <section>
 
     <a href="#" class="button next">Attachments</a> 
-    <a href="#" class="button next">Investigations</a>
-    <a href="#" class="button next">Appointments</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+    {% comment %} <a href="#" class="button next">Investigations</a> {% endcomment %}
+    <a href="{% url 'appointments_for_Patient' patient.pk %}" class="button next">Appointments</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
     <a href="{% url 'patient_edit' patient.pk %}" class="button next">Edit patient details</a>
 </section>
 
@@ -66,31 +66,60 @@
             </tr>
 
             <tr>
-                <td> <h>Cause:</h></td>
+                <td> <h>Causes:</h></td>
                 <td><h>{% for cause in patient.cause.all %}{{ cause }}<br/>{% endfor %}</h></td>
                 <td><h></h></td>
                 <td><h></h></td>
                 <td><h></h></td>
             </tr>
             <tr>
-                <td> <h>Diagnose:</h></td>
+                <td> <h>Diagnoses:</h></td>
                 <td><h>{% for diagnose in patient.diagnose.all %}{{ diagnose }}<br/>{% endfor %}</h></td>
                 <td><h></h></td>
                 <td><h></h></td>
                 <td><h></h></td>
             </tr>
             <tr>
-                <td> <h>Investigation:</h></td>
+                <td> <h>Investigations:</h></td>
                 <td><h>{% for investigation in patient.investigation.all %}{{ investigation }}<br/>{% endfor %}</h></td>
                 <td><h></h></td>
                 <td><h></h></td>
                 <td><h></h></td>
             </tr>
-            <td> <h>Treatment:</h></td>
+            <tr>
+            <td> <h>Treatments:</h></td>
             <td><h>{% for treatment in patient.treatment.all %}{{ treatment }}<br/>{% endfor %}</h></td></h></td>
             <td><h></h></td>
             <td><h></h></td>
             <td><h></h></td>
+            </tr>
+            <tr>
+                <td> <h>Operations:</h></td>
+                <td> <h1>
+                    {% for appointment in patient.patient_appointments.all %}
+                    {% if not forloop.first %}
+                    <br/>
+                    {% endif %}
+                    {% for operation in appointment.operation.all %}
+                    {{ operation.operationName }}
+                    {% endfor%}
+                    {% endfor %}
+                </td></h></td>
+                <td><h1>
+                
+
+                    {% for appointment in patient.patient_appointments.all %}
+                    {% if appointment.operation.all %}
+                    {% if not forloop.first %}
+                    <br/>
+                    {% endif %}
+                    {{ appointment.appointmentDate }}
+                    {% endif %}
+                    {% endfor%}
+                </h1></td>
+                <td><h></h></td>
+                <td><h></h></td>
+                </tr> 
             <tr>
                 <td><h>Notes:</h></td>
                 <td><h>{{ patient.note | urlize |linebreaks}}</h></td>
