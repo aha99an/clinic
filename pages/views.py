@@ -35,5 +35,3 @@ class HomePageView(ListView):
         print (todaydate)
         ctx["todaydate"] = todaydate
         return ctx
-
-20220501

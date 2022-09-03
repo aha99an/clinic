@@ -34,4 +34,4 @@ class Appointment(models.Model):
         return str(self.patient)
 
     def get_absolute_url(self):
-        return reverse('appointments')
+        return reverse('home')

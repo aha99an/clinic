@@ -23,14 +23,26 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
 <link rel="stylesheet" href="{%static 'assets/css/main.css'%}" />
 
-	</head>
+</head>
 
 	<body class="is-preload">
 		<!-- Content -->
 		<div id="content">
 			<div class="inner">
+				{% if user.is_authenticated %}
+{% comment %} &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+<a>Hi {{ user.username }}!</a>
+<a href="{% url 'logout' %}" class="btn btn-secondary btn-sm">Log out</a>
+</br></br> {% endcomment %}
 				{% block content %}
 				{% endblock content %}
+
+				{% else %}
+				{% block content2 %}
+				<p>You are not logged in.</p>
+				<a href="{% url 'login' %}" class="button next">Log In</a>
+				{% endblock content2 %}
+				{% endif %}
 			</div>
 		</div>
 		<!-- Sidebar -->
@@ -107,9 +119,8 @@
 			$(document).ready(function() {
 				$('.js-example-basic-multiple').select2();
 			});
-			
-
-			
 		 </script>
 	</body>
+
+	
 </html>

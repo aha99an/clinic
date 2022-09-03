@@ -1,83 +1,90 @@
 {% extends 'base.html' %}
 {% block content %}
-<!-- Section -->
-{% comment %} SEARCH {% endcomment %}
-<section>
-    <form method="get" action="{% url 'home' %}">
-        <label for="date">Date:</label>
-        <input type="date" id="datepicker" name="search_value" value="{{ request.GET.search_value }}">
-        <input type="submit" value="Search" class="btn btn-secondary btn-sm" />
-    </form>    
-</section>
-      
 
- <!-- Section -->
-      <section>
-        <h2> <a>All appointment for: </a> <a id="demo"></a> </h2>
-         <table class="table table-striped">
-            <thead>
-              <tr>
-                <th scope="col">Patient Name</th>
-                <th scope="col">Appointment date</th>
-                <th scope="col">Appointment type</th>
-                <th scope="col">Appointment status</th>
-            </tr>
-            </thead>
-            <tbody>
-                {% for appointment in object_list %}
-    
-                    <tr>
-                        <td>
-                            <h><a href="{% url 'appointment_edit' appointment.pk %}">{{ appointment.patient.name }}</a></h>
-                        </td>
-                        <td>
-                            <h1><a href="">{{ appointment.appointmentDate }}</a></h1>
-                        </td>
-                        <td>
-                            <h1><a href="">{{ appointment.appointmentType }}</a></h1>
-                        </td>
-                        <td>
-                            <h1><a href="">{{ appointment.appointmentStatus }}</a></h1>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                    </tbody>
-          </table>
+
+
+
+    <section>
+      <a href="{% url 'patient_new' %}" class="button next">Add patient</a>
+      <a href="{% url 'appointment_new' %}" class="button next">Add appointment</a>
     </section>
+    <!-- Section -->
+    {% comment %} SEARCH {% endcomment %}
+    <section>
+        <form method="get" action="{% url 'home' %}">
+            <label for="date">Date:</label>
+            <input type="date" id="datepicker" name="search_value" value="{{ request.GET.search_value }}">
+            <input type="submit" value="Search" class="btn btn-secondary btn-sm" />
+        </form>    
+    </section>
+          
+
+    <!-- Section -->
+          <section>
+            <h2> <a>All appointment for: </a> <a id="demo"></a> </h2>
+            <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Patient Name</th>
+                    <th scope="col">Appointment date</th>
+                    <th scope="col">Appointment type</th>
+                    <th scope="col">Appointment status</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for appointment in object_list %}
+        
+                        <tr>
+                            <td>
+                                <h><a href="{% url 'appointment_edit' appointment.pk %}">{{ appointment.patient.name }}</a></h>
+                            </td>
+                            <td>
+                                <h1><a href="">{{ appointment.appointmentDate }}</a></h1>
+                            </td>
+                            <td>
+                                <h1><a href="">{{ appointment.appointmentType }}</a></h1>
+                            </td>
+                            <td>
+                                <h1><a href="">{{ appointment.appointmentStatus }}</a></h1>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+              </table>
+        </section>
 
 
-{% comment %} pagination  {% endcomment %}
-<ul>
-    <div c lass="prev_next">
-    <div class="pages">
-    {% if page_obj.has_previous %}
-      <a class="prev btn btn-info" href="{{ request.get_full_path }}&page={{page_obj.previous_page_number}}">Previous</a>
-    {% endif %}
-      {% for pg in page_obj.paginator.page_range %}
-      {% comment %}Ensure that serach filter is applied with pagination  {% endcomment %}
-        {% if 'search_value' in request.get_full_path %}
-            {% if page_obj.number == pg %}
-              <a href="{{ request.get_full_path }}&page={{ pg }}"{{ pg }} class="btn btn-success">{{pg}}</a>
-            {% else %}
-              <a href="{{ request.get_full_path }}&page={{ pg }}"{{ pg }} class="btn">{{pg}}</a>
-            {% endif %}
-        {% else %}
-        {% comment %} If none of them is there {% endcomment %}
-          {% if page_obj.number == pg %}
-            <a href="?page={{pg}}" class="btn btn-success">{{pg}}</a>
-          {% else %}
-            <a href="?page={{pg}}" class="btn">{{pg}}</a>
-          {% endif %}
+    {% comment %} pagination  {% endcomment %}
+    <ul>
+        <div c lass="prev_next">
+        <div class="pages">
+        {% if page_obj.has_previous %}
+          <a class="prev btn btn-info" href="{{ request.get_full_path }}&page={{page_obj.previous_page_number}}">Previous</a>
         {% endif %}
-      {% endfor %}
-      {% if page_obj.has_next %}
-      <a class="next btn btn-info" href="?page={{page_obj.next_page_number}}">Next</a>
-    {% endif %}
-    </div>
-    </div>
-</ul>
-
-
+          {% for pg in page_obj.paginator.page_range %}
+          {% comment %}Ensure that serach filter is applied with pagination  {% endcomment %}
+            {% if 'search_value' in request.get_full_path %}
+                {% if page_obj.number == pg %}
+                  <a href="{{ request.get_full_path }}&page={{ pg }}"{{ pg }} class="btn btn-success">{{pg}}</a>
+                {% else %}
+                  <a href="{{ request.get_full_path }}&page={{ pg }}"{{ pg }} class="btn">{{pg}}</a>
+                {% endif %}
+            {% else %}
+            {% comment %} If none of them is there {% endcomment %}
+              {% if page_obj.number == pg %}
+                <a href="?page={{pg}}" class="btn btn-success">{{pg}}</a>
+              {% else %}
+                <a href="?page={{pg}}" class="btn">{{pg}}</a>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+          {% if page_obj.has_next %}
+          <a class="next btn btn-info" href="?page={{page_obj.next_page_number}}">Next</a>
+        {% endif %}
+        </div>
+        </div>
+    </ul>
+   
 
 
     <script>
