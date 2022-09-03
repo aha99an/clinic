@@ -4,13 +4,16 @@
 
  <!-- Section -->
  <section>
-     <form action="" method="post" >{% csrf_token %}
+     <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
          {{ form.as_p }}  
          <input type="submit" value="Save" />
         </form>
-    </section>
+ </section>
 
-
+<script>
+document.getElementById("id_appointmentDate").type="date";
+document.getElementById("id_appointmentDate").value="{{form.paid_at.value|date:'Y-m-d'}}"
+</script>
     
 {% endblock content %}
 

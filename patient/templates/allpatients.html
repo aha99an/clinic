@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% block content %}
+
+ <!-- Section -->
+ <section>
+    <a href="{% url 'patient_new' %}" class="button next">Add patient</a>
+</section>
+
+
+<!-- Section -->
+{% comment %} SEARCH {% endcomment %}
+<section>
+    <form method="get" action="{% url 'patients' %}">
+        <input style = "width: auto;" id="al-search" type="text" name="search_value" value="{{ request.GET.search_value }}"class="form-control" />
+        <input type="submit" value="Search" class="button primary" />
+    </form>
+</section>
+
+
+
+ <!-- Section -->
+ <section>
+    <h2>All patients</h2>
+
+
+
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Years</th>
+            <th scope="col">Months</th>
+            <th scope="col">Phone</th>
+            <th scope="col">G</th>
+            <th scope="col">Address</th>
+            <th scope="col">Referred</th>
+            <th scope="col">Cause</th>
+            <th scope="col">Diagnose</th>
+            <th scope="col">Investigation</th>
+            <th scope="col">Treatment</th>
+            <th scope="col">Operations</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for patient in object_list %}
+
+                <tr>
+                    <td>
+                        <h><a href="{% url 'patient_detail' patient.id %}">{{ patient.name }}</a></h>
+                    </td>
+                    <td>
+                        <h1> {{ patient.years }}</a></h1>
+                    </td>
+                    <td>
+                        <h1> {{ patient.months }}</a></h1>
+                    </td>
+                    <td>
+                        <h1> {{ patient.phoneNumber }}</a></h1>
+                    </td>
+                    <td>
+                        <h1> {{ patient.gender }}</a></h1>
+                    </td>
+                    <td>
+                        <h1> {{ patient.patientAddress }}</a></h1>
+                    </td>
+                    <td>
+                        <h>{% for referredFrom in patient.referredFrom.all %}{{ referredFrom }}<br/>{% endfor %}</h>
+                    </td>
+                    <td>
+                        <h>{% for cause in patient.cause.all %}{{ cause }}<br/>{% endfor %}</h>
+                    </td>
+                    <td>
+                        <h>{% for diagnose in patient.diagnose.all %}{{ diagnose }}<br/>{% endfor %}</h>
+                    </td>
+                    <td>
+                        <h>{% for investigation in patient.investigation.all %}{{ investigation }}<br/>{% endfor %}</h>
+                    </td>
+                    <td>
+                        <h>{% for treatment in patient.treatment.all %}{{ treatment }}<br/>{% endfor %}</h>
+                    </td>
+                    <td>
+                        <h1> {% for appointment in patient.patient_appointments.all %}
+                            {% for operation in appointment.operation.all %}
+                            {{ operation.operationName }}<br/>
+                            {% endfor%}
+                            {% endfor %}
+                        </a></h1>                   
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+      </table>
+</section>
+
+
+
+
+
+{% comment %} pagination  {% endcomment %}
+<section>
+
+    <ul>
+        <div c lass="prev_next">
+        <div class="pages">
+        {% if page_obj.has_previous %}
+        <a class="prev btn btn-info" href="{{ request.get_full_path }}&page={{page_obj.previous_page_number}}">Previous</a>
+        {% endif %}
+        {% for pg in page_obj.paginator.page_range %}
+        {% comment %}Ensure that serach filter is applied with pagination  {% endcomment %}
+            {% if 'search_value' in request.get_full_path %}
+                {% if page_obj.number == pg %}
+                <a href="{{ request.get_full_path }}&page={{ pg }}"{{ pg }} class="btn btn-success">{{pg}}</a>
+                {% else %}
+                <a href="{{ request.get_full_path }}&page={{ pg }}"{{ pg }} class="btn">{{pg}}</a>
+                {% endif %}
+            {% else %}
+            {% comment %} If none of them is there {% endcomment %}
+            {% if page_obj.number == pg %}
+                <a href="?page={{pg}}" class="btn btn-success">{{pg}}</a>
+            {% else %}
+                <a href="?page={{pg}}" class="btn">{{pg}}</a>
+            {% endif %}
+            {% endif %}
+        {% endfor %}
+        {% if page_obj.has_next %}
+        <a class="next btn btn-info" href="?page={{page_obj.next_page_number}}">Next</a>
+        {% endif %}
+        </div>
+        </div>
+    </ul>
+</section>
+{% endblock content %}
+
+
+

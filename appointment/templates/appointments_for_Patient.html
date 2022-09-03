@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+
+ <!-- Section -->
+ <section>
+    <h2>All appointment for {{my__patient}}</h2>
+
+
+
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Appointment date</th>
+            <th scope="col">Appointment type</th>
+            <th scope="col">Appointment status</th>
+            <th scope="col">Operations</th>
+
+        </tr>
+        </thead>
+        <tbody>
+            {% for appointment in appointmentsforpatient %}
+
+                <tr>
+                    <td>
+                        <h1><a href="{% url 'appointment_edit' appointment.pk %}">{{ appointment.appointmentDate }}</a></h1>
+                    </td>
+                    <td>
+                        <h1><a href="">{{ appointment.appointmentType }}</a></h1>
+                    </td>
+                    <td>
+                        <h1><a href="">{{ appointment.appointmentStatus }}</a></h1>
+                    </td>
+
+                    <td>
+                        {%for alloperation in appointment.operation.all %}
+                        <h1><a href="">{{ alloperation }}</a></h1>
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+      </table>
+</section>
+{% endblock content %}
+
+
+
+ {{my__patient}}

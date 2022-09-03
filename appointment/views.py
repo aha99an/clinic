@@ -18,10 +18,21 @@ class AppointmentListView(ListView):
         print(self.paginate_by)
         return super().dispatch(request, *args, **kwargs)        
 
+
+
+
+    def get_queryset(self):
+        queryset = Appointment.objects.all()
+        # Search
+        search_value = self.request.GET.get('search_value',default="")
+        admin_student_list1 = Q(patient__name__contains=search_value)
+        queryset = Appointment.objects.filter(admin_student_list1)
+        return queryset
 class AppointmentCreateView(CreateView):
-    model = Appointment
+    # model = Appointment
     form_class = AppointmentCreateViewForm
     template_name = 'appointment_new.html'
+
 
   #  def get_context_data(self):
    #     ctx = super().get_context_data()
@@ -31,15 +42,41 @@ class AppointmentCreateView(CreateView):
 
 
 
-
 class AppointmentUpdateView(UpdateView):
+    form_class = AppointmentCreateViewForm
     model = Appointment
     template_name = 'appointment_edit.html'
-    fields = ['patient', 'appointmentDate','appointmentType','appointmentStatus','appointmentStatus','operation']
-
+    # fields = ['patient', 'appointmentDate','appointmentType','appointmentStatus','appointmentStatus','operation']
+    # def get_context_data(self):
+    #     ctx = super().get_context_data()
+    #     ctx["hello"] = "hiiii"
+    #     return ctx
 
 
 class AppointmentDeleteView(DeleteView):
     model = Appointment
     template_name = 'appointment_delete.html'
     success_url = reverse_lazy('appointments')
+
+
+
+class AppointmentsPatientDetailView(ListView):
+    model = Appointment
+    template_name = 'appointments_for_Patient.html'
+    def get_object(self):
+        my_patient = Patient.objects.get(id = self.kwargs.get("pk"))
+        return my_patient
+
+
+
+    def get_context_data(self, *args, **kwargs):
+        ctx = super().get_context_data(*args, **kwargs)
+        my__patient = self.get_object()
+        ctx["appointmentsforpatient"] = Appointment.objects.filter(patient_id = my__patient.id)
+        ctx["my__patient_id"] = my__patient.id        
+        ctx["my__patient"] = my__patient 
+       
+        return ctx
+
+
+
