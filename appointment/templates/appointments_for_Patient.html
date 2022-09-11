@@ -33,7 +33,9 @@
 
                     <td>
                         {%for alloperation in appointment.operation.all %}
+                        {% if appointment.appointmentType == 'Operative' %}
                         <h1><a href="">{{ alloperation }}</a></h1>
+                        {%endif%}
                         {% endfor %}
                     </td>
                 </tr>

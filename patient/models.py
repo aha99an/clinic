@@ -13,11 +13,21 @@ GENDER = (
         ('M', 'Male'),
         ('F', 'Female')
     )
-
 class Patient(models.Model):
     name = models.CharField(max_length=255)
     phoneNumber = models.CharField(max_length=200, default="0", null=True)
     birthdate = models.DateField(blank=True)
+    @property
+    def months(self):
+        today = date.today()
+        hismonths = 0
+        hisYears = today.year - self.birthdate.year
+        hismonths = today.month - self.birthdate.month
+        if hismonths < 0:
+            hismonths = 12 + hismonths
+        elif hismonths >= 0:
+            hismonths = hismonths
+        return hismonths
     @property
     def years(self):
         today = date.today()
@@ -29,19 +39,10 @@ class Patient(models.Model):
             hismonths = hismonths
         return hisYears
 
-    def months (self):
-        today = date.today()
-        hisYears = today.year - self.birthdate.year
-        hismonths = today.month - self.birthdate.month
-        if hismonths < 0:
-            hismonths = 12 + hismonths
-        elif hismonths >= 0:
-            hismonths = hismonths
-        return hismonths
-  
     gender = models.CharField(max_length=1,blank=True, choices=GENDER)
 
     patientAddress = models.CharField(max_length=255, null=True)
+    patientComplaint = models.CharField(max_length=255, null=True)
     referredFrom = models.ManyToManyField(Referrer, blank=True)
     cause = models.ManyToManyField(Cause, blank=True)
     diagnose = models.ManyToManyField(Diagnose, blank=True)

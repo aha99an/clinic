@@ -4,6 +4,9 @@ from django.views.generic.edit import DeleteView, CreateView, UpdateView
 from .models import Investigation
 from django.urls import reverse_lazy
 from django.db.models import Q
+import csv
+from django.http import HttpResponse
+
 # Create your views here.
 
 class InvestigationListView(ListView):
@@ -23,6 +26,21 @@ class InvestigationListView(ListView):
         admin_student_list1 = Q(investigationName__contains=search_value)
         queryset = Investigation.objects.filter(admin_student_list1)
         return queryset
+
+def import_csv(request):
+    print('ggggggggggggggg')
+    Investigation.objects.all().delete()
+    with open('export-2022-09-04_22_09_15.csv', 'r', encoding='utf-16') as file:
+        reader = csv.reader(file)
+        for row in reader:
+            _, created = Investigation.objects.get_or_create(
+                investigationName=row[0],
+                )
+    return HttpResponse('Import done')
+
+
+
+
 
 class InvestigationCreateView(CreateView):
     model = Investigation

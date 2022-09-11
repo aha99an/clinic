@@ -58,6 +58,13 @@
                 <td><h></h></td>
             </tr>
             <tr>
+                <td> <h>Patient complaint:</h></td>
+                <td><h>{{ patient.patientComplaint }}</h></td>
+                <td><h></h></td>
+                <td><h></h></td>
+                <td><h></h></td>
+            </tr>
+            <tr>
                 <td> <h>Referred From:</h></td>
                 <td><h>{% for referrer in patient.referredFrom.all %}{{ referrer }}<br/>{% endfor %}</h></td>
                 <td><h></h></td>
@@ -97,24 +104,33 @@
                 <td> <h>Operations:</h></td>
                 <td> <h1>
                     {% for appointment in patient.patient_appointments.all %}
-                    {% if not forloop.first %}
-                    <br/>
-                    {% endif %}
-                    {% for operation in appointment.operation.all %}
-                    {{ operation.operationName }}
-                    {% endfor%}
+                    {% if appointment.appointmentType == 'Operative' %}
+                        {% if not forloop.first %}
+                            <br/>
+                            {% endif %}                       
+                            {% endif %}
+
+                        {% for operation in appointment.operation.all %}
+                            {% if appointment.appointmentType == 'Operative' %}
+                                {{ operation.operationName }}
+                                {% if forloop.first %}
+                                ,
+                                {% endif %}
+                            {% endif %}
+                        {% endfor%}
                     {% endfor %}
                 </td></h></td>
                 <td><h1>
-                
-
                     {% for appointment in patient.patient_appointments.all %}
-                    {% if appointment.operation.all %}
-                    {% if not forloop.first %}
-                    <br/>
-                    {% endif %}
-                    {{ appointment.appointmentDate }}
-                    {% endif %}
+                    {% if appointment.appointmentType == 'Operative' %}
+                        {% if appointment.operation.all %}
+                            {% if not forloop.first %}
+                            <br/>
+                            {% endif %}
+                            {{ appointment.appointmentDate }}
+                        {% endif %}
+                        {% endif %}
+
                     {% endfor%}
                 </h1></td>
                 <td><h></h></td>

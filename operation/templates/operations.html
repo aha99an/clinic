@@ -14,10 +14,18 @@
 {% comment %} SEARCH {% endcomment %}
 <section>
     <form method="get" action="{% url 'operations' %}">
-        <input style = "width: auto;" id="al-search" type="text" 
-           name="search_value" value="{{ request.GET.search_value }}"
-           class="form-control" />
-        <input type="submit"value="Search" class="button primary" />
+      <table>
+        <tbody>
+                    <td style="width:25%">        <input style = "width: auto;" id="al-search" type="text" 
+                      name="search_value" value="{{ request.GET.search_value }}"
+                      class="form-control" /> 
+                    </td>
+                    <td>           <input type="submit"value="Search" class="button primary" />      
+                    </td>
+          </tbody>
+        </table>
+      
+
     </form>
 </section>
  <!-- Section -->
@@ -41,7 +49,7 @@
       </table>
 
 </section>
-
+</br>
 
 {% comment %} pagination  {% endcomment %}
 <ul>

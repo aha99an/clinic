@@ -4,6 +4,10 @@
  <!-- Section -->
  <section>
     <a href="{% url 'patient_new' %}" class="button next">Add patient</a>
+    <a href="{% url 'export-csv' %}" class="button next">Export csv</a>
+    <a id="print-content" href="" onclick="printDiv('contentToPrint')" class="button primary"> Print</a>
+    <a href="{% url 'import-csvpat' %}" class="button next">import csv</a>
+
 </section>
 
 
@@ -11,19 +15,22 @@
 {% comment %} SEARCH {% endcomment %}
 <section>
     <form method="get" action="{% url 'patients' %}">
-        <input style = "width: auto;" id="al-search" type="text" name="search_value" value="{{ request.GET.search_value }}"class="form-control" />
-        <input type="submit" value="Search" class="button primary" />
+
+      <table>
+        <tbody>
+          <td style="width:25%">      <input style = "width: auto;" id="al-search" type="text"  name="search_value" value="{{ request.GET.search_value }}"class="form-control" />
+          </td>
+          <td>      <input type="submit" value="Search"  href="" class="button primary" />
+          </td>
+        </tbody>
+      </table>
     </form>
 </section>
 
-
-
  <!-- Section -->
+ <h2>All patients</h2>
  <section>
-    <h2>All patients</h2>
-
-
-
+   <div  id="contentToPrint" >
     <table class="table table-striped">
         <thead>
           <tr>
@@ -36,45 +43,36 @@
         </thead>
         <tbody>
             {% for patient in object_list %}
-
-                <tr>
                     <td>
                         <h><a href="{% url 'patient_detail' patient.id %}">{{ patient.name }}</a></h>
                     </td>
                     <td>
-                        <h1> {{ patient.years }}</a></h1>
+                        <h> {{ patient.years }}</a></h>
                     </td>
                     <td>
-                        <h1> {{ patient.months }}</a></h1>
+                        <h> {{ patient.months }}</a></h>
                     </td>
                     <td>
                     <h>{% for diagnose in patient.diagnose.all %}{{ diagnose }}<br/>{% endfor %}</h>
                     </td>
                     <td>
-                        <h1> {% for appointment in patient.patient_appointments.all %}
+                        <h> 
+                          {% for appointment in patient.patient_appointments.all %}
+                          {% if appointment.appointmentType == 'Operative' %}
                             {% for operation in appointment.operation.all %}
                             {{ operation.operationName }}<br/>
                             {% endfor%}
+                            {%endif%}
                             {% endfor %}
-                        </a></h1>                   
+                        </a></h>                   
 
                     </td>
                 </tr>
-
-
-                
-
-
-
-
                 {% endfor %}
                 </tbody>
       </table>
 </section>
-
-
-
-
+</br>
 
 {% comment %} pagination  {% endcomment %}
 <ul>
@@ -107,7 +105,26 @@
     </div>
 </ul>
 
+
+
+
+
+<script>
+  function printDiv(contentToPrint) {
+    var css = '<style type="text/css">' +
+      'table th, table td {' +
+      'border:1px solid #000;'
+      '}' +
+      '</style>'
+      var printContents = document.getElementById(contentToPrint).innerHTML;
+      w=window.open();
+      w.document.write(printContents);
+      w.document.write(css);
+      w.document.close();
+      w.focus();
+      w.print();
+      w.close();
+  }
+</script>
 {% endblock content %}
-
-
 

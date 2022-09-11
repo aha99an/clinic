@@ -20,6 +20,7 @@ class PatientListViewForm(forms.ModelForm):
     birthdate = forms.DateField(label="Birthdate", widget=forms.DateInput(format='%Y-%m-%d'))
     gender = forms.ChoiceField(choices=GENDER, label="Gender")
     patientAddress = forms.CharField(label="Patient address", required=False)
+    patientComplaint = forms.CharField(label="Patient complaint", required=False)
     referredFrom = forms.ModelMultipleChoiceField(required=False, queryset = Referrer.objects.all(), label="Referred from",
                 initial=[Referrer.objects.all().values_list("referrerName", flat=True)])
     
@@ -56,5 +57,5 @@ class PatientListViewForm(forms.ModelForm):
 
     class Meta:
         model = Patient
-        fields = ('name', 'phoneNumber', 'birthdate','gender','patientAddress','referredFrom','cause','diagnose','investigation',"treatment",'attachment','note')
+        fields = ('name', 'phoneNumber', 'birthdate','gender','patientAddress','patientComplaint','referredFrom','cause','diagnose','investigation',"treatment",'attachment','note')
      
