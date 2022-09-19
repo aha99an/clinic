@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<!-- Section -->
+<section>
+
+    <form action="{% url 'uploadAttachment'%}" enctype="multipart/form-data" method="post">
+        <input type="hidden" name= "patient_pk" value= "{{patient.id}}" > 
+        {% csrf_token %}
+        <label for="files">Attachments:</label>
+        <input type="file" id="attachment" name="attachment"  multiple >
+        <input type="submit"  class="btn btn-primary btn-sm">
+      </form>
+    </section>
+    
+<h2>Attachments:</h2>
+
+
+<div class="row">
+{% for att in patient.patient_attachments.all %}
+<div class="col">
+    <a target="_blank" href="{{ att.attachment.url}}">    
+
+        <img  id= "{{att.id}}"  src="{{att.attachment.url}}"  alt={{ att.attachment }} height="220" width="220" class= 'original-position'>
+    </a>
+
+        <div class="col" >
+            <a value="Rotate" id="clickme" onclick="rotateImage({{att.id}})">
+            <div class="btn-group">
+                    <button padding= '20px 20px' !important> <i class="fa fa-rotate-right"></i></button>
+                </a>
+            
+                <a  href="{% url "delete_image" att.id %}">
+                    <button class="btn"  href="{% url "delete_image" att.id %}"><i class="fa fa-trash"></i></button>
+                </a>
+                <a  href="{% url "delete_image" att.id %}">
+                    <button class="btn"  href="{% url "delete_image" att.id %}"><i class="fa fa-trash"></i></button>
+                    </a>
+            </div>
+        </div> 
+    </div>
+    
+    {% endfor %}
+</div>
+{% comment %}     
+<a target="_blank" href="{{ att.attachment.url}}">    
+    <img id= "{{att.id}}" class="image original-position" src="{{att.attachment.url}}"  alt={{ att.attachment }}  height="130" width="130">
+</a>  {% endcomment %}
+
+
+
+
+<script>
+    function rotateImage(id) {
+        image = document.getElementById(id);
+        image_height = image.height;
+        image_width = image.width;
+        var margin_top = "0em"
+        var margin_bottom = "2em"
+        console.log(id);
+        console.log(image.classList.contains("original-position"));
+        {% comment %} console.log(image_width); {% endcomment %}
+        if (image_width >image_height){
+            margin = (image_width-image_height)/2;
+            margin_top = margin.toString()+"px";
+            margin_bottom = margin.toString()+"px";
+        }
+        if (image.classList.contains("original-position")){
+            
+            console.log("HELLO HERE");
+            image.style.transform = "rotate(90deg)";
+            image.classList.add("rotate90");
+            image.classList.remove("original-position");
+            {% comment %} image.style.marginTop = margin_top;
+            image.style.marginBottom = margin_bottom; {% endcomment %}
+        }else if (image.classList.contains("rotate90")){
+            {% comment %} image.style.marginTop = "0em";
+            image.style.marginBottom = "2em"; {% endcomment %}
+            image.classList.remove("rotate90");
+            image.style.transform = "rotate(180deg)";
+            image.classList.add("rotate180");
+
+        }else if (image.classList.contains("rotate180")){
+            {% comment %} image.style.marginTop = margin_top;
+            image.style.marginBottom = margin_bottom; {% endcomment %}
+            image.classList.remove("rotate180");
+            image.style.transform = "rotate(270deg)";
+            image.classList.add("rotate270");
+
+        }else if (image.classList.contains("rotate270")){
+            {% comment %} image.style.marginTop = "0em";
+            image.style.marginBottom = "2em"; {% endcomment %}
+            image.classList.remove("rotate270");
+            image.style.transform = "rotate(0deg)";
+            image.classList.add("original-position");
+    }
+};
+</script>
+
+
+
+
+
+
+
+
+<style>
+img {
+    border: 5px solid #000;
+    }
+
+
+
+.btn-group button {
+  background-color: #dca524; /* Green background */
+  border: 0px solid yellow; /* Green border */
+  color: white; /* White text */
+  padding: 20px 20px !important; /* Some padding */
+  cursor: pointer; /* Pointer/hand icon */
+  float: left; /* Float the buttons side by side */
+  font-size: 18px;
+}
+
+/* Clear floats (clearfix hack) */
+.btn-group:after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.btn-group button:not(:last-child) {
+  border-right: none; /* Prevent double borders */
+}
+
+/* Add a background color on hover */
+.btn-group button:hover {
+  background-color: #b98a1c;
+}
+
+
+
+
+
+ * {
+    box-sizing: border-box;
+  } 
+  .column 
+    float: left;
+    width: 1.33%;
+    padding: 5px;
+    gap: 100px;
+  } 
+  
+ /* Clearfix (clear floats) */
+  .row::after {
+    content: "";
+    clear: both;
+    display: table;
+    } 
+
+{% comment %} 
+.row{
+
+    margin-top: -50px !important;
+    margin-bottom: -50px !important;
+    margin-right: 0px !important;
+    margin-left: -50px !important;
+} {% endcomment %}
+</style>
+
+
+
+{% endblock content %}

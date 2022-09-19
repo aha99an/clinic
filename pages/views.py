@@ -10,7 +10,7 @@ class HomePageView(ListView):
     template_name = 'home.html'
     def dispatch(self, request, *args, **kwargs):
         self.paginate_by = self.request.POST.get('pagination_num',default=50)
-        print(self.paginate_by)
+        # print(self.paginate_by)
         return super().dispatch(request, *args, **kwargs)        
 
 
@@ -31,7 +31,7 @@ class HomePageView(ListView):
         today = int(today.strftime('%Y%m%d'))
         today = str(today)
         todaydate = today[0:4] + "-" + today[4:6] + "-" + today[6:8]  
-        print (type(todaydate))
-        print (todaydate)
+        # print (type(todaydate))
+        # print (todaydate)
         ctx["todaydate"] = todaydate
         return ctx

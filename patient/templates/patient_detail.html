@@ -5,7 +5,7 @@
  <!-- Section -->
  <section>
 
-    <a href="#" class="button next">Attachments</a> 
+    <a href="{% url 'attachments' patient.pk %}" class="button next">Attachments</a> 
     {% comment %} <a href="#" class="button next">Investigations</a> {% endcomment %}
     <a href="{% url 'appointments_for_Patient' patient.pk %}" class="button next">Appointments</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
     <a href="{% url 'patient_edit' patient.pk %}" class="button next">Edit patient details</a>
@@ -148,11 +148,25 @@
 </section>
 
 
+<!-- Section -->
+<section>
+
+<form action="{% url 'uploadAttachment'%}" enctype="multipart/form-data" method="post">
+    <input type="hidden" name= "patient_pk" value= "{{patient.id}}" > 
+    {% csrf_token %}
+    <label for="files">Attachments:</label>
+    <input type="file" id="attachment" name="attachment"  multiple >
+    <input type="submit"  class="button next">
+  </form>
+</section>
+
+
  <!-- Section -->
  <section>
 
     <a href="{% url 'patient_delete' patient.pk %}" class="button next">Delete patient</a>
 </section>
+
 {% endblock content %}
 
 

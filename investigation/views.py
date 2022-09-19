@@ -16,7 +16,7 @@ class InvestigationListView(ListView):
 
     def dispatch(self, request, *args, **kwargs):
         self.paginate_by = self.request.POST.get('pagination_num',default=50)
-        print(self.paginate_by)
+        # print(self.paginate_by)
         return super().dispatch(request, *args, **kwargs)        
         
     def get_queryset(self):
@@ -28,7 +28,7 @@ class InvestigationListView(ListView):
         return queryset
 
 def import_csv(request):
-    print('ggggggggggggggg')
+    # print('ggggggggggggggg')
     Investigation.objects.all().delete()
     with open('export-2022-09-04_22_09_15.csv', 'r', encoding='utf-16') as file:
         reader = csv.reader(file)

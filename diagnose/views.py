@@ -13,7 +13,6 @@ class DiagnoseListView(ListView):
 
     def dispatch(self, request, *args, **kwargs):
         self.paginate_by = self.request.POST.get('pagination_num',default=50)
-        print(self.paginate_by)
         return super().dispatch(request, *args, **kwargs)        
         
     def get_queryset(self):

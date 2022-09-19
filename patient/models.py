@@ -40,7 +40,6 @@ class Patient(models.Model):
         return hisYears
 
     gender = models.CharField(max_length=1,blank=True, choices=GENDER)
-
     patientAddress = models.CharField(max_length=255, null=True)
     patientComplaint = models.CharField(max_length=255, null=True)
     referredFrom = models.ManyToManyField(Referrer, blank=True)
@@ -48,18 +47,8 @@ class Patient(models.Model):
     diagnose = models.ManyToManyField(Diagnose, blank=True)
     investigation = models.ManyToManyField(Investigation, blank=True)
     treatment = models.ManyToManyField(Treatment, blank=True)    
-    attachment = models.FileField(null=True, blank=True, verbose_name="attachment")
-
-    def snippet_file_name(self):
-        if len(self.attachment.name) > 20:
-            return "..."+self.attachment.name.rsplit(
-                '/', 1)[1][:20]
-        else:
-            return self.attachment.name
-            
+    # attachment = models.FileField(null=True, blank=True, verbose_name="attachment")
     note = models.TextField(blank=True, null=True)
-
-    
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
@@ -69,3 +58,26 @@ class Patient(models.Model):
 
     def get_absolute_url(self):
         return reverse('patient_detail', args=[str(self.id)])
+
+
+class Attachment(models.Model):
+    patient = models.ForeignKey(
+        Patient, on_delete=models.CASCADE, related_name="patient_attachments")
+    attachment = models.FileField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def snippet_file_name(self):
+        if len(self.attachment.name) > 20:
+            return "..."+self.attachment.name.rsplit('/', 1)[1][:20]
+        else:
+            return self.attachment.name
+
+
+
+
+
+
+
+
+

@@ -34,9 +34,9 @@ def import_csvappo(request):
                 appointmentStatus = row[3],
                 ) 
             # myappo.patient.add(mypat)
-            print (myappo)
+            # print (myappo)
             x=x+1
-            print (x)
+            # print (x)
          
     return HttpResponse('Import done')
 
@@ -48,7 +48,7 @@ class AppointmentListView(ListView):
 
     def dispatch(self, request, *args, **kwargs):
         self.paginate_by = self.request.POST.get('pagination_num',default=50)
-        print(self.paginate_by)
+        # print(self.paginate_by)
         return super().dispatch(request, *args, **kwargs)        
 
 
