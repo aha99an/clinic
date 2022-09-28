@@ -13,12 +13,20 @@
 <!-- Section -->
 {% comment %} SEARCH {% endcomment %}
 <section>
-    <form method="get" action="{% url 'causes' %}">
-        <input style = "width: auto;" id="al-search" type="text" 
-           name="search_value" value="{{ request.GET.search_value }}"
-           class="form-control" />
-        <input type="submit"value="Search" class="button primary" />
+    <form method="get" action="{% url 'causes' %}">    
+      <table>
+        <tbody>
+                    <td style="width:25%">        <input style = "width: auto;" id="al-search" type="text" 
+                      name="search_value" value="{{ request.GET.search_value }}"
+                      class="form-control" />
+                    </td>
+                    <td>           <input type="submit"value="Search" class="button primary" />      
+                    </td>
+          </tbody>
+        </table>
     </form>
+
+
 </section>
  <!-- Section -->
  <h2>All causes</h2>
@@ -41,37 +49,44 @@
       </table>
 
 </section>
-
+</br>
 
 {% comment %} pagination  {% endcomment %}
 <ul>
-    <div c lass="prev_next">
-    <div class="pages">
-    {% if page_obj.has_previous %}
-      <a class="prev btn btn-info" href="{{ request.get_full_path }}&page={{page_obj.previous_page_number}}">Previous</a>
-    {% endif %}
-      {% for pg in page_obj.paginator.page_range %}
-      {% comment %}Ensure that serach filter is applied with pagination  {% endcomment %}
-        {% if 'search_value' in request.get_full_path %}
-            {% if page_obj.number == pg %}
-              <a href="{{ request.get_full_path }}&page={{ pg }}"{{ pg }} class="btn btn-success">{{pg}}</a>
-            {% else %}
-              <a href="{{ request.get_full_path }}&page={{ pg }}"{{ pg }} class="btn">{{pg}}</a>
-            {% endif %}
-        {% else %}
-        {% comment %} If none of them is there {% endcomment %}
+  <div class="prev_next">
+  <div class="pages">
+  {% if page_obj.has_previous %}
+    <a class="prev btn btn-info" href="{{ request.get_full_path }}&page={{page_obj.previous_page_number}}">Previous</a>
+  {% endif %}
+    {% for pg in page_obj.paginator.page_range %}
+    {% comment %}Ensure that serach filter is applied with pagination  {% endcomment %}
+      {% if 'search_value' in request.get_full_path %}
           {% if page_obj.number == pg %}
-            <a href="?page={{pg}}" class="btn btn-success">{{pg}}</a>
+            <a href="{{ request.get_full_path }}&page={{ pg }}"{{ pg }} class="btn btn-success">{{pg}}</a>
           {% else %}
-            <a href="?page={{pg}}" class="btn">{{pg}}</a>
+            <a href="{{ request.get_full_path }}&page={{ pg }}"{{ pg }} class="btn">{{pg}}</a>
           {% endif %}
+      {% else %}
+      {% comment %} If none of them is there {% endcomment %}
+        {% if page_obj.number == pg %}
+          <a href="?page={{pg}}" class="btn btn-success">{{pg}}</a>
+        {% else %}
+          <a href="?page={{pg}}" class="btn">{{pg}}</a>
         {% endif %}
-      {% endfor %}
-      {% if page_obj.has_next %}
-      <a class="next btn btn-info" href="?page={{page_obj.next_page_number}}">Next</a>
-    {% endif %}
-    </div>
-    </div>
+      {% endif %}
+    {% endfor %}
+    {% if 'search_value' in request.get_full_path %}
+        {% if page_obj.has_next %}
+        <a class="next btn btn-info" href="{{ request.get_full_path }}&page={{page_obj.next_page_number}}">Next</a>
+        {% endif %}
+    {% else %}
+    {% if page_obj.has_next %}
+    <a class="next btn btn-info" href="?page={{page_obj.next_page_number}}">Next</a>
+  {% endif %}
+  {% endif %}
+
+  </div>
+  </div>
 </ul>
 
 

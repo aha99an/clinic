@@ -17,7 +17,7 @@ class AppointmentCreateViewForm(forms.ModelForm):
         super(AppointmentCreateViewForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
             if visible.name == "operation":
-                print(visible.field._queryset)
+                # print(visible.field._queryset)
                 visible.field.widget.attrs["class"] = 'js-example-basic-multiple'
                 visible.field.widget.attrs["name"] = 'states[]'
                 visible.field.widget.attrs["multiple"] = 'multiple'

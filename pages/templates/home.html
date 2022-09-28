@@ -53,39 +53,44 @@
               </table>
         </section>
 
-
-    {% comment %} pagination  {% endcomment %}
-    <ul>
-        <div c lass="prev_next">
-        <div class="pages">
-        {% if page_obj.has_previous %}
-          <a class="prev btn btn-info" href="{{ request.get_full_path }}&page={{page_obj.previous_page_number}}">Previous</a>
+      </br>
+{% comment %} pagination  {% endcomment %}
+<ul>
+  <div class="prev_next">
+  <div class="pages">
+  {% if page_obj.has_previous %}
+    <a class="prev btn btn-info" href="{{ request.get_full_path }}&page={{page_obj.previous_page_number}}">Previous</a>
+  {% endif %}
+    {% for pg in page_obj.paginator.page_range %}
+    {% comment %}Ensure that serach filter is applied with pagination  {% endcomment %}
+      {% if 'search_value' in request.get_full_path %}
+          {% if page_obj.number == pg %}
+            <a href="{{ request.get_full_path }}&page={{ pg }}"{{ pg }} class="btn btn-success">{{pg}}</a>
+          {% else %}
+            <a href="{{ request.get_full_path }}&page={{ pg }}"{{ pg }} class="btn">{{pg}}</a>
+          {% endif %}
+      {% else %}
+      {% comment %} If none of them is there {% endcomment %}
+        {% if page_obj.number == pg %}
+          <a href="?page={{pg}}" class="btn btn-success">{{pg}}</a>
+        {% else %}
+          <a href="?page={{pg}}" class="btn">{{pg}}</a>
         {% endif %}
-          {% for pg in page_obj.paginator.page_range %}
-          {% comment %}Ensure that serach filter is applied with pagination  {% endcomment %}
-            {% if 'search_value' in request.get_full_path %}
-                {% if page_obj.number == pg %}
-                  <a href="{{ request.get_full_path }}&page={{ pg }}"{{ pg }} class="btn btn-success">{{pg}}</a>
-                {% else %}
-                  <a href="{{ request.get_full_path }}&page={{ pg }}"{{ pg }} class="btn">{{pg}}</a>
-                {% endif %}
-            {% else %}
-            {% comment %} If none of them is there {% endcomment %}
-              {% if page_obj.number == pg %}
-                <a href="?page={{pg}}" class="btn btn-success">{{pg}}</a>
-              {% else %}
-                <a href="?page={{pg}}" class="btn">{{pg}}</a>
-              {% endif %}
-            {% endif %}
-          {% endfor %}
-          {% if page_obj.has_next %}
-          <a class="next btn btn-info" href="?page={{page_obj.next_page_number}}">Next</a>
+      {% endif %}
+    {% endfor %}
+    {% if 'search_value' in request.get_full_path %}
+        {% if page_obj.has_next %}
+        <a class="next btn btn-info" href="{{ request.get_full_path }}&page={{page_obj.next_page_number}}">Next</a>
         {% endif %}
-        </div>
-        </div>
-    </ul>
-   
+    {% else %}
+    {% if page_obj.has_next %}
+    <a class="next btn btn-info" href="?page={{page_obj.next_page_number}}">Next</a>
+  {% endif %}
+  {% endif %}
 
+  </div>
+  </div>
+</ul>
 
     <script>
       var   x = document.getElementById("datepicker").value;

@@ -5,7 +5,7 @@
  <!-- Section -->
  <section>
 
-    <a href="#" class="button next">Attachments</a> 
+    <a href="{% url 'attachments' patient.pk %}" class="button next">Attachments</a> 
     {% comment %} <a href="#" class="button next">Investigations</a> {% endcomment %}
     <a href="{% url 'appointments_for_Patient' patient.pk %}" class="button next">Appointments</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
     <a href="{% url 'patient_edit' patient.pk %}" class="button next">Edit patient details</a>
@@ -58,6 +58,13 @@
                 <td><h></h></td>
             </tr>
             <tr>
+                <td> <h>Patient complaint:</h></td>
+                <td><h>{{ patient.patientComplaint }}</h></td>
+                <td><h></h></td>
+                <td><h></h></td>
+                <td><h></h></td>
+            </tr>
+            <tr>
                 <td> <h>Referred From:</h></td>
                 <td><h>{% for referrer in patient.referredFrom.all %}{{ referrer }}<br/>{% endfor %}</h></td>
                 <td><h></h></td>
@@ -97,24 +104,33 @@
                 <td> <h>Operations:</h></td>
                 <td> <h1>
                     {% for appointment in patient.patient_appointments.all %}
-                    {% if not forloop.first %}
-                    <br/>
-                    {% endif %}
-                    {% for operation in appointment.operation.all %}
-                    {{ operation.operationName }}
-                    {% endfor%}
+                    {% if appointment.appointmentType == 'Operative' %}
+                        {% if not forloop.first %}
+                            <br/>
+                            {% endif %}                       
+                            {% endif %}
+
+                        {% for operation in appointment.operation.all %}
+                            {% if appointment.appointmentType == 'Operative' %}
+                                {{ operation.operationName }}
+                                {% if forloop.first %}
+                                ,
+                                {% endif %}
+                            {% endif %}
+                        {% endfor%}
                     {% endfor %}
                 </td></h></td>
                 <td><h1>
-                
-
                     {% for appointment in patient.patient_appointments.all %}
-                    {% if appointment.operation.all %}
-                    {% if not forloop.first %}
-                    <br/>
-                    {% endif %}
-                    {{ appointment.appointmentDate }}
-                    {% endif %}
+                    {% if appointment.appointmentType == 'Operative' %}
+                        {% if appointment.operation.all %}
+                            {% if not forloop.first %}
+                            <br/>
+                            {% endif %}
+                            {{ appointment.appointmentDate }}
+                        {% endif %}
+                        {% endif %}
+
                     {% endfor%}
                 </h1></td>
                 <td><h></h></td>
@@ -132,11 +148,25 @@
 </section>
 
 
+<!-- Section -->
+<section>
+
+<form action="{% url 'uploadAttachment'%}" enctype="multipart/form-data" method="post">
+    <input type="hidden" name= "patient_pk" value= "{{patient.id}}" > 
+    {% csrf_token %}
+    <label for="files">Attachments:</label>
+    <input type="file" id="attachment" name="attachment"  multiple >
+    <input type="submit"  class="button next">
+  </form>
+</section>
+
+
  <!-- Section -->
  <section>
 
     <a href="{% url 'patient_delete' patient.pk %}" class="button next">Delete patient</a>
 </section>
+
 {% endblock content %}
 
 

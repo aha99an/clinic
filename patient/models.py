@@ -13,11 +13,21 @@ GENDER = (
         ('M', 'Male'),
         ('F', 'Female')
     )
-
 class Patient(models.Model):
     name = models.CharField(max_length=255)
     phoneNumber = models.CharField(max_length=200, default="0", null=True)
     birthdate = models.DateField(blank=True)
+    @property
+    def months(self):
+        today = date.today()
+        hismonths = 0
+        hisYears = today.year - self.birthdate.year
+        hismonths = today.month - self.birthdate.month
+        if hismonths < 0:
+            hismonths = 12 + hismonths
+        elif hismonths >= 0:
+            hismonths = hismonths
+        return hismonths
     @property
     def years(self):
         today = date.today()
@@ -29,36 +39,16 @@ class Patient(models.Model):
             hismonths = hismonths
         return hisYears
 
-    def months (self):
-        today = date.today()
-        hisYears = today.year - self.birthdate.year
-        hismonths = today.month - self.birthdate.month
-        if hismonths < 0:
-            hismonths = 12 + hismonths
-        elif hismonths >= 0:
-            hismonths = hismonths
-        return hismonths
-  
     gender = models.CharField(max_length=1,blank=True, choices=GENDER)
-
     patientAddress = models.CharField(max_length=255, null=True)
+    patientComplaint = models.CharField(max_length=255, null=True)
     referredFrom = models.ManyToManyField(Referrer, blank=True)
     cause = models.ManyToManyField(Cause, blank=True)
     diagnose = models.ManyToManyField(Diagnose, blank=True)
     investigation = models.ManyToManyField(Investigation, blank=True)
     treatment = models.ManyToManyField(Treatment, blank=True)    
-    attachment = models.FileField(null=True, blank=True, verbose_name="attachment")
-
-    def snippet_file_name(self):
-        if len(self.attachment.name) > 20:
-            return "..."+self.attachment.name.rsplit(
-                '/', 1)[1][:20]
-        else:
-            return self.attachment.name
-            
+    # attachment = models.FileField(null=True, blank=True, verbose_name="attachment")
     note = models.TextField(blank=True, null=True)
-
-    
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
@@ -67,4 +57,55 @@ class Patient(models.Model):
         return self.name
 
     def get_absolute_url(self):
+
+        today = date.today()
+        today = int(today.strftime('%Y%m%d'))
+        today = str(today)
+        todaydate = today[0:4] + "-" + today[4:6] + "-" + today[6:8] 
+        from appointment.models import Appointment
+        print(todaydate)
+        myappointment, _ = Appointment.objects.get_or_create(
+                patient= self,
+                appointmentDate = todaydate,
+                appointmentType =  "New Visit",
+                appointmentStatus= "Waiting"
+                ) 
+        
         return reverse('patient_detail', args=[str(self.id)])
+
+    def addAppointmentAutomatic(self):
+        today = date.today()
+        today = int(today.strftime('%Y%m%d'))
+        today = str(today)
+        todaydate = today[0:4] + "-" + today[4:6] + "-" + today[6:8] 
+        from appointment.models import Appointment
+        print(todaydate)
+        myappointment, _ = Appointment.objects.get_or_create(
+                patient= self,
+                appointmentDate = todaydate,
+                appointmentType =  "New Visit",
+                appointmentStatus= "Waiting"
+                ) 
+
+
+class Attachment(models.Model):
+    patient = models.ForeignKey(
+        Patient, on_delete=models.CASCADE, related_name="patient_attachments")
+    attachment = models.FileField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def snippet_file_name(self):
+        if len(self.attachment.name) > 20:
+            return "..."+self.attachment.name.rsplit('/', 1)[1][:20]
+        else:
+            return self.attachment.name
+
+
+
+
+
+
+
+
+

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Patient, GENDER
+from .models import Patient, GENDER, Attachment
 from referrer.models import Referrer
 from cause.models import Cause
 from diagnose.models import Diagnose
@@ -20,6 +20,7 @@ class PatientListViewForm(forms.ModelForm):
     birthdate = forms.DateField(label="Birthdate", widget=forms.DateInput(format='%Y-%m-%d'))
     gender = forms.ChoiceField(choices=GENDER, label="Gender")
     patientAddress = forms.CharField(label="Patient address", required=False)
+    patientComplaint = forms.CharField(label="Patient complaint", required=False)
     referredFrom = forms.ModelMultipleChoiceField(required=False, queryset = Referrer.objects.all(), label="Referred from",
                 initial=[Referrer.objects.all().values_list("referrerName", flat=True)])
     
@@ -35,7 +36,6 @@ class PatientListViewForm(forms.ModelForm):
     treatment = forms.ModelMultipleChoiceField(required=False, queryset = Treatment.objects.all(), label="Treatments",
                 initial=[Treatment.objects.all().values_list("treatmentName", flat=True)])
 
-    attachment = forms.FileField(label="Attachment", required=False ,widget=forms.ClearableFileInput(attrs={'multiple': True}))
     note = forms.CharField(widget=forms.Textarea, label="Notes", required=False)    
     
     
@@ -45,16 +45,18 @@ class PatientListViewForm(forms.ModelForm):
         super(PatientListViewForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
             if visible.name in ["referredFrom","cause","diagnose","investigation","treatment"]:
-                print(visible.field._queryset)
+                # print(visible.field._queryset)
                 visible.field.widget.attrs["class"] = 'js-example-basic-multiple'
                 visible.field.widget.attrs["name"] = 'states[]'
                 visible.field.widget.attrs["multiple"] = 'multiple'
 
-
-
-
-
     class Meta:
         model = Patient
-        fields = ('name', 'phoneNumber', 'birthdate','gender','patientAddress','referredFrom','cause','diagnose','investigation',"treatment",'attachment','note')
+        fields = ('name', 'phoneNumber', 'birthdate','gender','patientAddress','patientComplaint','referredFrom','cause','diagnose','investigation',"treatment",'note')
      
+
+class AttachmentView(forms.Form):
+    attachment = forms.FileField(label="Attachment", required=False ,widget=forms.ClearableFileInput(attrs={'multiple': True}))
+    # class Meta:
+    #     model = Attachment
+    #     fields = ('attachment',)

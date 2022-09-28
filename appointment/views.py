@@ -6,8 +6,41 @@ from patient.models import Patient
 from operation.models import Operation
 from django.urls import reverse_lazy
 from django.db.models import Q
+import csv 
 from .forms import AppointmentCreateViewForm
+from django.http import HttpResponse
 # Create your views here.
+
+
+
+def import_csvappo(request):
+    # Investigation.objects.all().delete()
+    with open('app.csv', 'r', encoding='utf-16') as file:
+        reader = csv.reader(file)
+        Patient.objects.all().delete()
+        x=0
+        for row in reader:
+            mypat, _ = Patient.objects.get_or_create(
+                name=row[0],
+                birthdate = row[1]
+            )
+            # mypat = Patient.objects.get(
+            #     name = row[0],
+            #     )
+            myappo = Appointment.objects.create(
+                patient = mypat,
+                appointmentDate = row[1],
+                appointmentType = row[2],
+                appointmentStatus = row[3],
+                ) 
+            # myappo.patient.add(mypat)
+            # print (myappo)
+            x=x+1
+            # print (x)
+         
+    return HttpResponse('Import done')
+
+
 
 class AppointmentListView(ListView):
     model = Appointment
@@ -15,7 +48,7 @@ class AppointmentListView(ListView):
 
     def dispatch(self, request, *args, **kwargs):
         self.paginate_by = self.request.POST.get('pagination_num',default=50)
-        print(self.paginate_by)
+        # print(self.paginate_by)
         return super().dispatch(request, *args, **kwargs)        
 
 

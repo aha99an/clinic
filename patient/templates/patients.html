@@ -4,6 +4,10 @@
  <!-- Section -->
  <section>
     <a href="{% url 'patient_new' %}" class="button next">Add patient</a>
+    <a href="{% url 'export-csv' %}" class="button next">Export csv</a>
+    <a id="print-content" href="" onclick="printDiv('contentToPrint')" class="button primary"> Print</a>
+    <a href="{% url 'import-csvpat' %}" class="button next">import csv</a>
+
 </section>
 
 
@@ -11,19 +15,22 @@
 {% comment %} SEARCH {% endcomment %}
 <section>
     <form method="get" action="{% url 'patients' %}">
-        <input style = "width: auto;" id="al-search" type="text" name="search_value" value="{{ request.GET.search_value }}"class="form-control" />
-        <input type="submit" value="Search" class="button primary" />
+
+      <table>
+        <tbody>
+          <td style="width:25%">      <input style = "width: auto;" id="al-search" type="text"  name="search_value" value="{{ request.GET.search_value }}"class="form-control" />
+          </td>
+          <td>      <input type="submit" value="Search"  href="" class="button primary" />
+          </td>
+        </tbody>
+      </table>
     </form>
 </section>
 
-
-
  <!-- Section -->
+ <h2>All patients</h2>
  <section>
-    <h2>All patients</h2>
-
-
-
+   <div  id="contentToPrint" >
     <table class="table table-striped">
         <thead>
           <tr>
@@ -36,78 +43,142 @@
         </thead>
         <tbody>
             {% for patient in object_list %}
-
-                <tr>
                     <td>
                         <h><a href="{% url 'patient_detail' patient.id %}">{{ patient.name }}</a></h>
                     </td>
                     <td>
-                        <h1> {{ patient.years }}</a></h1>
+                        <h> {{ patient.years }}</a></h>
                     </td>
                     <td>
-                        <h1> {{ patient.months }}</a></h1>
+                        <h> {{ patient.months }}</a></h>
                     </td>
                     <td>
                     <h>{% for diagnose in patient.diagnose.all %}{{ diagnose }}<br/>{% endfor %}</h>
                     </td>
                     <td>
-                        <h1> {% for appointment in patient.patient_appointments.all %}
+                        <h> 
+                          {% for appointment in patient.patient_appointments.all %}
+                          {% if appointment.appointmentType == 'Operative' %}
                             {% for operation in appointment.operation.all %}
                             {{ operation.operationName }}<br/>
                             {% endfor%}
+                            {%endif%}
                             {% endfor %}
-                        </a></h1>                   
+                        </a></h>                   
 
                     </td>
                 </tr>
-
-
-                
-
-
-
-
                 {% endfor %}
                 </tbody>
       </table>
 </section>
-
-
-
-
+</br>
 
 {% comment %} pagination  {% endcomment %}
 <ul>
-    <div c lass="prev_next">
-    <div class="pages">
-    {% if page_obj.has_previous %}
-      <a class="prev btn btn-info" href="{{ request.get_full_path }}&page={{page_obj.previous_page_number}}">Previous</a>
-    {% endif %}
-      {% for pg in page_obj.paginator.page_range %}
-      {% comment %}Ensure that serach filter is applied with pagination  {% endcomment %}
-        {% if 'search_value' in request.get_full_path %}
-            {% if page_obj.number == pg %}
-              <a href="{{ request.get_full_path }}&page={{ pg }}"{{ pg }} class="btn btn-success">{{pg}}</a>
-            {% else %}
-              <a href="{{ request.get_full_path }}&page={{ pg }}"{{ pg }} class="btn">{{pg}}</a>
-            {% endif %}
-        {% else %}
-        {% comment %} If none of them is there {% endcomment %}
+  <div class="prev_next">
+  <div class="pages">
+  {% if page_obj.has_previous %}
+    <a class="prev btn btn-info" href="{{ request.get_full_path }}&page={{page_obj.previous_page_number}}">Previous</a>
+  {% endif %}
+    {% for pg in page_obj.paginator.page_range %}
+    {% comment %}Ensure that serach filter is applied with pagination  {% endcomment %}
+      {% if 'search_value' in request.get_full_path %}
           {% if page_obj.number == pg %}
-            <a href="?page={{pg}}" class="btn btn-success">{{pg}}</a>
+            <a href="{{ request.get_full_path }}&page={{ pg }}"{{ pg }} class="btn btn-success">{{pg}}</a>
           {% else %}
-            <a href="?page={{pg}}" class="btn">{{pg}}</a>
+            <a href="{{ request.get_full_path }}&page={{ pg }}"{{ pg }} class="btn">{{pg}}</a>
           {% endif %}
+      {% else %}
+      {% comment %} If none of them is there {% endcomment %}
+        {% if page_obj.number == pg %}
+          <a href="?page={{pg}}" class="btn btn-success">{{pg}}</a>
+        {% else %}
+          <a href="?page={{pg}}" class="btn">{{pg}}</a>
         {% endif %}
-      {% endfor %}
-      {% if page_obj.has_next %}
-      <a class="next btn btn-info" href="?page={{page_obj.next_page_number}}">Next</a>
-    {% endif %}
-    </div>
-    </div>
+      {% endif %}
+    {% endfor %}
+    {% if 'search_value' in request.get_full_path %}
+        {% if page_obj.has_next %}
+        <a class="next btn btn-info" href="{{ request.get_full_path }}&page={{page_obj.next_page_number}}">Next</a>
+        {% endif %}
+    {% else %}
+    {% if page_obj.has_next %}
+    <a class="next btn btn-info" href="?page={{page_obj.next_page_number}}">Next</a>
+  {% endif %}
+  {% endif %}
+
+  </div>
+  </div>
 </ul>
 
+
+<ul class="pagination">
+
+  {% if page_obj.has_previous %}
+      <li><a href="?page={{ page_obj.previous_page_number }}"><i class="fa fa-chevron-left" aria-hidden="true"></i></a></li>
+  {% else %}
+      <li class="disabled"><span><i class="fa fa-chevron-left" aria-hidden="true"></i></span></li>
+  {% endif %}
+  
+  {% if page_obj.number|add:'-4' > 1 %}
+      <li><a href="?page={{ page_obj.number|add:'-5' }}">&hellip;</a></li>
+  {% endif %}
+  
+  {% for i in page_obj.paginator.page_range %}
+      {% if page_obj.number == i %}
+          <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% elif i > page_obj.number|add:'-5' and i < page_obj.number|add:'5' %}
+          <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+  {% endfor %}
+  
+  {% if page_obj.paginator.num_pages > page_obj.number|add:'4' %}
+      <li><a href="?page={{ page_obj.number|add:'5' }}">&hellip;</a></li>
+  {% endif %}
+  
+  {% if page_obj.has_next %}
+      <li><a href="?page={{ page_obj.next_page_number }}"><i class="fa fa-chevron-right" aria-hidden="true"></i></a></li>
+  {% else %}
+      <li class="disabled"><span><i class="fa fa-chevron-right" aria-hidden="true"></i></span></li>
+  {% endif %}
+  
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  function printDiv(contentToPrint) {
+    var css = '<style type="text/css">' +
+      'table th, table td {' +
+      'border:1px solid #000;'
+      '}' +
+      '</style>'
+      var printContents = document.getElementById(contentToPrint).innerHTML;
+      w=window.open();
+      w.document.write(printContents);
+      w.document.write(css);
+      w.document.close();
+      w.focus();
+      w.print();
+      w.close();
+  }
+</script>
 {% endblock content %}
-
-
 
