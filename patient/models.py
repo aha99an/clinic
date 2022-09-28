@@ -57,7 +57,35 @@ class Patient(models.Model):
         return self.name
 
     def get_absolute_url(self):
+
+        today = date.today()
+        today = int(today.strftime('%Y%m%d'))
+        today = str(today)
+        todaydate = today[0:4] + "-" + today[4:6] + "-" + today[6:8] 
+        from appointment.models import Appointment
+        print(todaydate)
+        myappointment, _ = Appointment.objects.get_or_create(
+                patient= self,
+                appointmentDate = todaydate,
+                appointmentType =  "New Visit",
+                appointmentStatus= "Waiting"
+                ) 
+        
         return reverse('patient_detail', args=[str(self.id)])
+
+    def addAppointmentAutomatic(self):
+        today = date.today()
+        today = int(today.strftime('%Y%m%d'))
+        today = str(today)
+        todaydate = today[0:4] + "-" + today[4:6] + "-" + today[6:8] 
+        from appointment.models import Appointment
+        print(todaydate)
+        myappointment, _ = Appointment.objects.get_or_create(
+                patient= self,
+                appointmentDate = todaydate,
+                appointmentType =  "New Visit",
+                appointmentStatus= "Waiting"
+                ) 
 
 
 class Attachment(models.Model):

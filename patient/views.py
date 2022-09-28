@@ -18,6 +18,9 @@ from treatment.models import Treatment
 from django.shortcuts import redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.core.files.base import ContentFile
+from io import StringIO
+from PIL import Image as PilImage
 
 class PatientListView(ListView):
     model = Patient
@@ -123,6 +126,19 @@ def delete_image (request, id):
     image = Attachment.objects.get(id=id).delete()
     return  HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
+
+
+def rotate_Left(request,id):
+    myimage = Attachment.objects.get(id=id)
+    im = PilImage.open(image.image)
+    rotated_image = im.rotate(270)
+    rotated_image.save(item.image.file.name, overwrite=True)
+
+  
+    # Attachment.objects.create(
+    #         patient_id=int(mypatient), attachment=f, id=id)
+
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def uploadAttachment(request):
     files = request.FILES.getlist('attachment')

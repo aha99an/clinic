@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import PatientListView, PatienDetailView, PatientCreateView, PatientUpdateView, PatientDeleteView, AllPatientListView, Export_csv, import_csvpat, uploadAttachment, AttachmentDetailView, delete_image
+from .views import PatientListView, PatienDetailView, PatientCreateView, PatientUpdateView, PatientDeleteView, AllPatientListView, Export_csv, import_csvpat, uploadAttachment, AttachmentDetailView, delete_image, rotate_Left
 
 
 
@@ -18,5 +18,8 @@ path('uploadAttachment',  uploadAttachment, name='uploadAttachment'),
 path('patient/<int:pk>/attachments/', AttachmentDetailView.as_view(), name='attachments'),
 
 path('delete-image/<int:id>/',  delete_image, name='delete_image'),
+path('rotate-Left/<int:id>/',  rotate_Left, name='rotate_Left'),
+
+
 
 ]
