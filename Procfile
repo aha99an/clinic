@@ -1,1 +1,1 @@
-web: gunicorn clinic.wsgi
+web: python manage.py runserver
