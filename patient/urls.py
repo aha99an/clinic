@@ -7,7 +7,7 @@ from .views import PatientListView, PatienDetailView, PatientCreateView, Patient
 
 urlpatterns = [
 path('', PatientListView.as_view(), name='patients'),
-path('/allpatients', AllPatientListView.as_view(), name='allpatients'),
+path('allpatients', AllPatientListView.as_view(), name='allpatients'),
 path('patient/<int:pk>/', PatienDetailView.as_view(), name='patient_detail'),
 path('patient/new/', PatientCreateView.as_view(), name='patient_new'),
 path('patient/<int:pk>/edit/', PatientUpdateView.as_view(), name='patient_edit'),
