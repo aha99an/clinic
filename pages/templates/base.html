@@ -25,6 +25,19 @@
 
 </head>
 
+
+
+<style>
+	img {
+	  position: absolute;
+	  left: 0px;
+	  top: 0px;
+	  z-index: 1;
+	}
+	</style>
+	{% if not user.is_authenticated %}
+<img src="https://wallpaperaccess.com/full/1668898.jpg" width="1830" height="995">
+{% endif %}
 	<body class="is-preload">
 		<!-- Content -->
 		<div id="content">
@@ -39,8 +52,9 @@
 
 				{% else %}
 				{% block content2 %}
-				<p>You are not logged in.</p>
-				<a href="{% url 'login' %}" class="button next">Log In</a>
+
+				<p style="z-index:5; font-size: 50px;">You are not logged in.</p>
+				<a  style="z-index:5;" href="{% url 'login' %}" class="button next">Log In</a>
 				{% endblock content2 %}
 				{% endif %}
 			</div>
