@@ -25,7 +25,7 @@ SECRET_KEY = '*^+b!qh3-xvusu6lnsgvwn+emn_l@1btaj^ra6&6pw2!*bof&8'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['dr-mohamed-hassan-clinic.herokuapp.com']
 
 TEMPLATE_CONTEXT_PROCESSORS = [
     "django.contrib.auth.context_processors.auth",
