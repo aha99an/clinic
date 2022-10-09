@@ -27,16 +27,16 @@
 
 
 
-<style>
-	imggg {
+{% comment %} <style>
+	img {
 	  position: absolute;
 	  left: 0px;
 	  top: 0px;
 	  z-index: 1;
 	}
-	</style>
+	</style> {% endcomment %}
 	{% if not user.is_authenticated %}
-<imggg src="https://wallpaperaccess.com/full/1668898.jpg" width="1830" height="995">
+<img  style="z-index:1; position:absolute; left: 0px;top:0px;" src="https://wallpaperaccess.com/full/1668898.jpg" width="1830" height="995">
 {% endif %}
 	<body class="is-preload">
 		<!-- Content -->
