@@ -28,39 +28,43 @@
 
 
 
- <!-- Section -->
- <section>
-    <h2>All appointment</h2>
-    <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">Patient Name</th>
-            <th scope="col">Appointment date</th>
-            <th scope="col">Appointment type</th>
-            <th scope="col">Appointment status</th>
-        </tr>
-        </thead>
-        <tbody>
-            {% for appointment in object_list %}
-
-                <tr>
-                    <td>
-                        <h><a href="{% url 'appointment_edit' appointment.pk %}">{{ appointment.patient.name }}</a></h>
+     <!-- Section -->
+     <section>
+      <h2> <a>All appointment for: </a> <a id="demo"></a> </h2>
+      <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Patient Name</th>
+              <th scope="col">Appointment date</th>
+              <th scope="col">Appointment type</th>
+              <th scope="col">Appointment status</th>
+              <th scope="col">Edit appointment</th>
+          </tr>
+          </thead>
+          <tbody>
+              {% for appointment in object_list %}
+  
+                  <tr>
+                      <td>
+                          <h><a href="{% url 'patient_detail' appointment.patient.id %}">{{ appointment.patient.name }}</a></h>
+                      </td>
+                      <td>
+                          <h1><a>{{ appointment.appointmentDate }}</a></h1>
+                      </td>
+                      <td>
+                          <h1><a>{{ appointment.appointmentType }}</a></h1>
+                      </td>
+                      <td>
+                          <h1><a>{{ appointment.appointmentStatus }}</a></h1>
+                      </td>
+                      <td>
+                        <a href="{% url 'appointment_edit' appointment.pk %}" class="button next">Edit appointment</a>
                     </td>
-                    <td>
-                        <h1><a>{{ appointment.appointmentDate }}</a></h1>
-                    </td>
-                    <td>
-                        <h1><a>{{ appointment.appointmentType }}</a></h1>
-                    </td>
-                    <td>
-                        <h1><a>{{ appointment.appointmentStatus }}</a></h1>
-                    </td>
-                </tr>
-                {% endfor %}
-                </tbody>
-      </table>
-</section>
+                  </tr>
+                  {% endfor %}
+                  </tbody>
+        </table>
+  </section>
 </br>
 {% comment %} pagination  {% endcomment %}
 <ul>

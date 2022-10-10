@@ -182,9 +182,11 @@ def import_csvpat(request):
     Treatment.objects.all().delete()
 
 
-    with open('/home/ahmed/Desktop/klinik/csv files/all patients test.csv', 'r', encoding='utf-16') as file:
+    with open('/home/ahmed/Desktop/Clinic_project/clinic/csv files/all patients test.csv', 'r', encoding='utf-16') as file:
         reader = csv.reader(file)
+        x=0
         for row in reader:
+            x=x+1
             mypatient, _ = Patient.objects.get_or_create(
                 name=row[0],
                 phoneNumber = '0' + row[4],
@@ -226,4 +228,5 @@ def import_csvpat(request):
                 treatment, _ = Treatment.objects.get_or_create(treatmentName=treatment5)
                 mypatient.treatment.add(treatment)
             print (mypatient)
+            print (x)
     return HttpResponse('Import done')
