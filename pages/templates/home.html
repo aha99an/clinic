@@ -29,6 +29,7 @@
                     <th scope="col">Appointment date</th>
                     <th scope="col">Appointment type</th>
                     <th scope="col">Appointment status</th>
+                    <th scope="col">Edit appointment</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -36,17 +37,20 @@
         
                         <tr>
                             <td>
-                                <h><a href="{% url 'appointment_edit' appointment.pk %}">{{ appointment.patient.name }}</a></h>
+                                <h><a href="{% url 'patient_detail' appointment.patient.id %}">{{ appointment.patient.name }}</a></h>
                             </td>
                             <td>
-                                <h1><a href="">{{ appointment.appointmentDate }}</a></h1>
+                                <h1><a>{{ appointment.appointmentDate }}</a></h1>
                             </td>
                             <td>
-                                <h1><a href="">{{ appointment.appointmentType }}</a></h1>
+                                <h1><a>{{ appointment.appointmentType }}</a></h1>
                             </td>
                             <td>
-                                <h1><a href="">{{ appointment.appointmentStatus }}</a></h1>
+                                <h1><a>{{ appointment.appointmentStatus }}</a></h1>
                             </td>
+                            <td>
+                              <a href="{% url 'appointment_edit' appointment.pk %}" class="button next">Edit appointment</a>
+                          </td>
                         </tr>
                         {% endfor %}
                         </tbody>
