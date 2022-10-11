@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
 
+<section>
+<a href="{% url 'appointment_new' %}" class="button next">Add appointment</a>
+</section>
+
  <!-- Section -->
  <section>
     <h2>All appointment for {{my__patient}}</h2>
