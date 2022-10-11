@@ -25,16 +25,16 @@
                         <h1><a href="{% url 'appointment_edit' appointment.pk %}">{{ appointment.appointmentDate }}</a></h1>
                     </td>
                     <td>
-                        <h1><a href="">{{ appointment.appointmentType }}</a></h1>
+                        <h1><a>{{ appointment.appointmentType }}</a></h1>
                     </td>
                     <td>
-                        <h1><a href="">{{ appointment.appointmentStatus }}</a></h1>
+                        <h1><a>{{ appointment.appointmentStatus }}</a></h1>
                     </td>
 
                     <td>
                         {%for alloperation in appointment.operation.all %}
                         {% if appointment.appointmentType == 'Operative' %}
-                        <h1><a href="">{{ alloperation }}</a></h1>
+                        <h1><a>{{ alloperation }}</a></h1>
                         {%endif%}
                         {% endfor %}
                     </td>

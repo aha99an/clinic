@@ -15,9 +15,9 @@ from django.http import HttpResponse
 
 def import_csvappo(request):
     # Investigation.objects.all().delete()
-    with open('app.csv', 'r', encoding='utf-16') as file:
+    with open('/home/ahmed/Desktop/Clinic_project/clinic/csv files/app.csv', 'r', encoding='utf-16') as file:
         reader = csv.reader(file)
-        Patient.objects.all().delete()
+        # Patient.objects.all().delete()
         x=0
         for row in reader:
             mypat, _ = Patient.objects.get_or_create(
