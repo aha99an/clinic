@@ -20,7 +20,7 @@ class ReferrerListView(ListView):
         queryset = Referrer.objects.all()
         # Search
         search_value = self.request.GET.get('search_value',default="")
-        admin_student_list1 = Q(referrerName__contains=search_value)
+        admin_student_list1 = Q(referrerName__icontains=search_value)
         queryset = Referrer.objects.filter(admin_student_list1)
         return queryset
 

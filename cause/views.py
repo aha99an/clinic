@@ -21,7 +21,7 @@ class CauseListView(ListView):
         queryset = Cause.objects.all()
         # Search
         search_value = self.request.GET.get('search_value',default="")
-        admin_student_list1 = Q(causeName__contains=search_value)
+        admin_student_list1 = Q(causeName__icontains=search_value)
         queryset = Cause.objects.filter(admin_student_list1)
         return queryset
 
