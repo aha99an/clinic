@@ -58,7 +58,7 @@ class AppointmentListView(ListView):
         queryset = Appointment.objects.all()
         # Search
         search_value = self.request.GET.get('search_value',default="")
-        admin_student_list1 = Q(patient__name__contains=search_value)
+        admin_student_list1 = Q(patient__name__icontains=search_value)
         queryset = Appointment.objects.filter(admin_student_list1)
         return queryset
 class AppointmentCreateView(CreateView):

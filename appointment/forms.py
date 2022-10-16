@@ -21,7 +21,11 @@ class AppointmentCreateViewForm(forms.ModelForm):
                 visible.field.widget.attrs["class"] = 'js-example-basic-multiple'
                 visible.field.widget.attrs["name"] = 'states[]'
                 visible.field.widget.attrs["multiple"] = 'multiple'
-                
+            if visible.name == "patient":
+                # print(visible.field._queryset)
+                visible.field.widget.attrs["class"] = 'js-example-basic-multiple'
+                visible.field.widget.attrs["name"] = 'states[]'
+        
 
 
     class Meta:
