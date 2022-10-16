@@ -23,7 +23,7 @@ class InvestigationListView(ListView):
         queryset = Investigation.objects.all()
         # Search
         search_value = self.request.GET.get('search_value',default="")
-        admin_student_list1 = Q(investigationName__contains=search_value)
+        admin_student_list1 = Q(investigationName__icontains=search_value)
         queryset = Investigation.objects.filter(admin_student_list1)
         return queryset
 

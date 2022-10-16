@@ -38,7 +38,7 @@ class PatientListView(ListView):
         # Search
         search_value = self.request.GET.get('search_value',default="")
         if search_value:
-            admin_student_list1 = Q(name__contains=search_value)
+            admin_student_list1 = Q(name__icontains=search_value)
             admin_student_list2 = Q(diagnose__diagnoseName__icontains=search_value)
             admin_student_list3 = Q(patient_appointments__operation__operationName__icontains=search_value)
             queryset = Patient.objects.filter(admin_student_list1 | admin_student_list2 | admin_student_list3).distinct()
@@ -58,7 +58,7 @@ class AllPatientListView(ListView):
         queryset = Patient.objects.all()
         # Search
         search_value = self.request.GET.get('search_value',default="")
-        admin_student_list1 = Q(name__contains=search_value)
+        admin_student_list1 = Q(name__icontains=search_value)
         queryset = Patient.objects.filter(admin_student_list1)
         return queryset
 class PatienDetailView(DetailView):
