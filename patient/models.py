@@ -74,6 +74,12 @@ class Patient(models.Model):
                 ) 
         
         return reverse('patient_detail', args=[str(self.id)])
+    def save(self, *args, **kwargs):
+        self.name = self.name.capitalize()
+
+        super(Patient, self).save(*args, **kwargs)
+
+
 
     # def addAppointmentAutomatic(self):
     #     today = date.today()
