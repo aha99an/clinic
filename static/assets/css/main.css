@@ -2333,7 +2333,7 @@ input, select, textarea {
 
 	#content {
 		position: relative;
-		background-color: #FF;
+		background-color: #FFE7E7E7;
 		background-image: url("images/bg02.png");
 		width: 100%;
 		-moz-flex-grow: 1;
