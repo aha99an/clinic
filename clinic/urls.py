@@ -32,6 +32,7 @@ urlpatterns = [
     path('treatment/', include('treatment.urls')), # new
     path('appointment/', include('appointment.urls')), # new
     path('accounts/', include('django.contrib.auth.urls')), # new
+    path('followup/', include('followup.urls')), # new
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
