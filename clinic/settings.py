@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     'operation',
     'appointment',
     'patient',	
+    'followup',
 ]
 
 MIDDLEWARE = [

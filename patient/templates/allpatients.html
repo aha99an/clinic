@@ -47,6 +47,7 @@
             <th scope="col">Investigation</th>
             <th scope="col">Treatment</th>
             <th scope="col">Operations</th>
+            <th scope="col">Follow up</th>
         </tr>
         </thead>
         <tbody>
@@ -89,7 +90,22 @@
                     <td>
                         <h> {% for appointment in patient.patient_appointments.all %}
                             {% for operation in appointment.operation.all %}
-                            {{ operation.operationName }}<br/>
+                            {% if appointment.appointmentType == 'Operative' %}
+                            {{ operation.operationName }}
+                            <br/>
+                            {% endif %}
+                            {% endfor%}
+                            {% endfor %}
+                        </a></h>                   
+                    </td>
+
+                    <td>
+                        <h> {% for appointment in patient.patient_appointments.all %}
+                            {% for followup in appointment.followup.all %}
+                            {% if appointment.appointmentType == 'Follow up' %}
+                            {{ followup.followupName }}
+                            <br/>
+                            {% endif %}
                             {% endfor%}
                             {% endfor %}
                         </a></h>                   

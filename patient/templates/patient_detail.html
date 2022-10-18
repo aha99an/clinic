@@ -137,7 +137,43 @@
                 </h1></td>
                 <td><h></h></td>
                 <td><h></h></td>
-                </tr> 
+            </tr> 
+            <tr>
+                <td> <h>Follow up:</h></td>
+                <td> <h1>
+                    {% for appointment in patient.patient_appointments.all %}
+                    {% if appointment.appointmentType == 'Follow up' %}
+                        {% if not forloop.first %}
+                            <br/>
+                            {% endif %}                       
+                            {% endif %}
+
+                        {% for followup in appointment.followup.all %}
+                            {% if appointment.appointmentType == 'Follow up' %}
+                                {{ followup.followupName }}
+                                {% if forloop.first %}
+                                ,
+                                {% endif %}
+                            {% endif %}
+                        {% endfor%}
+                    {% endfor %}
+                </td></h></td>
+                <td><h1>
+                    {% for appointment in patient.patient_appointments.all %}
+                    {% if appointment.appointmentType == 'Follow up' %}
+                        {% if appointment.followup.all %}
+                            {% if not forloop.first %}
+                            <br/>
+                            {% endif %}
+                            {{ appointment.appointmentDate }}
+                        {% endif %}
+                        {% endif %}
+
+                    {% endfor%}
+                </h1></td>
+                <td><h></h></td>
+                <td><h></h></td>
+            </tr> 
             <tr>
                 <td><h>Notes:</h></td>
                 <td><h>{{ patient.note | urlize |linebreaks}}</h></td>
