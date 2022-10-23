@@ -9,23 +9,23 @@ from django.db.models import Q
 import csv 
 from .forms import AppointmentCreateViewForm
 from django.http import HttpResponse
-import ast
+import os
 # Create your views here.
 
-
+dirname = os.path.dirname(__file__)
+filename = os.path.join(dirname, '../csv_files/last_update/appointment-2022-10-20.csv')
+errors_filename = os.path.join(dirname, '../csv_files/last_update/appointment-2022-10-20_errors.csv')
 
 def import_csvappo(request):
     # Investigation.objects.all().delete()
-    with open('/home/ahmed/Desktop/Clinic_project/clinic/csv_files/last_update/appointment-2022-10-20.csv', 'r', encoding='utf-16') as file:
+    with open(filename, 'r', encoding='utf-16') as file, open(errors_filename, 'w', encoding='utf-16') as errors_file:
         reader = csv.reader(file)
+        writer = csv.writer(errors_file)
         Appointment.objects.all().delete()
         x=0
         for row in reader:
             try:
-                mypat= Patient.objects.get(
-                    name=row[0],
-                    # birthdate = row[4]
-                )
+                mypat= Patient.objects.get(name=row[0].capitalize())
                 # print ("000000000000000000000000000000000000000")
                 # print ("000000000000000000000000000000000000000")
                 # print (mypat)
@@ -39,9 +39,10 @@ def import_csvappo(request):
                 # print (myappo)
                 x=x+1
                 print (x)
-            except:
+            except Exception as e:
                 print("111111111111111111111111111111111111111111111111111111111111")
-                print (mypat)
+                row.insert(0, e)
+                writer.writerow(row)
     return HttpResponse('Import done')
 
 

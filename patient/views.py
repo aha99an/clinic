@@ -21,6 +21,7 @@ from django.urls import reverse
 from django.core.files.base import ContentFile
 from io import StringIO
 from PIL import Image as PilImage
+import os
 
 class PatientListView(ListView):
     model = Patient
@@ -172,6 +173,9 @@ def Export_csv(request):
 
     return response
 
+dirname = os.path.dirname(__file__)
+filename = os.path.join(dirname, '../csv_files/last_update/all_data patients-2022-10-20.csv')
+
 
 def import_csvpat(request):
     Patient.objects.all().delete()
@@ -182,7 +186,7 @@ def import_csvpat(request):
     Treatment.objects.all().delete()
 
 
-    with open('/home/ahmed/Desktop/Clinic_project/clinic/csv_files/last_update/all_data patients-2022-10-20.csv', 'r', encoding='utf-16') as file:
+    with open(filename, 'r', encoding='utf-16') as file:
         reader = csv.reader(file)
         x=0
         for row in reader:
