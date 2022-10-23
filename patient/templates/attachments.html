@@ -43,7 +43,7 @@
     {% for att in patient.patient_attachments.all %}
     <div class="column">
         <a>    
-            <img  class="demo cursor" id= "{{att.id}}"  src="{{att.attachment.url}}"  alt={{ att.attachment }} style="width:100%" onclick="currentSlide({{ forloop.counter }})">
+            <img  class="demo cursor" id= "{{att.id}}"  src="{{att.attachment.url}}"  alt={{ att.attachment }} style="width:90px; height:90px" onclick="currentSlide({{ forloop.counter }})">
         </a>
     </div>
     {% endfor %}

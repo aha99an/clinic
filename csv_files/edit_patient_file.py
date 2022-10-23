@@ -3,7 +3,7 @@ import csv
 def edit():
     name = []
     date = []
-    with open('/home/ahmed/Desktop/klinik/csv files/all patients test.csv', 'r+',encoding='utf-16-le',newline = "") as file:
+    with open('/home/ahmed/Desktop/Clinic_project/clinic/csv_files/last_update/all_data patients-2022-10-20.csv', 'r+',encoding='utf-16-le',newline = "") as file:
         reader = csv.reader(file)
         writer = csv.writer(file)
         dateAfterEdit= []
@@ -17,7 +17,7 @@ def edit():
             diagnosis = row[11]
             treatments = row[12]
             operations = row[13]
-
+            operationDate= row[8]
             if yorm == 'Years':
                 year = 2022 - int(age)
                 birthday = str(year) + '-' + '01' + '-' + '01'
@@ -45,7 +45,9 @@ def edit():
             ###########################
             operationssplit = operations.split("/")
             row[13] = operationssplit
-
+            ############################
+            operationDate = operationDate[6:10] + '-' + operationDate[3:5] + '-' + operationDate[0:2]
+            row[8] = operationDate
 
 
             rows.append(row)

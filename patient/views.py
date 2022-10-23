@@ -182,39 +182,13 @@ def import_csvpat(request):
     Treatment.objects.all().delete()
 
 
-    with open('/home/ahmed/Desktop/Clinic_project/clinic/csv files/all patients test.csv', 'r', encoding='utf-16') as file:
+    with open('/home/ahmed/Desktop/Clinic_project/clinic/csv_files/last_update/all_data patients-2022-10-20.csv', 'r', encoding='utf-16') as file:
         reader = csv.reader(file)
         x=0
         for row in reader:
             x=x+1
             patientName= row[0]
-            for i in patientName:
-                if patientName[0] == 'a': patientName='A' + patientName[1:]
-                elif patientName[0] == 'b': patientName='B' + patientName[1:]
-                elif patientName[0] == 'c': patientName='C' + patientName[1:]
-                elif patientName[0] == 'd': patientName='D' + patientName[1:]
-                elif patientName[0] == 'e': patientName='E' + patientName[1:]
-                elif patientName[0] == 'f': patientName='F' + patientName[1:]
-                elif patientName[0] == 'g': patientName='G' + patientName[1:]
-                elif patientName[0] == 'h': patientName='H' + patientName[1:]
-                elif patientName[0] == 'i': patientName='I' + patientName[1:]
-                elif patientName[0] == 'j': patientName='J' + patientName[1:]
-                elif patientName[0] == 'k': patientName='K' + patientName[1:]
-                elif patientName[0] == 'l': patientName='L' + patientName[1:]
-                elif patientName[0] == 'm': patientName='M' + patientName[1:]
-                elif patientName[0] == 'n': patientName='N' + patientName[1:]
-                elif patientName[0] == 'o': patientName='O' + patientName[1:]
-                elif patientName[0] == 'p': patientName='P' + patientName[1:]
-                elif patientName[0] == 'q': patientName='Q' + patientName[1:]
-                elif patientName[0] == 'r': patientName='R' + patientName[1:]
-                elif patientName[0] == 's': patientName='S' + patientName[1:]
-                elif patientName[0] == 't': patientName='T' + patientName[1:]
-                elif patientName[0] == 'u': patientName='U' + patientName[1:]
-                elif patientName[0] == 'v': patientName='V' + patientName[1:]
-                elif patientName[0] == 'w': patientName='W' + patientName[1:]
-                elif patientName[0] == 'x': patientName='X' + patientName[1:]
-                elif patientName[0] == 'y': patientName='Y' + patientName[1:]
-                elif patientName[0] == 'z': patientName='Z' + patientName[1:]
+            
 
             mypatient, _ = Patient.objects.get_or_create(
                 name=patientName,

@@ -9,35 +9,39 @@ from django.db.models import Q
 import csv 
 from .forms import AppointmentCreateViewForm
 from django.http import HttpResponse
+import ast
 # Create your views here.
 
 
 
 def import_csvappo(request):
     # Investigation.objects.all().delete()
-    with open('/home/ahmed/Desktop/Clinic_project/clinic/csv files/app.csv', 'r', encoding='utf-16') as file:
+    with open('/home/ahmed/Desktop/Clinic_project/clinic/csv_files/last_update/appointment-2022-10-20.csv', 'r', encoding='utf-16') as file:
         reader = csv.reader(file)
-        # Patient.objects.all().delete()
+        Appointment.objects.all().delete()
         x=0
         for row in reader:
-            mypat, _ = Patient.objects.get_or_create(
-                name=row[0],
-                birthdate = row[1]
-            )
-            # mypat = Patient.objects.get(
-            #     name = row[0],
-            #     )
-            myappo = Appointment.objects.create(
-                patient = mypat,
-                appointmentDate = row[1],
-                appointmentType = row[2],
-                appointmentStatus = row[3],
-                ) 
-            # myappo.patient.add(mypat)
-            # print (myappo)
-            x=x+1
-            # print (x)
-         
+            try:
+                mypat= Patient.objects.get(
+                    name=row[0],
+                    # birthdate = row[4]
+                )
+                # print ("000000000000000000000000000000000000000")
+                # print ("000000000000000000000000000000000000000")
+                # print (mypat)
+                myappo = Appointment.objects.create(
+                    patient = mypat,
+                    appointmentDate = row[1],
+                    appointmentType = row[2],
+                    appointmentStatus = row[3],
+                    )                 
+                # myappo.patient.add(mypat)
+                # print (myappo)
+                x=x+1
+                print (x)
+            except:
+                print("111111111111111111111111111111111111111111111111111111111111")
+                print (mypat)
     return HttpResponse('Import done')
 
 
