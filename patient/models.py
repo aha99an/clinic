@@ -7,6 +7,7 @@ from django.urls import reverse
 from diagnose.models import Diagnose
 from investigation.models import Investigation
 from treatment.models import Treatment
+import os
 # Create your models here.
 
 GENDER = (
@@ -14,7 +15,7 @@ GENDER = (
         ('F', 'Female')
     )
 class Patient(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(unique=True, max_length=255)
     phoneNumber = models.CharField(max_length=200, default="0", null=True)
     birthdate = models.DateField(blank=True)
     @property
@@ -97,17 +98,30 @@ class Patient(models.Model):
 
 
 class Attachment(models.Model):
+    def content_file_name(instance, filename):
+        now = datetime.datetime.now()
+        ext = filename.split('.')[-1]
+        orig_filename= filename.split('.')[0]
+        filename = "%s_%s.%s" % (orig_filename, now, ext)        
+        return os.path.join(str(instance.patient.id), filename)
+
     patient = models.ForeignKey(
         Patient, on_delete=models.CASCADE, related_name="patient_attachments")
-    attachment = models.FileField(null=True, blank=True)
+    attachment = models.FileField(upload_to=content_file_name,null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def snippet_file_name(self):
-        if len(self.attachment.name) > 20:
-            return "..."+self.attachment.name.rsplit('/', 1)[1][:20]
-        else:
-            return self.attachment.name
+
+
+def snippet_file_name(self):
+    if len(self.attachment.name) > 20:
+        return "..."+self.attachment.name.rsplit('/', 1)[1][:20]
+    else:
+        return self.attachment.name
+
+
+# now = datetime.datetime.now()
+
 
 
 

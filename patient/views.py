@@ -124,7 +124,10 @@ class AttachmentDetailView(DetailView):
    template_name = 'attachments.html'
 
 def delete_image (request, id): 
+    # s3_image= Attachment.attachment.delete(save=False)
     image = Attachment.objects.get(id=id).delete()
+    print("ssssssssssssssssssssssssss")
+    # print(image)
     return  HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 

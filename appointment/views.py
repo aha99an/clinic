@@ -61,10 +61,51 @@ class AppointmentListView(ListView):
 
     def get_queryset(self):
         queryset = Appointment.objects.all()
-        # Search
+        # Search by name 
         search_value = self.request.GET.get('search_value',default="")
         admin_student_list1 = Q(patient__name__icontains=search_value)
         queryset = Appointment.objects.filter(admin_student_list1)
+
+        # Search by date 
+        search_date = self.request.GET.get('search_date')
+
+        print('search_date')
+        print(search_date)
+        if search_date== '':
+            search_date = None
+        else: search_date= search_date
+        if search_date== None:
+            queryset = queryset
+        else: queryset = queryset.filter(appointmentDate=search_date)
+
+
+        # queryset = queryset.filter(appointmentDate=search_date)
+        # Filter
+        appointmentType = self.request.GET.get('appointmentType')
+        if appointmentType:
+            if appointmentType == "New Visit":
+                queryset = queryset.filter(appointmentType='New Visit')
+            elif appointmentType == "Repeat":
+                queryset = queryset.filter(appointmentType='Repeat')
+            elif appointmentType == "Consultation":
+                queryset = queryset.filter(appointmentType='Consultation')
+            elif appointmentType == "Follow up":
+                queryset = queryset.filter(appointmentType='Follow up')
+            elif appointmentType == "Operative":
+                queryset = queryset.filter(appointmentType='Operative')
+
+                # Filter
+        appointmentStatus = self.request.GET.get('appointmentStatus')
+        if appointmentStatus:
+            if appointmentStatus == "Waiting":
+                queryset = queryset.filter(appointmentStatus='Waiting')
+            elif appointmentStatus == "On going":
+                queryset = queryset.filter(appointmentStatus='On going')
+            elif appointmentStatus == "Done":
+                queryset = queryset.filter(appointmentStatus='Done')
+            elif appointmentStatus == "Cancel":
+                queryset = queryset.filter(appointmentStatus='Cancel')
+            
         return queryset
 class AppointmentCreateView(CreateView):
     # model = Appointment
