@@ -21,6 +21,7 @@ from django.urls import reverse
 from django.core.files.base import ContentFile
 from io import StringIO
 from PIL import Image as PilImage
+import os
 
 class PatientListView(ListView):
     model = Patient
@@ -123,7 +124,10 @@ class AttachmentDetailView(DetailView):
    template_name = 'attachments.html'
 
 def delete_image (request, id): 
+    # s3_image= Attachment.attachment.delete(save=False)
     image = Attachment.objects.get(id=id).delete()
+    print("ssssssssssssssssssssssssss")
+    # print(image)
     return  HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
@@ -172,6 +176,9 @@ def Export_csv(request):
 
     return response
 
+dirname = os.path.dirname(__file__)
+filename = os.path.join(dirname, '../csv_files/last_update/all_data patients-2022-10-20.csv')
+
 
 def import_csvpat(request):
     Patient.objects.all().delete()
@@ -182,39 +189,13 @@ def import_csvpat(request):
     Treatment.objects.all().delete()
 
 
-    with open('/home/ahmed/Desktop/Clinic_project/clinic/csv files/all patients test.csv', 'r', encoding='utf-16') as file:
+    with open(filename, 'r', encoding='utf-16') as file:
         reader = csv.reader(file)
         x=0
         for row in reader:
             x=x+1
             patientName= row[0]
-            for i in patientName:
-                if patientName[0] == 'a': patientName='A' + patientName[1:]
-                elif patientName[0] == 'b': patientName='B' + patientName[1:]
-                elif patientName[0] == 'c': patientName='C' + patientName[1:]
-                elif patientName[0] == 'd': patientName='D' + patientName[1:]
-                elif patientName[0] == 'e': patientName='E' + patientName[1:]
-                elif patientName[0] == 'f': patientName='F' + patientName[1:]
-                elif patientName[0] == 'g': patientName='G' + patientName[1:]
-                elif patientName[0] == 'h': patientName='H' + patientName[1:]
-                elif patientName[0] == 'i': patientName='I' + patientName[1:]
-                elif patientName[0] == 'j': patientName='J' + patientName[1:]
-                elif patientName[0] == 'k': patientName='K' + patientName[1:]
-                elif patientName[0] == 'l': patientName='L' + patientName[1:]
-                elif patientName[0] == 'm': patientName='M' + patientName[1:]
-                elif patientName[0] == 'n': patientName='N' + patientName[1:]
-                elif patientName[0] == 'o': patientName='O' + patientName[1:]
-                elif patientName[0] == 'p': patientName='P' + patientName[1:]
-                elif patientName[0] == 'q': patientName='Q' + patientName[1:]
-                elif patientName[0] == 'r': patientName='R' + patientName[1:]
-                elif patientName[0] == 's': patientName='S' + patientName[1:]
-                elif patientName[0] == 't': patientName='T' + patientName[1:]
-                elif patientName[0] == 'u': patientName='U' + patientName[1:]
-                elif patientName[0] == 'v': patientName='V' + patientName[1:]
-                elif patientName[0] == 'w': patientName='W' + patientName[1:]
-                elif patientName[0] == 'x': patientName='X' + patientName[1:]
-                elif patientName[0] == 'y': patientName='Y' + patientName[1:]
-                elif patientName[0] == 'z': patientName='Z' + patientName[1:]
+            
 
             mypatient, _ = Patient.objects.get_or_create(
                 name=patientName,

@@ -18,10 +18,12 @@
     <form method="get" action="{% url 'appointments' %}">
       <table>
         <tbody>
-                    <td style="width:25%">             <input style = "width: auto;" id="al-search" type="text" name="search_value" value="{{ request.GET.search_value }}"class="form-control" />  
-                    </td>
-                    <td>          <input type="submit" value="Search" class="button primary" />       
-                    </td>
+                <td style="width:25%">  <input style = "width: auto;" id="al-search" type="text" name="search_value" 
+                    value="{{ request.GET.search_value }}"class="form-control" onchange="this.form.submit()"/>  
+                </td>
+                <td>        
+                      {% comment %} <input type="submit" value="Search" class="button primary" />        {% endcomment %}
+                </td>
           </tbody>
         </table>
     </form>
@@ -46,6 +48,68 @@
           </tr>
           </thead>
           <tbody>
+            <tr>
+                <td>
+                    <form method="get" action="{% url 'appointments' %}" name = "search">
+                        
+                    <input style = "width: auto;" id="al-search" type="text" name="search_value" 
+                        value="{{ request.GET.search_value }}"class="form-control" onchange="this.form.submit()"/>  
+                                
+                    
+                      {% comment %} </form>            {% endcomment %}
+                <td>
+                    <form method="get" action="{% url 'appointments' %}" name = "search">
+                        <input style = "width: auto;" id="al-search" type="date" name="search_date" 
+                            value="{{ request.GET.search_date }}"class="form-control" onchange="this.form.submit()"/>                </td>
+                <td>
+                        {% comment %} FILTER {% endcomment %}
+                        <form method="get" action="{% url 'appointments' %}" name = "search">
+                            <select name="appointmentType" onchange="this.form.submit()">
+                                <option value="">Appointment Type </option>
+                                <option value="New Visit" {% if request.GET.appointmentType == "New Visit" %} selected{% endif %}>New Visit
+                                </option>
+
+                                <option value="Repeat" {% if request.GET.appointmentType == "Repeat" %} selected{% endif %}>Repeat
+                                </option>
+
+                                <option value="Consultation" {% if request.GET.appointmentType == "Consultation" %} selected{% endif %}>Consultation
+                                </option>
+
+                                <option value="Follow up" {% if request.GET.appointmentType == "Follow up" %} selected{% endif %}>Follow up
+                                </option>
+
+                                <option value="Operative" {% if request.GET.appointmentType == "Operative" %} selected{% endif %}>Operative
+                                </option>
+                                    
+                            </select>
+                        {% comment %} </form> {% endcomment %}
+                </td>
+                <td>
+                    {% comment %} FILTER {% endcomment %}
+                    <form method="get" action="{% url 'appointments' %}" name = "search">
+                        <select name="appointmentStatus" onchange="this.form.submit()">
+                            <option value="">Appointment status </option>
+                            <option value="Waiting" {% if request.GET.appointmentStatus == "Waiting" %} selected{% endif %}>Waiting
+                            </option>
+
+                            <option value="On going" {% if request.GET.appointmentStatus == "On going" %} selected{% endif %}>On going
+                            </option>
+
+                            <option value="Done" {% if request.GET.appointmentStatus == "Done" %} selected{% endif %}>Done
+                            </option>
+
+                            <option value="Cancel" {% if request.GET.appointmentStatus == "Cancel" %} selected{% endif %}>Cancel
+                            </option>
+                                
+                        </select> 
+                    </form>
+                </td>
+                <td>
+               
+
+                  {% comment %} <a href="{% url 'appointment_edit' appointment.pk %}" class="button next">Edit appointment</a> {% endcomment %}
+              </td>
+            </tr>
               {% for appointment in object_list %}
   
                   <tr>

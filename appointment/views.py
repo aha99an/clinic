@@ -9,35 +9,40 @@ from django.db.models import Q
 import csv 
 from .forms import AppointmentCreateViewForm
 from django.http import HttpResponse
+import os
 # Create your views here.
 
-
+dirname = os.path.dirname(__file__)
+filename = os.path.join(dirname, '../csv_files/last_update/appointment-2022-10-20.csv')
+errors_filename = os.path.join(dirname, '../csv_files/last_update/appointment-2022-10-20_errors.csv')
 
 def import_csvappo(request):
     # Investigation.objects.all().delete()
-    with open('/home/ahmed/Desktop/Clinic_project/clinic/csv files/app.csv', 'r', encoding='utf-16') as file:
+    with open(filename, 'r', encoding='utf-16') as file, open(errors_filename, 'w', encoding='utf-16') as errors_file:
         reader = csv.reader(file)
-        # Patient.objects.all().delete()
+        writer = csv.writer(errors_file)
+        Appointment.objects.all().delete()
         x=0
         for row in reader:
-            mypat, _ = Patient.objects.get_or_create(
-                name=row[0],
-                birthdate = row[1]
-            )
-            # mypat = Patient.objects.get(
-            #     name = row[0],
-            #     )
-            myappo = Appointment.objects.create(
-                patient = mypat,
-                appointmentDate = row[1],
-                appointmentType = row[2],
-                appointmentStatus = row[3],
-                ) 
-            # myappo.patient.add(mypat)
-            # print (myappo)
-            x=x+1
-            # print (x)
-         
+            try:
+                mypat= Patient.objects.get(name=row[0].capitalize())
+                # print ("000000000000000000000000000000000000000")
+                # print ("000000000000000000000000000000000000000")
+                # print (mypat)
+                myappo = Appointment.objects.create(
+                    patient = mypat,
+                    appointmentDate = row[1],
+                    appointmentType = row[2],
+                    appointmentStatus = row[3],
+                    )                 
+                # myappo.patient.add(mypat)
+                # print (myappo)
+                x=x+1
+                print (x)
+            except Exception as e:
+                print("111111111111111111111111111111111111111111111111111111111111")
+                row.insert(0, e)
+                writer.writerow(row)
     return HttpResponse('Import done')
 
 
@@ -56,10 +61,51 @@ class AppointmentListView(ListView):
 
     def get_queryset(self):
         queryset = Appointment.objects.all()
-        # Search
+        # Search by name 
         search_value = self.request.GET.get('search_value',default="")
         admin_student_list1 = Q(patient__name__icontains=search_value)
         queryset = Appointment.objects.filter(admin_student_list1)
+
+        # Search by date 
+        search_date = self.request.GET.get('search_date')
+
+        print('search_date')
+        print(search_date)
+        if search_date== '':
+            search_date = None
+        else: search_date= search_date
+        if search_date== None:
+            queryset = queryset
+        else: queryset = queryset.filter(appointmentDate=search_date)
+
+
+        # queryset = queryset.filter(appointmentDate=search_date)
+        # Filter
+        appointmentType = self.request.GET.get('appointmentType')
+        if appointmentType:
+            if appointmentType == "New Visit":
+                queryset = queryset.filter(appointmentType='New Visit')
+            elif appointmentType == "Repeat":
+                queryset = queryset.filter(appointmentType='Repeat')
+            elif appointmentType == "Consultation":
+                queryset = queryset.filter(appointmentType='Consultation')
+            elif appointmentType == "Follow up":
+                queryset = queryset.filter(appointmentType='Follow up')
+            elif appointmentType == "Operative":
+                queryset = queryset.filter(appointmentType='Operative')
+
+                # Filter
+        appointmentStatus = self.request.GET.get('appointmentStatus')
+        if appointmentStatus:
+            if appointmentStatus == "Waiting":
+                queryset = queryset.filter(appointmentStatus='Waiting')
+            elif appointmentStatus == "On going":
+                queryset = queryset.filter(appointmentStatus='On going')
+            elif appointmentStatus == "Done":
+                queryset = queryset.filter(appointmentStatus='Done')
+            elif appointmentStatus == "Cancel":
+                queryset = queryset.filter(appointmentStatus='Cancel')
+            
         return queryset
 class AppointmentCreateView(CreateView):
     # model = Appointment
