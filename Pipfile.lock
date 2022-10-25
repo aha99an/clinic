@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "774ee978da380d199ac0ac45da1b8d905c9895d9528ae3bc7f192543b193869a"
+            "sha256": "2b82c5bc9639650625b6967797c4773220c26f67e2fbf1888766a7bc520eb93b"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -18,19 +18,19 @@
     "default": {
         "boto3": {
             "hashes": [
-                "sha256:3225366014949039e6687387242e73f237f0fee0a9b7c20461894f1ee40686b8",
-                "sha256:b295640bc1be637f8f7c8c8fca70781048d6397196109e59f20541824fab4b67"
+                "sha256:170eab4a87592741933b6f8a02c3a6a8664162ef33bb12a2c2b4d431490d9ac2",
+                "sha256:81139cc9da154a1672c7dd92da1678cae0ea1601a3e1f0394c6cd010eab1acb6"
             ],
             "index": "pypi",
-            "version": "==1.24.91"
+            "version": "==1.25.0"
         },
         "botocore": {
             "hashes": [
-                "sha256:1d6e97bd8653f732c7078b34aa2bb438e750898957e5a0a74b6c72918bc1d0f7",
-                "sha256:c8fac203a391cc2e4b682877bfce70e723e33c529b35b399a1d574605fbeb1af"
+                "sha256:5bc426647da9f7739b73b1ffb5fce37fb3691c3c66dd772bf541dc19f8da2f43",
+                "sha256:75a4082543e2c1b005ccde90af87d0969003db06c3fcbe8a7854ddaa8d68fafb"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==1.27.91"
+            "version": "==1.28.0"
         },
         "dj-database-url": {
             "hashes": [
@@ -47,6 +47,14 @@
             ],
             "index": "pypi",
             "version": "==2.2.15"
+        },
+        "django-cleanup": {
+            "hashes": [
+                "sha256:922e06ef8839c92bd3ab37a84db6058b8764f3fe44dbb4487bbca941d288280a",
+                "sha256:997feab3b1f7a2e84f71c29e83b1d664459ec0d4b1924977b1fa25b5babb8703"
+            ],
+            "index": "pypi",
+            "version": "==6.0.0"
         },
         "django-storages": {
             "hashes": [
@@ -187,10 +195,10 @@
         },
         "pytz": {
             "hashes": [
-                "sha256:2c0784747071402c6e99f0bafdb7da0fa22645f06554c7ae06bf6358897e9c91",
-                "sha256:48ce799d83b6f8aab2020e369b627446696619e79645419610b9facd909b3174"
+                "sha256:335ab46900b1465e714b4fda4963d87363264eb662aab5e65da039c25f1f5b22",
+                "sha256:c4d88f472f54d615e9cd582a5004d1e5f624854a6a27a6211591c251f22a6914"
             ],
-            "version": "==2022.4"
+            "version": "==2022.5"
         },
         "s3transfer": {
             "hashes": [
