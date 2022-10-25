@@ -13,7 +13,7 @@
 
 
 <!-- Section -->
-{% comment %} SEARCH {% endcomment %}
+{% comment %} SEARCH 
 <section>
     <form method="get" action="{% url 'appointments' %}">
       <table>
@@ -22,13 +22,13 @@
                     value="{{ request.GET.search_value }}"class="form-control" onchange="this.form.submit()"/>  
                 </td>
                 <td>        
-                      {% comment %} <input type="submit" value="Search" class="button primary" />        {% endcomment %}
+                      <input type="submit" value="Search" class="button primary" />       
                 </td>
           </tbody>
         </table>
     </form>
 </section>
-
+{% endcomment %}
 
 
 
