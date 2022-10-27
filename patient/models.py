@@ -108,6 +108,8 @@ class Attachment(models.Model):
     patient = models.ForeignKey(
         Patient, on_delete=models.CASCADE, related_name="patient_attachments")
     attachment = models.FileField(upload_to=content_file_name,null=True, blank=True)
+    # attachment = models.FileField(null=True, blank=True)
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
