@@ -98,17 +98,17 @@ class Patient(models.Model):
 
 
 class Attachment(models.Model):
-    def content_file_name(instance, filename):
-        now = datetime.datetime.now()
-        ext = filename.split('.')[-1]
-        orig_filename= filename.split('.')[0]
-        filename = "%s_%s.%s" % (orig_filename, now, ext)        
-        return os.path.join(str(instance.patient.id), filename)
+    # def content_file_name(instance, filename):
+    #     now = datetime.datetime.now()
+    #     ext = filename.split('.')[-1]
+    #     orig_filename= filename.split('.')[0]
+    #     filename = "%s_%s.%s" % (orig_filename, now, ext)        
+    #     return os.path.join(str(instance.patient.id), filename)
 
     patient = models.ForeignKey(
         Patient, on_delete=models.CASCADE, related_name="patient_attachments")
-    attachment = models.FileField(upload_to=content_file_name,null=True, blank=True)
-    # attachment = models.FileField(null=True, blank=True)
+    # attachment = models.FileField(upload_to=content_file_name,null=True, blank=True)
+    attachment = models.FileField(null=True, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
