@@ -2,6 +2,7 @@ from django import forms
 from .models import Appointment, AppointmentStatuss, AppointmentTypes
 from patient.models import Patient
 from operation.models import Operation
+from followup.models import Followup
 from django.contrib.admin.widgets import FilteredSelectMultiple    
 
 
@@ -12,11 +13,14 @@ class AppointmentCreateViewForm(forms.ModelForm):
     appointmentStatus = forms.ChoiceField(label="Appointment Status", choices=AppointmentStatuss)
     operation = forms.ModelMultipleChoiceField(required=False, queryset = Operation.objects.all(), label="Operations",
         initial=[Operation.objects.all().values_list("operationName", flat=True)])
-
+    
+    followup = forms.ModelMultipleChoiceField(required=False, queryset = Followup.objects.all(), label="Follow up",
+        initial=[Followup.objects.all().values_list("followupName", flat=True)])
     def __init__(self, *args, **kwargs):
         super(AppointmentCreateViewForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
-            if visible.name == "operation":
+            if visible.name in ["operation","followup"]:
+
                 # print(visible.field._queryset)
                 visible.field.widget.attrs["class"] = 'js-example-basic-multiple'
                 visible.field.widget.attrs["name"] = 'states[]'
@@ -30,5 +34,5 @@ class AppointmentCreateViewForm(forms.ModelForm):
 
     class Meta:
         model = Appointment
-        fields = ('patient', 'appointmentDate', 'appointmentType','appointmentStatus','operation')
+        fields = ('patient', 'appointmentDate', 'appointmentType','appointmentStatus','operation','followup')
      

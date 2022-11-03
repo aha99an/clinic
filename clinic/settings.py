@@ -58,6 +58,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'storages',
     # 'import_export',
+    'django_cleanup.apps.CleanupConfig',
+
     # local apps
     'pages.apps.PagesConfig',
     'cause',
@@ -68,6 +70,7 @@ INSTALLED_APPS = [
     'operation',
     'appointment',
     'patient',	
+    'followup',
 ]
 
 MIDDLEWARE = [
