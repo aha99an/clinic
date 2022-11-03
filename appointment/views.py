@@ -68,16 +68,31 @@ class AppointmentListView(ListView):
 
         # Search by date 
         search_date = self.request.GET.get('search_date')
-
-        print('search_date')
-        print(search_date)
+        print (search_date)
+        
         if search_date== '':
             search_date = None
-        else: search_date= search_date
+        else: 
+            search_date= search_date
         if search_date== None:
             queryset = queryset
-        else: queryset = queryset.filter(appointmentDate=search_date)
-
+        else: 
+            if len(search_date) == 7 or  len(search_date) == 6:
+                my_search_date = search_date.split("-")
+                my_search_year = my_search_date[1]
+                my_search_mounth =  my_search_date[0]
+                
+                queryset = queryset.filter(appointmentDate__year=my_search_year, appointmentDate__month=my_search_mounth)
+            elif len(search_date) > 7 : 
+                my_search_date = search_date.split("-")
+                my_search_year = my_search_date[2]
+                my_search_mounth =  my_search_date[1]
+                my_search_day = my_search_date[0]
+                queryset = queryset.filter(appointmentDate__year=my_search_year, appointmentDate__month=my_search_mounth, appointmentDate__day=my_search_day)
+                    
+                    
+        # queryset = queryset.filter(appointmentDate__year='2019')
+# (date__year='2011', date__month='01')
 
         # queryset = queryset.filter(appointmentDate=search_date)
         # Filter

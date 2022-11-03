@@ -59,7 +59,7 @@
                       {% comment %} </form>            {% endcomment %}
                 <td>
                     <form method="get" action="{% url 'appointments' %}" name = "search">
-                        <input style = "width: auto;" id="al-search" type="date" name="search_date" 
+                        <input style = "width: auto;" id="al-search" type="text" name="search_date" 
                             value="{{ request.GET.search_date }}"class="form-control" onchange="this.form.submit()"/>                </td>
                 <td>
                         {% comment %} FILTER {% endcomment %}
