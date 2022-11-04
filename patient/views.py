@@ -44,10 +44,8 @@ class PatientListView(ListView):
         
     
         if search_value or search_diagnoses or search_operations or search_follow:
-            admin_student_list1 = Q(name__icontains=search_value)
-            admin_student_list2 = Q(diagnose__diagnoseName__icontains=search_value)
-            admin_student_list3 = Q(patient_appointments__operation__operationName__icontains=search_value)
-            queryset = Patient.objects.filter(admin_student_list1)
+            mypatients = Q(name__icontains=search_value)
+            queryset = Patient.objects.filter(mypatients)
 
             if search_diagnoses: 
                 queryset = queryset.filter(diagnose__diagnoseName__icontains=search_diagnoses)
@@ -73,20 +71,40 @@ class AllPatientListView(ListView):
         global queryset
         queryset = Patient.objects.all()
         # Search
-        search_value = self.request.GET.get('search_value',default="")
+        search_name = self.request.GET.get('search_name',default="")
+        search_phone = self.request.GET.get('search_phone',default="")
+        search_gender = self.request.GET.get('search_gender',default="")
+        search_address = self.request.GET.get('search_address',default="")
+        search_referred = self.request.GET.get('search_referred',default="")
+        search_cause = self.request.GET.get('search_cause',default="")
         search_diagnoses = self.request.GET.get('search_diagnoses',default="")
+        search_investigation = self.request.GET.get('search_investigation',default="")
+        search_treatment = self.request.GET.get('search_treatment',default="")
         search_operations = self.request.GET.get('search_operations',default="")
         search_follow = self.request.GET.get('search_follow',default="")
         
     
-        if search_value or search_diagnoses or search_operations or search_follow:
-            admin_student_list1 = Q(name__icontains=search_value)
-            admin_student_list2 = Q(diagnose__diagnoseName__icontains=search_value)
-            admin_student_list3 = Q(patient_appointments__operation__operationName__icontains=search_value)
-            queryset = Patient.objects.filter(admin_student_list1)
-
+        if search_name or search_phone or search_gender or search_address or search_referred or search_cause or search_diagnoses or search_investigation or search_treatment or search_operations or search_follow:
+            mypatients = Q(name__icontains=search_name)
+            # admin_student_list2 = Q(diagnose__diagnoseName__icontains=search_value)
+            # admin_student_list3 = Q(patient_appointments__operation__operationName__icontains=search_value)
+            queryset = Patient.objects.filter(mypatients)
+            if search_phone: 
+                queryset = queryset.filter(phoneNumber=search_phone)
+            if search_gender: 
+                queryset = queryset.filter(gender=search_gender)
+            if search_address: 
+                queryset = queryset.filter(patientAddress__icontains=search_address)
+            if search_referred: 
+                queryset = queryset.filter(referredFrom__referrerName__icontains=search_referred)
+            if search_cause: 
+                queryset = queryset.filter(cause__causeName__icontains=search_cause)
             if search_diagnoses: 
                 queryset = queryset.filter(diagnose__diagnoseName__icontains=search_diagnoses)
+            if search_investigation: 
+                queryset = queryset.filter(investigation__investigationName__icontains=search_investigation)
+            if search_treatment: 
+                queryset = queryset.filter(treatment__treatmentName__icontains=search_treatment)
             if search_operations:
                 queryset = queryset.filter(patient_appointments__operation__operationName__icontains=search_operations)
             if search_follow:

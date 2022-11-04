@@ -15,7 +15,7 @@
 
 <!-- Section -->
 {% comment %} SEARCH {% endcomment %}
-<section>
+{% comment %} <section>
     <form method="get" action="{% url 'allpatients' %}">
         <table>
             <tbody>
@@ -26,7 +26,7 @@
             </tbody>
           </table>
     </form>
-</section>
+</section> {% endcomment %}
 
  <!-- Section -->
  <section>
@@ -51,8 +51,81 @@
         </tr>
         </thead>
         <tbody>
-            {% for patient in object_list %}
 
+
+            <tr>
+                <td>
+                  <form method="get" action="{% url 'allpatients' %}" name = "search">
+                      
+                  <input style = "width: 200px;" id="al-search" type="text" name="search_name" 
+                      value="{{ request.GET.search_name }}"class="form-control" onchange="this.form.submit()"/>  
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                  <form method="get" action="{% url 'allpatients' %}" name = "search">
+                      
+                    <input style = "width: 115px;" id="al-search" type="text" name="search_phone" 
+                        value="{{ request.GET.search_phone }}"class="form-control" onchange="this.form.submit()"/>  
+                </td>
+                <td>
+                  <form method="get" action="{% url 'allpatients' %}" name = "search">
+                      
+                    <input style = "width: 40px;" id="al-search" type="text" name="search_gender" 
+                        value="{{ request.GET.search_gender }}"class="form-control" onchange="this.form.submit()"/>  
+                </td>
+                <td>
+                  <form method="get" action="{% url 'allpatients' %}" name = "search">
+                      
+                    <input style = "width: 50;" id="al-search" type="text" name="search_address" 
+                        value="{{ request.GET.search_address }}"class="form-control" onchange="this.form.submit()"/>  
+                </td>
+                <td>
+                    <form method="get" action="{% url 'allpatients' %}" name = "search">
+                        
+                      <input style = "width: 50;" id="al-search" type="text" name="search_referred" 
+                          value="{{ request.GET.search_referred }}"class="form-control" onchange="this.form.submit()"/>  
+                  </td>
+                  <td>
+                    <form method="get" action="{% url 'allpatients' %}" name = "search">
+                        
+                      <input style = "width: 50;" id="al-search" type="text" name="search_cause" 
+                          value="{{ request.GET.search_cause }}"class="form-control" onchange="this.form.submit()"/>  
+                  </td>
+                  <td>
+                    <form method="get" action="{% url 'allpatients' %}" name = "search">
+                        
+                      <input style = "width: 50;" id="al-search" type="text" name="search_diagnose" 
+                          value="{{ request.GET.search_diagnose }}"class="form-control" onchange="this.form.submit()"/>  
+                  </td>
+                  <td>
+                    <form method="get" action="{% url 'allpatients' %}" name = "search">
+                        
+                      <input style = "width: 50;" id="al-search" type="text" name="search_investigation" 
+                          value="{{ request.GET.search_investigation }}"class="form-control" onchange="this.form.submit()"/>  
+                  </td>
+                  <td>
+                    <form method="get" action="{% url 'allpatients' %}" name = "search">
+                        
+                      <input style = "width: 50;" id="al-search" type="text" name="search_treatment" 
+                          value="{{ request.GET.search_treatment }}"class="form-control" onchange="this.form.submit()"/>  
+                  </td>
+                  <td>
+                    <form method="get" action="{% url 'allpatients' %}" name = "search">
+                        
+                      <input style = "width: 50;" id="al-search" type="text" name="search_operations" 
+                          value="{{ request.GET.search_operations }}"class="form-control" onchange="this.form.submit()"/>  
+                  </td>
+                  <td>
+                    <form method="get" action="{% url 'allpatients' %}" name = "search">
+                        
+                      <input style = "width: 50;" id="al-search" type="text" name="search_follow" 
+                          value="{{ request.GET.search_follow }}"class="form-control" onchange="this.form.submit()"/>  
+                  </td>
+            </tr>
+            {% for patient in object_list %}
                 <tr>
                     <td>
                         <h><a href="{% url 'patient_detail' patient.id %}">{{ patient.name }}</a></h>
