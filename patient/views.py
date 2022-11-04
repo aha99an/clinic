@@ -38,11 +38,25 @@ class PatientListView(ListView):
         queryset = Patient.objects.all()
         # Search
         search_value = self.request.GET.get('search_value',default="")
-        if search_value:
+        search_diagnoses = self.request.GET.get('search_diagnoses',default="")
+        search_operations = self.request.GET.get('search_operations',default="")
+        search_follow = self.request.GET.get('search_follow',default="")
+        
+    
+        if search_value or search_diagnoses or search_operations or search_follow:
             admin_student_list1 = Q(name__icontains=search_value)
             admin_student_list2 = Q(diagnose__diagnoseName__icontains=search_value)
             admin_student_list3 = Q(patient_appointments__operation__operationName__icontains=search_value)
-            queryset = Patient.objects.filter(admin_student_list1 | admin_student_list2 | admin_student_list3).distinct()
+            queryset = Patient.objects.filter(admin_student_list1)
+
+            if search_diagnoses: 
+                queryset = queryset.filter(diagnose__diagnoseName__icontains=search_diagnoses)
+            if search_operations:
+                queryset = queryset.filter(patient_appointments__operation__operationName__icontains=search_operations)
+            if search_follow:
+                queryset = queryset.filter(patient_appointments__followup__followupName__icontains=search_follow)
+
+
         return queryset
 
 class AllPatientListView(ListView):
@@ -56,12 +70,35 @@ class AllPatientListView(ListView):
 
 
     def get_queryset(self):
+        global queryset
         queryset = Patient.objects.all()
         # Search
         search_value = self.request.GET.get('search_value',default="")
-        admin_student_list1 = Q(name__icontains=search_value)
-        queryset = Patient.objects.filter(admin_student_list1)
+        search_diagnoses = self.request.GET.get('search_diagnoses',default="")
+        search_operations = self.request.GET.get('search_operations',default="")
+        search_follow = self.request.GET.get('search_follow',default="")
+        
+    
+        if search_value or search_diagnoses or search_operations or search_follow:
+            admin_student_list1 = Q(name__icontains=search_value)
+            admin_student_list2 = Q(diagnose__diagnoseName__icontains=search_value)
+            admin_student_list3 = Q(patient_appointments__operation__operationName__icontains=search_value)
+            queryset = Patient.objects.filter(admin_student_list1)
+
+            if search_diagnoses: 
+                queryset = queryset.filter(diagnose__diagnoseName__icontains=search_diagnoses)
+            if search_operations:
+                queryset = queryset.filter(patient_appointments__operation__operationName__icontains=search_operations)
+            if search_follow:
+                queryset = queryset.filter(patient_appointments__followup__followupName__icontains=search_follow)
+
+
         return queryset
+
+
+
+
+
 class PatienDetailView(DetailView):
     model = Patient
     template_name = 'patient_detail.html'
@@ -124,10 +161,7 @@ class AttachmentDetailView(DetailView):
    template_name = 'attachments.html'
 
 def delete_image (request, id): 
-    # s3_image= Attachment.attachment.delete(save=False)
     image = Attachment.objects.get(id=id).delete()
-    print("ssssssssssssssssssssssssss")
-    # print(image)
     return  HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
