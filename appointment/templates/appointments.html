@@ -12,23 +12,6 @@
 </section>
 
 
-<!-- Section -->
-{% comment %} SEARCH {% endcomment %}
-<section>
-    <form method="get" action="{% url 'appointments' %}">
-      <table>
-        <tbody>
-                <td style="width:25%">  <input style = "width: auto;" id="al-search" type="text" name="search_value" 
-                    value="{{ request.GET.search_value }}"class="form-control" onchange="this.form.submit()"/>  
-                </td>
-                <td>        
-                      {% comment %} <input type="submit" value="Search" class="button primary" />        {% endcomment %}
-                </td>
-          </tbody>
-        </table>
-    </form>
-</section>
-
 
 
 
