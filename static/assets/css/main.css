@@ -2953,7 +2953,7 @@ input, select, textarea {
 		/* Basic */
 
 			html, body {
-				overflow-x: hidden;
+				overflow-x: scroll;
 			}
 
 		/* Content */
