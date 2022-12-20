@@ -35,7 +35,8 @@ SECRET_KEY = '*^+b!qh3-xvusu6lnsgvwn+emn_l@1btaj^ra6&6pw2!*bof&8'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['dr-mohamed-hassan-clinic.herokuapp.com','127.0.0.1']
+ALLOWED_HOSTS = ['dr-mohamed-hassan-clinic.herokuapp.com','127.0.0.1', '18.184.119.86']
+
 
 TEMPLATE_CONTEXT_PROCESSORS = [
     "django.contrib.auth.context_processors.auth",
@@ -157,12 +158,14 @@ DATE_FORMAT = "d-m-Y"
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static', 'staticfiles')
+AWS_STATIC_ROOT = '/var/www/clinic/assets/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static', 'staticfiles',AWS_STATIC_ROOT)
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 MEDIA_URL = '/images/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
+media = '/media/'
+MEDIA_URL = AWS_URL + media
 
-MEDIA_URL = AWS_URL + '/media/'
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 STATICFILES_FINDERS = (
