@@ -9,7 +9,7 @@ from investigation.models import Investigation
 from treatment.models import Treatment
 import os
 # Create your models here.
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 
 # User._meta.get_field('username')._unique = False
 GENDER = (
