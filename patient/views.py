@@ -22,9 +22,7 @@ from django.core.files.base import ContentFile
 from io import StringIO
 from PIL import Image as PilImage
 import os
-from django.contrib.auth.models import User
 
-User._meta.get_field('username')._unique = False
 class PatientListView(ListView):
     model = Patient
     template_name = 'patients.html'
