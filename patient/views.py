@@ -229,7 +229,7 @@ def Export_csv(request):
     return response
 
 dirname = os.path.dirname(__file__)
-filename = os.path.join(dirname, '../csv_files/last_update/all_data patients-2022-10-20.csv')
+filename = os.path.join(dirname, '../csv_files/last_update/patients.csv')
 
 
 def import_csvpat(request):
@@ -256,7 +256,8 @@ def import_csvpat(request):
                 gender = row[3],
                 patientAddress = row[5],
                 note = row[9],
-                patientComplaint = row[7]
+                patientComplaint = row[7],
+                id = row[14]
                 ) 
             referredFrom_str = row[6]
             referredFrom_name= ast.literal_eval(referredFrom_str)

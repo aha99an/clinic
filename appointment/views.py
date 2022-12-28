@@ -12,12 +12,11 @@ from django.http import HttpResponse
 import os
 # Create your views here.
 
-dirname = os.path.dirname(__file__)
-filename = os.path.join(dirname, '../csv_files/last_update/appointment-2022-10-20.csv')
-errors_filename = os.path.join(dirname, '../csv_files/last_update/appointment-2022-10-20_errors.csv')
 
 def import_csvappo(request):
-    # Investigation.objects.all().delete()
+    dirname = os.path.dirname(__file__)
+    filename = os.path.join(dirname, '../csv_files/last_update/appointments.csv')
+    errors_filename = os.path.join(dirname, '../csv_files/last_update/appointment-2022-10-20_errors.csv')
     with open(filename, 'r', encoding='utf-16') as file, open(errors_filename, 'w', encoding='utf-16') as errors_file:
         reader = csv.reader(file)
         writer = csv.writer(errors_file)
@@ -46,6 +45,33 @@ def import_csvappo(request):
     return HttpResponse('Import done')
 
 
+def import_csvAppoForOperation(request):
+    dirname = os.path.dirname(__file__)
+    filename = os.path.join(dirname, '../csv_files/last_update/patients.csv')
+    errors_filename = os.path.join(dirname, '../csv_files/last_update/appointment-2022-10-20_errors.csv')
+    with open(filename, 'r', encoding='utf-16') as file, open(errors_filename, 'w', encoding='utf-16') as errors_file:
+        reader = csv.reader(file)
+        writer = csv.writer(errors_file)
+        Appointment.objects.all().delete()
+        x=0
+        for row in reader:
+            try:
+                mypat= Patient.objects.get_or_create(name=row[0].capitalize())
+                myappo = Appointment.objects.create(
+                    patient = mypat,
+                    appointmentDate = row[8],
+                    appointmentType = "Operative",
+                    appointmentStatus = "Done",
+                    )                 
+                # myappo.patient.add(mypat)
+                # print (myappo)
+                x=x+1
+                print (x)
+            except Exception as e:
+                print("111111111111111111111111111111111111111111111111111111111111")
+                row.insert(0, e)
+                writer.writerow(row)
+    return HttpResponse('Import done')
 
 class AppointmentListView(ListView):
     model = Appointment
