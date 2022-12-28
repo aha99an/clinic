@@ -15,7 +15,7 @@ GENDER = (
         ('F', 'Female')
     )
 class Patient(models.Model):
-    name = models.CharField(unique=True, max_length=255)
+    name = models.CharField(unique=False, max_length=255)
     phoneNumber = models.CharField(max_length=200, default="0", null=True)
     birthdate = models.DateField(blank=True)
     @property
