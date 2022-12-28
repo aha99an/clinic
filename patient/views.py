@@ -249,7 +249,7 @@ def import_csvpat(request):
             patientName= row[0]
             
 
-            mypatient, _ = Patient.objects.get_or_create(
+            mypatient, _ = Patient.objects.create(
                 name=patientName,
                 phoneNumber = '0' + row[4],
                 birthdate = row[1],
