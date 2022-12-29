@@ -52,9 +52,9 @@ def edit():
             operationssplit = operations.split("/")
             row[13] = operationssplit
             ############################
-            operationDate = operationDate[6:10] + '-' + operationDate[3:5] + '-' + operationDate[0:2]
-            row[8] = operationDate
-
+            # operationDate = operationDate[6:10] + '-' + operationDate[3:5] + '-' + operationDate[0:2]
+            # row[8] = operationDate
+            
 
             rows.append(row)
         #print (rows)
