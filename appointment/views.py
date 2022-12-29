@@ -10,6 +10,8 @@ import csv
 from .forms import AppointmentCreateViewForm
 from django.http import HttpResponse
 import os
+from operation.models import Operation
+import ast
 # Create your views here.
 
 
@@ -47,22 +49,26 @@ def import_csvappo(request):
 
 def import_csvAppoForOperation(request):
     dirname = os.path.dirname(__file__)
-    filename = os.path.join(dirname, '../csv_files/last_update/patients.csv')
+    filename = os.path.join(dirname, '../csv_files/last_update/patients_operation.csv')
     errors_filename = os.path.join(dirname, '../csv_files/last_update/appointment-2022-10-20_errors.csv')
     with open(filename, 'r', encoding='utf-16') as file, open(errors_filename, 'w', encoding='utf-16') as errors_file:
         reader = csv.reader(file)
         writer = csv.writer(errors_file)
-        Appointment.objects.all().delete()
         x=0
         for row in reader:
             try:
-                mypat= Patient.objects.get_or_create(name=row[0].capitalize())
+                mypat= Patient.objects.get(name=row[0].capitalize())
                 myappo = Appointment.objects.create(
                     patient = mypat,
                     appointmentDate = row[8],
                     appointmentType = "Operative",
                     appointmentStatus = "Done",
-                    )                 
+                    )      
+                operation_str = row[13]
+                operation_name= ast.literal_eval(operation_str)
+                for operation5 in operation_name:
+                    operation, _ = Operation.objects.get_or_create(operationName=operation5)
+                    myappo.operation.add(operation)         
                 # myappo.patient.add(mypat)
                 # print (myappo)
                 x=x+1
