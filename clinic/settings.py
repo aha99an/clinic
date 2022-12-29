@@ -62,7 +62,7 @@ INSTALLED_APPS = [
     'django_cleanup.apps.CleanupConfig',
 
     # local apps
-    'pages.apps.PagesConfig',
+    'pages',
     'cause',
     'investigation',
     'diagnose',
