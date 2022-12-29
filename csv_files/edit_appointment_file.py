@@ -5,7 +5,7 @@ def edit():
     name = []
     date = []
     print ('111111111111111111111111111111')
-    with open('/home/ahmed/Desktop/Clinic_project/clinic/csv_files/last_update/export-2022-12-24_18_25_1111111111111111.csv', 'r+', encoding='utf-16-le') as file:
+    with open('/home/ahmed/Desktop/Clinic_project/clinic/csv_files/last_update/appointments.csv', 'r+', encoding='utf-16-le') as file:
         reader = csv.reader(file)
         writer = csv.writer(file)
         dateAfterEdit= []
@@ -24,7 +24,7 @@ def edit():
 
         for i in rows:
             # writer.writerow([i[0],i[1],"["+ "'"+i[2] + "'"+"]","["+ "'"+i[3] + "'"+"]"])
-            writer.writerow([i[0],i[1],i[2],i[3],i[4]])
+            writer.writerow([i[0],i[1],i[2],i[3]])
             # print (i[1])
     return name , date
 
