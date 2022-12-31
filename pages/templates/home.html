@@ -116,10 +116,16 @@
 
 
     <script>
-      var   x = document.getElementById("datepicker").value;
-        if (x != '') 
+        const params = new Proxy(new URLSearchParams(window.location.search), {
+            get: (searchParams, prop) => searchParams.get(prop),
+          });
+          
+        let value = params.search_value; 
+        console.log(value);
+        if(value)  
             {
-                document.getElementById("demo").innerHTML = x;
+                document.getElementById("demo").innerHTML = value;
+                document.getElementById("datepicker").value = value;
              }
             
             else
