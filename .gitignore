@@ -6,3 +6,4 @@ my_env
 db.sqlite3
 .DS_Store
 **/.env
+
