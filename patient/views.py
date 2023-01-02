@@ -209,6 +209,29 @@ def uploadAttachment(request):
             patient_id=int(mypatient), attachment=f)
     return redirect(f'patient/{mypatient}/attachments/')
 
+
+def Import_attachments(request):
+    dirname = os.path.dirname(__file__)
+    filename = os.path.join(dirname, '../csv_files/last_update/fielssame.csv')
+    with open(filename, 'r', encoding='utf-8') as file:
+        reader = csv.reader(file)
+        x=0
+        for row in reader:
+            x=x+1
+            patientId= row[0]
+            attachment= row[1]
+            print (patientId)
+            print (attachment)
+            Attachment.objects.create(
+                patient_id=int(patientId), attachment=attachment)
+
+
+
+
+
+
+
+    return HttpResponse('Import done')  
 def Export_csv(request):
     # print('ddddddddddddddddddddddddd')
     # print (queryset)
@@ -228,11 +251,11 @@ def Export_csv(request):
 
     return response
 
-dirname = os.path.dirname(__file__)
-filename = os.path.join(dirname, '../csv_files/last_update/patients.csv')
 
 
 def import_csvpat(request):
+    dirname = os.path.dirname(__file__)
+    filename = os.path.join(dirname, '../csv_files/last_update/patients.csv')
     Patient.objects.all().delete()
     Referrer.objects.all().delete()
     Investigation.objects.all().delete()
