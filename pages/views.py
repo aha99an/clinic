@@ -31,7 +31,9 @@ class HomePageView(ListView):
         today = int(today.strftime('%Y%m%d'))
         today = str(today)
         todaydate = today[0:4] + "-" + today[4:6] + "-" + today[6:8]  
+        todaydatefroml = today[6:8] + "-" + today[4:6] + "-" + today[0:4] 
         # print (type(todaydate))
         # print (todaydate)
         ctx["todaydate"] = todaydate
+        ctx["todaydatefroml"] = todaydatefroml
         return ctx
