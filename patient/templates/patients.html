@@ -9,7 +9,7 @@
       <td> <a href="{% url 'export-csv' %}" class="button next">Export csv</a></td>
       <td><a id="print-content" href="" onclick="printDiv('contentToPrint')" class="button primary"> Print</a></td>
       {% comment %} <td><a href="{% url 'import-csvpat' %}" class="button next">import csv</a></td> {% endcomment %}
-      <td><a href="{% url 'import-attachments' %}" class="button next">import attachments</a></td>
+      {% comment %} <td><a href="{% url 'import-attachments' %}" class="button next">import attachments</a></td> {% endcomment %}
     </tbody>
   </table>
 </section>
