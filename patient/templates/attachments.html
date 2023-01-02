@@ -20,14 +20,20 @@
 <div class="container">
     {% for att in patient.patient_attachments.all %}
     <div class="mySlides">  
-        <div class="numbertext">
-            <a  href="{% url "delete_image" att.id %}">
-                <button class="btn"  href="{% url "delete_image" att.id %}"><i class="fa fa-trash"></i></button>
-            </a>
+      
+      <a  href="{% url "delete_image" att.id %}">
+          <button class="btn" font-size= '200px ' href="{% url "delete_image" att.id %}"><i class="fas fa-trash fa-2x"></i></button>
+      </a>
+      <a value="Rotate" id="clickme" onclick="rotateImage({{att.id}})">
 
+                <button padding= '10px 10px' !important> <i class="fa fa-rotate-right"></i></button>
+      </a>
+        <div class="numbertext">
+          
+            
         </div>      
         <a target="_blank" href="{{ att.attachment.url}}">    
-            <img  id= "{{att.id}}"  src="{{att.attachment.url}}"  alt={{ att.attachment }} style="width:700px; height:400px" >
+            <img  id= "{{att.id}}"  src="{{att.attachment.url}}" class='original-position'  alt={{ att.attachment }} style="width:700px; height:400px" >
         </a>
     </div>
     
@@ -52,7 +58,55 @@
 </div>
 </div>
 
-<script>
+
+
+  <script>
+    function rotateImage(id) {
+        image = document.getElementById(id);
+        image_height = image.height;
+        image_width = image.width;
+        var margin_top = "0em"
+        var margin_bottom = "2em"
+        console.log(id);
+        console.log(image.classList.contains("original-position"));
+        {% comment %} console.log(image_width); {% endcomment %}
+        if (image_width >image_height){
+            margin = (image_width-image_height)/2;
+            margin_top = margin.toString()+"px";
+            margin_bottom = margin.toString()+"px";
+        }
+        if (image.classList.contains("original-position")){
+
+            console.log("HELLO HERE");
+            image.style.transform = "rotate(90deg)";
+            image.classList.add("rotate90");
+            image.classList.remove("original-position");
+            {% comment %} image.style.marginTop = margin_top;
+            image.style.marginBottom = margin_bottom; {% endcomment %}
+        }else if (image.classList.contains("rotate90")){
+            {% comment %} image.style.marginTop = "0em";
+            image.style.marginBottom = "2em"; {% endcomment %}
+            image.classList.remove("rotate90");
+            image.style.transform = "rotate(180deg)";
+            image.classList.add("rotate180");
+
+        }else if (image.classList.contains("rotate180")){
+            {% comment %} image.style.marginTop = margin_top;
+            image.style.marginBottom = margin_bottom; {% endcomment %}
+            image.classList.remove("rotate180");
+            image.style.transform = "rotate(270deg)";
+            image.classList.add("rotate270");
+
+        }else if (image.classList.contains("rotate270")){
+            {% comment %} image.style.marginTop = "0em";
+            image.style.marginBottom = "2em"; {% endcomment %}
+            image.classList.remove("rotate270");
+            image.style.transform = "rotate(0deg)";
+            image.classList.add("original-position");
+    }
+};
+
+  //////////////////////////////
     let slideIndex = 1;
     showSlides(slideIndex);
 
