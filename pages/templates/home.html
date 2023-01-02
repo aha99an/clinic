@@ -184,6 +184,24 @@
         }
 
         
-
+        body
+        {
+           counter-reset: Serial Section;      
+        }
+        
+        table
+        {
+            border-collapse: separate;
+        }
+        
+        tr td:first-child:before
+        {
+            counter-increment: Serial;      
+            content: counter(Serial); 
+        }
+        
+        div::before {
+            counter-increment: Section;
+        }
     </style>
     {% endblock content %}
