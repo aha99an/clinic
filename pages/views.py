@@ -30,8 +30,6 @@ class HomePageView(ListView):
         today = date.today()
         today = int(today.strftime('%Y%m%d'))
         today = str(today)
-        todaydate = today[0:4] + "-" + today[4:6] + "-" + today[6:8]  
-        # print (type(todaydate))
-        # print (todaydate)
+        todaydate = today[6:8] + "-" + today[4:6] + "-" + today[0:4] 
         ctx["todaydate"] = todaydate
         return ctx
