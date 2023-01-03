@@ -104,7 +104,9 @@
                             
                             <mark>  {{ appointment.appointmentType }} </mark></a></h1>
                        
-                            {% endif %}
+                            {% else %}
+                                  {{ appointment.appointmentType }}
+                                  {% endif %}
                       </td>
                       <td>
                           <h1><a>{{ appointment.appointmentStatus }}</a></h1>
