@@ -54,8 +54,12 @@ class PatientListView(ListView):
             if search_follow:
                 queryset = queryset.filter(patient_appointments__followup__followupName__icontains=search_follow)
 
-
         return queryset
+    def get_context_data(self, *args, **kwargs):
+        ctx = super().get_context_data(*args, **kwargs)
+        ctx["total_patiensts"] = len(queryset)
+        ctx["total_patienst_in_page"] = queryset.count
+        return ctx
 
 class AllPatientListView(ListView):
     model = Patient
@@ -113,7 +117,11 @@ class AllPatientListView(ListView):
 
         return queryset
 
-
+    def get_context_data(self, *args, **kwargs):
+        ctx = super().get_context_data(*args, **kwargs)
+        ctx["total_patiensts"] = len(queryset)
+        ctx["total_patienst_in_page"] = queryset.count
+        return ctx
 
 
 
