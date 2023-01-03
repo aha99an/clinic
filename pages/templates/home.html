@@ -55,8 +55,10 @@
                                   {%if  appointment.appointmentType  == 'New Visit' %}
                                   
                                   <mark>  {{ appointment.appointmentType }} </mark></a></h1>
-                             
+                                  {% else %}
+                                  {{ appointment.appointmentType }}
                                   {% endif %}
+                                  
                             </td>
                             <td>
                                 <h1><a>{{ appointment.appointmentStatus }}</a></h1>
