@@ -14,6 +14,5 @@ class PatientAdmin(admin.ModelAdmin):
     readonly_fields = ( 'created_at', 'updated_at')
 
 admin.site.register(Patient,PatientAdmin)
-admin.site.register(Patient)
 admin.site.register(Attachment)
 
