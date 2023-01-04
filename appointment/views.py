@@ -182,7 +182,7 @@ class AppointmentUpdateView(UpdateView):
 class AppointmentDeleteView(DeleteView):
     model = Appointment
     template_name = 'appointment_delete.html'
-    success_url = reverse_lazy('appointments')
+    success_url = reverse_lazy('home')
 
 
 
