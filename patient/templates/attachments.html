@@ -33,7 +33,7 @@
             
         </div>      
         <a target="_blank" href="{{ att.attachment.url}}">    
-            <img  id= "{{att.id}}"  src="{{att.attachment.url}}" class='original-position'  alt={{ att.attachment }} style="width:700px; height:700px" >
+            <img  id= "{{att.id}}"  src="{{att.attachment.url}}" class='original-position'  alt={{ att.attachment }} style="width:710px; height:710px" >
         </a>
     </div>
     
@@ -41,9 +41,7 @@
     <a class="next" onclick="plusSlides(1)">❯</a>
     {% endfor %}
 
-{% comment %} <div class="caption-container">
-    <p id="caption"></p>
-</div> {% endcomment %}
+</br>
 
 <div class="row">
     {% for att in patient.patient_attachments.all %}
@@ -57,7 +55,6 @@
 </div>
 </div>
 </div>
-
 
 
   <script>
@@ -106,7 +103,6 @@
     }
 };
 
-  //////////////////////////////
     let slideIndex = 1;
     showSlides(slideIndex);
 
