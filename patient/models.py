@@ -9,15 +9,12 @@ from investigation.models import Investigation
 from treatment.models import Treatment
 import os
 # Create your models here.
-# from django.contrib.auth.models import User
 
-# User._meta.get_field('username')._unique = False
 GENDER = (
         ('M', 'Male'),
         ('F', 'Female')
     )
 class Patient(models.Model):
-    # id = models.AutoField(primary_key=True,unique=True)
     name = models.CharField(unique=False, max_length=255)
     phoneNumber = models.CharField(max_length=200, default="0", null=True)
     birthdate = models.DateField(blank=True)
@@ -51,7 +48,6 @@ class Patient(models.Model):
     diagnose = models.ManyToManyField(Diagnose, blank=True)
     investigation = models.ManyToManyField(Investigation, blank=True)
     treatment = models.ManyToManyField(Treatment, blank=True)    
-    # attachment = models.FileField(null=True, blank=True, verbose_name="attachment")
     note = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -69,16 +65,25 @@ class Patient(models.Model):
         today = str(today)
         todaydate = today[0:4] + "-" + today[4:6] + "-" + today[6:8] 
         from appointment.models import Appointment
-        myappointment, _ = Appointment.objects.get_or_create(
-                patient= self,
-                # appointmentDate = todaydate,
-                appointmentType =  "New Visit",
-                # appointmentStatus= "Waiting"
-                ) 
+        try:
+            myappointment = Appointment.objects.get(
+                    patient= self,
+                    # appointmentDate = todaydate,
+                    appointmentType =  "New Visit"
+                    # appointmentStatus= "Waiting"
+                    ) 
+        except Exception as e :
+            myappointment = Appointment.objects.create(
+                    patient= self,
+                    appointmentDate = todaydate,
+                    appointmentType =  "New Visit",
+                    appointmentStatus= "Waiting"
+                    ) 
+            
         return reverse('patient_detail', args=[str(self.id)])
+    
     def save(self, *args, **kwargs):
         self.name = self.name.capitalize()
-
         super(Patient, self).save(*args, **kwargs)
 
 
@@ -103,9 +108,6 @@ def snippet_file_name(self):
         return "..."+self.attachment.name.rsplit('/', 1)[1][:20]
     else:
         return self.attachment.name
-
-
-# now = datetime.datetime.now()
 
 
 
