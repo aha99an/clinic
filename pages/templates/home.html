@@ -52,13 +52,14 @@
                             </td>
                             <td>
                                 <h1><a>
-                                  {%if  appointment.appointmentType  == 'New Visit' %}
-                                  
-                                  <mark>  {{ appointment.appointmentType }} </mark></a></h1>
-                                  {% else %}
-                                  {{ appointment.appointmentType }}
-                                  {% endif %}
-                                  
+                                {%if  appointment.appointmentType  == 'New Visit' %}
+                                    <mark>  {{ appointment.appointmentType }} </mark>
+                                {%elif  appointment.appointmentType  == 'Operative' %}
+                                    <mark style="background-color:#00FF00">  {{ appointment.appointmentType }} </mark>
+                                {% else %}
+                                    {{ appointment.appointmentType }}
+                                {% endif %}
+                                </a> </h1>
                             </td>
                             <td>
                                 <h1><a>{{ appointment.appointmentStatus }}</a></h1>
