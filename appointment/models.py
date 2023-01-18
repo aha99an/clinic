@@ -3,6 +3,7 @@ from django.urls import reverse
 from patient.models import Patient 
 from operation.models import Operation
 from followup.models import Followup
+from newVisit.models import NewVisit
 AppointmentTypes = (
                         ('New Visit','New Visit'),
                         ('Repeat', 'Repeat'),
@@ -27,6 +28,7 @@ class Appointment(models.Model):
     appointmentStatus = models.CharField(max_length=20,blank=True, choices=AppointmentStatuss)
     operation = models.ManyToManyField(Operation, blank=False)
     followup = models.ManyToManyField(Followup, blank=False)
+    new_visit = models.ManyToManyField(NewVisit, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

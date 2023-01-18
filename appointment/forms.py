@@ -3,6 +3,8 @@ from .models import Appointment, AppointmentStatuss, AppointmentTypes
 from patient.models import Patient
 from operation.models import Operation
 from followup.models import Followup
+from newVisit.models import NewVisit
+
 from django.contrib.admin.widgets import FilteredSelectMultiple    
 
 
@@ -16,10 +18,14 @@ class AppointmentCreateViewForm(forms.ModelForm):
     
     followup = forms.ModelMultipleChoiceField(required=False, queryset = Followup.objects.all(), label="Follow up",
         initial=[Followup.objects.all().values_list("followupName", flat=True)])
+    
+    new_visit = forms.ModelMultipleChoiceField(required=False, queryset = NewVisit.objects.all(), label="new visit reason",
+        initial=[NewVisit.objects.all().values_list("newVisitName", flat=True)])
+
     def __init__(self, *args, **kwargs):
         super(AppointmentCreateViewForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
-            if visible.name in ["operation","followup"]:
+            if visible.name in ["operation","followup","new_visit"]:
 
                 # print(visible.field._queryset)
                 visible.field.widget.attrs["class"] = 'js-example-basic-multiple'
@@ -34,5 +40,5 @@ class AppointmentCreateViewForm(forms.ModelForm):
 
     class Meta:
         model = Appointment
-        fields = ('patient', 'appointmentDate', 'appointmentType','appointmentStatus','operation','followup')
+        fields = ('patient', 'appointmentDate', 'appointmentType','appointmentStatus','operation','followup','new_visit')
      

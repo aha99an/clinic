@@ -44,6 +44,7 @@
             <th scope="col">Diagnoses</th>
             <th scope="col">Operations</th>
             <th scope="col">Follow up</th>
+            <th scope="col">New visit reason</th>
         </tr>
         </thead>
         <tbody>
@@ -83,6 +84,12 @@
                     
                   <input style = "width: auto;" id="al-search" type="text" name="search_follow" 
                       value="{{ request.GET.search_follow }}"class="form-control" onchange="this.form.submit()"/>  
+              </td>
+              <td>
+                <form method="get" action="{% url 'patients' %}" name = "search">
+                    
+                  <input style = "width: auto;" id="al-search" type="text" name="" 
+                      value=""class="form-control" onchange="this.form.submit()"/>  
               </td>
           </tr>
           <tr>
@@ -125,6 +132,19 @@
                       </a></h>                   
 
                   </td>
+                  <td>
+                    <h> 
+                      {% for appointment in patient.patient_appointments.all %}
+                      {% if appointment.appointmentType == 'New Visit' %}
+                        {% for newVisit in appointment.new_visit.all %}
+                        {{ newVisit.newVisitName }}
+                        <br/>
+                        {% endfor%}
+                        {%endif%}
+                        {% endfor %}
+                    </a></h>                   
+
+                </td>
                 </tr>
                 {% endfor %}
                 </tbody>
