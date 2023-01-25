@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+ <!-- Section -->
+ <section>
+    <a href="{% url 'newVisit_new' %}" class="button next">Add New visit reason</a>
+</section>
+
+
+
+
+<!-- Section -->
+{% comment %} SEARCH {% endcomment %}
+<section>
+    <form method="get" action="{% url 'newVisits' %}">
+      <table>
+        <tbody>
+                    <td style="width:25%">        <input style = "width: auto;" id="al-search" type="text" 
+                      name="search_value" value="{{ request.GET.search_value }}"
+                      class="form-control" /> 
+                    </td>
+                    <td>           <input type="submit"value="Search" class="button primary" />      
+                    </td>
+          </tbody>
+        </table>
+      
+
+    </form>
+</section>
+ <!-- Section -->
+ <h2>All New visit reasons</h2>
+<section>
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for newVisit in object_list %}
+                <tr>
+                    <td>
+                        <h><a href="{% url 'newVisit_edit' newVisit.pk %}">{{ newVisit.newVisitName }}</a></h><br>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+      </table>
+
+</section>
+</br>
+{% comment %} pagination  {% endcomment %}
+<ul class="pagination">
+
+  {% if page_obj.has_previous %}
+      <li><a  class="prev btn btn-info" href="{{ request.get_full_path }}&page={{ page_obj.previous_page_number }}">Previous</a></li>
+  {% else %}
+      <li class=" prev btn btn-info disabled"><span>Previous</span></li>
+  {% endif %}
+  
+  {% if page_obj.number|add:'-4' > 1 %}
+      <li><a href="?page={{ page_obj.number|add:'-5' }}">&hellip;</a></li>
+  {% endif %}
+  
+
+{% for i in page_obj.paginator.page_range %}
+    {% if 'search_value' in request.get_full_path %}
+      {% if page_obj.number == i %}
+          <li class="btn btn-success"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% elif i > page_obj.number|add:'-5' and i < page_obj.number|add:'5' %}
+          <li><a href="{{ request.get_full_path }}&page={{ i }}" class="btn">{{ i }}</a></li>
+      {% endif %}
+    {% else %}
+    {% if page_obj.number == i %}
+    <li class="btn btn-success"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+    {% elif i > page_obj.number|add:'-5' and i < page_obj.number|add:'5' %}
+    <li><a href="?page={{ i }}" class="btn">{{ i }}</a></li>
+  {% endif %}
+  {% endif %}
+{% endfor %}
+  
+
+  {% if page_obj.paginator.num_pages > page_obj.number|add:'4' %}
+      <li><a href="?page={{ page_obj.number|add:'5' }}">&hellip;</a></li>
+  {% endif %}
+  
+
+
+  {% if 'search_value' in request.get_full_path %}
+
+    {% if page_obj.has_next %}
+        <li><a class="prev btn btn-info" href="{{ request.get_full_path }}&page={{ page_obj.next_page_number }}">Next</a></li>
+    {% else %}
+        <li class=" prev btn btn-info disabled"><span>Next</span></li>
+    {% endif %}
+
+    {% else %}
+    {% if page_obj.has_next %}
+        <li><a class="prev btn btn-info" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+    {% else %}
+        <li class=" prev btn btn-info disabled"><span>Next</span></li>
+    {% endif %}
+
+  {% endif %}
+  
+  </ul>
+
+
+
+
+{% endblock content %}
+
+
+

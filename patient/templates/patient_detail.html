@@ -175,6 +175,42 @@
                 <td><h></h></td>
             </tr> 
             <tr>
+                <td> <h>New visit reason:</h></td>
+                <td> <h1>
+                    {% for appointment in patient.patient_appointments.all %}
+                    {% if appointment.appointmentType == 'New Visit' %}
+                        {% if not forloop.first %}
+                            <br/>
+                            {% endif %}                       
+                            {% endif %}
+
+                        {% for newVisit in appointment.new_visit.all %}
+                            {% if appointment.appointmentType == 'New Visit' %}
+                                {{ newVisit.newVisitName }}
+                                {% if forloop.first %}
+                                ,
+                                {% endif %}
+                            {% endif %}
+                        {% endfor%}
+                    {% endfor %}
+                </td></h></td>
+                <td><h1>
+                    {% for appointment in patient.patient_appointments.all %}
+                    {% if appointment.appointmentType == 'New Visit' %}
+                        {% if appointment.new_visit.all %}
+                            {% if not forloop.first %}
+                            <br/>
+                            {% endif %}
+                            {{ appointment.appointmentDate }}
+                        {% endif %}
+                        {% endif %}
+
+                    {% endfor%}
+                </h1></td>
+                <td><h></h></td>
+                <td><h></h></td>
+            </tr> 
+            <tr>
                 <td><h>Notes:</h></td>
                 <td><h>{{ patient.note | urlize |linebreaks}}</h></td>
                 <td><h></h></td>

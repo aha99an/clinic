@@ -19,6 +19,7 @@
             <th scope="col">Appointment status</th>
             <th scope="col">Operations</th>
             <th scope="col">Follow Up</th>
+            <th scope="col">New Visit reason</th>
 
         </tr>
         </thead>
@@ -47,6 +48,13 @@
                         {%for allfollowup in appointment.followup.all %}
                         {% if appointment.appointmentType == 'Follow up' %}
                         <h1><a>{{ allfollowup }}</a></h1>
+                        {%endif%}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {%for allnewvisit in appointment.new_visit.all %}
+                        {% if appointment.appointmentType == 'New Visit' %}
+                        <h1><a>{{ allnewvisit }}</a></h1>
                         {%endif%}
                         {% endfor %}
                     </td>

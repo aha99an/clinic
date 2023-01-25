@@ -14,31 +14,40 @@ GENDER = (
         ('M', 'Male'),
         ('F', 'Female')
     )
+YORM = (
+        ('Y', 'Years'),
+        ('M', 'Months'),
+        ('D', 'Days')
+    )
+
 class Patient(models.Model):
     name = models.CharField(unique=False, max_length=255)
     phoneNumber = models.CharField(max_length=200, default="0", null=True)
-    birthdate = models.DateField(blank=True)
-    @property
-    def months(self):
-        today = date.today()
-        hismonths = 0
-        hisYears = today.year - self.birthdate.year
-        hismonths = today.month - self.birthdate.month
-        if hismonths < 0:
-            hismonths = 12 + hismonths
-        elif hismonths >= 0:
-            hismonths = hismonths
-        return hismonths
-    @property
-    def years(self):
-        today = date.today()
-        hisYears = today.year - self.birthdate.year
-        hismonths = today.month - self.birthdate.month
-        if hismonths < 0:
-            hisYears = hisYears - 1 
-        elif hismonths >= 0:
-            hismonths = hismonths
-        return hisYears
+    age= models.CharField(max_length=200, null=False)
+    YorM = models.CharField(max_length=1,blank=True, choices=YORM)
+    birthdate = models.DateField(blank=True,null=True)
+    
+    # @property
+    # def months(self):
+    #     today = date.today()
+    #     hismonths = 0
+    #     hisYears = today.year - self.birthdate.year
+    #     hismonths = today.month - self.birthdate.month
+    #     if hismonths < 0:
+    #         hismonths = 12 + hismonths
+    #     elif hismonths >= 0:
+    #         hismonths = hismonths
+    #     return hismonths
+    # @property
+    # def years(self):
+    #     today = date.today()
+    #     hisYears = today.year - self.birthdate.year
+    #     hismonths = today.month - self.birthdate.month
+    #     if hismonths < 0:
+    #         hisYears = hisYears - 1 
+    #     elif hismonths >= 0:
+    #         hismonths = hismonths
+    #     return hisYears
 
     gender = models.CharField(max_length=1,blank=True, choices=GENDER)
     patientAddress = models.CharField(max_length=255, null=True)
@@ -82,8 +91,49 @@ class Patient(models.Model):
             
         return reverse('patient_detail', args=[str(self.id)])
     
+    def calculatebirthdate(self):
+        today = date.today()
+        birthdate = self.birthdate
+        if self.YorM == 'Y':
+            years= today.year - int(self.age)
+            months= '01'
+            dayes= '01'
+            birthdate = str(years) + "-" + months + "-" + dayes
+        elif  self.YorM == 'M':
+            if today.month > int(self.age):
+                months = today.month - int(self.age)
+                years = today.year
+                dayes = '01'
+                if months == 0:
+                    months = 1
+                birthdate = str(years) + "-" + str(months) + "-" + dayes
+            elif  today.month <= int(self.age):
+                years = today.year - 1
+                months = 12+ today.month
+                months = months - int(self.age)
+                dayes = '01'
+                birthdate = str(years) + "-" + str(months) + "-" + dayes
+        elif  self.YorM == 'D':
+                if int(self.age) < today.day:
+                    years = today.year
+                    months = today.month
+                    dayes = today.day - int(self.age)
+                    birthdate = str(years) + "-" + str(months) + "-" + str(dayes)
+                elif int(self.age) >= today.day:
+                    years = today.year
+                    months = today.month -1
+                    dayes = today.day + 30
+                    dayes = dayes - int(self.age)
+                    if months == 0:
+                        months = 12
+                        years = today.year -1
+
+                    birthdate = str(years) + "-" + str(months) + "-" + str(dayes)
+        return birthdate
+
     def save(self, *args, **kwargs):
         self.name = self.name.capitalize()
+        self.birthdate = self.calculatebirthdate()
         super(Patient, self).save(*args, **kwargs)
 
 
