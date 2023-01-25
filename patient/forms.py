@@ -1,5 +1,5 @@
 from django import forms
-from .models import Patient, GENDER, Attachment
+from .models import Patient, GENDER, Attachment,YORM
 from referrer.models import Referrer
 from cause.models import Cause
 from diagnose.models import Diagnose
@@ -17,7 +17,9 @@ def check_size(value):
 class PatientListViewForm(forms.ModelForm):
     name = forms.CharField(max_length=255,label= "Patient name")
     phoneNumber =forms.CharField(validators=[check_size, ], label="Phone number", required=False)
-    birthdate = forms.DateField(label="Birthdate", widget=forms.DateInput(format='%Y-%m-%d'))
+    # birthdate = forms.DateField(label="Birthdate", widget=forms.DateInput(format='%Y-%m-%d'))
+    age =forms.CharField(label="Age")
+    YorM = forms.ChoiceField(choices=YORM, label="YorM")
     gender = forms.ChoiceField(choices=GENDER, label="Gender")
     patientAddress = forms.CharField(label="Patient address", required=False)
     patientComplaint = forms.CharField(label="Patient complaint", required=False)
@@ -52,7 +54,7 @@ class PatientListViewForm(forms.ModelForm):
 
     class Meta:
         model = Patient
-        fields = ('name', 'phoneNumber', 'birthdate','gender','patientAddress','patientComplaint','referredFrom','cause','diagnose','investigation',"treatment",'note')
+        fields = ('name', 'phoneNumber','gender','age','YorM','patientAddress','patientComplaint','referredFrom','cause','diagnose','investigation',"treatment",'note')
      
 
 class AttachmentView(forms.Form):
