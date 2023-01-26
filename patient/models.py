@@ -7,6 +7,7 @@ from django.urls import reverse
 from diagnose.models import Diagnose
 from investigation.models import Investigation
 from treatment.models import Treatment
+import appointment.models
 import os
 # Create your models here.
 
@@ -59,32 +60,29 @@ class Patient(models.Model):
         return self.name
 
     def get_absolute_url(self):
-
+        return reverse('patient_detail', args=[str(self.id)])
+    
+    def checkNewPatientOrEdit(self):
+        return(self.created_at)
+    def addAppointmentForNewPatient(self,checkNewPatientOrEdit):
         today = date.today()
         today = int(today.strftime('%Y%m%d'))
         today = str(today)
-        todaydate = today[0:4] + "-" + today[4:6] + "-" + today[6:8] 
-        from appointment.models import Appointment
-        try:
-            myappointment = Appointment.objects.get(
-                    patient= self,
-                    # appointmentDate = todaydate,
-                    appointmentType =  "New Visit"
-                    # appointmentStatus= "Waiting"
-                    ) 
-        except Exception as e :
-            myappointment = Appointment.objects.create(
+        todaydate = today[0:4] + "-" + today[4:6] + "-" + today[6:8]
+        if checkNewPatientOrEdit == None:
+            myappointment = appointment.models.Appointment.objects.create(
                     patient= self,
                     appointmentDate = todaydate,
                     appointmentType =  "New Visit",
                     appointmentStatus= "Waiting"
                     ) 
-            
-        return reverse('patient_detail', args=[str(self.id)])
-    
+
+
     def save(self, *args, **kwargs):
         self.name = self.name.capitalize()
+        checkNewPatientOrEdit = self.checkNewPatientOrEdit()
         super(Patient, self).save(*args, **kwargs)
+        self.addAppointmentForNewPatient(checkNewPatientOrEdit)
 
 
 class Attachment(models.Model):
