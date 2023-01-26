@@ -79,6 +79,7 @@ class Patient(models.Model):
 
 
     def save(self, *args, **kwargs):
+        # breakpoint()
         self.name = self.name.capitalize()
         checkNewPatientOrEdit = self.checkNewPatientOrEdit()
         super(Patient, self).save(*args, **kwargs)

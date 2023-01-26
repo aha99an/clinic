@@ -18,6 +18,7 @@ class PatientListViewForm(forms.ModelForm):
     name = forms.CharField(max_length=255,label= "Patient name")
     phoneNumber =forms.CharField(validators=[check_size, ], label="Phone number", required=False)
     birthdate = forms.DateField(label="Birthdate", widget=forms.DateInput(format='%Y-%m-%d'))
+    # birthdate = forms.DateField(label="Birthdate", widget = forms.HiddenInput(), required=False)
     gender = forms.ChoiceField(choices=GENDER, label="Gender")
     patientAddress = forms.CharField(label="Patient address", required=False)
     patientComplaint = forms.CharField(label="Patient complaint", required=False)
@@ -36,7 +37,8 @@ class PatientListViewForm(forms.ModelForm):
     treatment = forms.ModelMultipleChoiceField(required=False, queryset = Treatment.objects.all(), label="Treatments",
                 initial=[Treatment.objects.all().values_list("treatmentName", flat=True)])
 
-    note = forms.CharField(widget=forms.Textarea, label="Notes", required=False)    
+    note = forms.CharField(widget=forms.Textarea, label="Notes", required=False)
+    days = forms.IntegerField()
     
     
     
