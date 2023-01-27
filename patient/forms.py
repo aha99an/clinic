@@ -5,6 +5,7 @@ from cause.models import Cause
 from diagnose.models import Diagnose
 from investigation.models import Investigation
 from django.contrib.admin.widgets import FilteredSelectMultiple    
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 from treatment.models import Treatment
 
@@ -12,13 +13,14 @@ from treatment.models import Treatment
 def check_size(value):
     if len(value) < 11 and value.isdigit():
         raise forms.ValidationError("Phone number is not correct")
-
-
 class PatientListViewForm(forms.ModelForm):
     name = forms.CharField(max_length=255,label= "Patient name")
     phoneNumber =forms.CharField(validators=[check_size, ], label="Phone number", required=False)
-    birthdate = forms.DateField(label="Birthdate", widget=forms.DateInput(format='%Y-%m-%d'))
+    # birthdate = forms.DateField(label="Birthdate", widget=forms.DateInput(format='%Y-%m-%d'))
     # birthdate = forms.DateField(label="Birthdate", widget = forms.HiddenInput(), required=False)
+    days = forms.IntegerField(validators=[MaxValueValidator(365),MinValueValidator(0)])
+    months = forms.IntegerField(validators=[MaxValueValidator(12),MinValueValidator(0)])
+    years = forms.IntegerField(validators=[MaxValueValidator(200),MinValueValidator(0)])
     gender = forms.ChoiceField(choices=GENDER, label="Gender")
     patientAddress = forms.CharField(label="Patient address", required=False)
     patientComplaint = forms.CharField(label="Patient complaint", required=False)
@@ -38,7 +40,6 @@ class PatientListViewForm(forms.ModelForm):
                 initial=[Treatment.objects.all().values_list("treatmentName", flat=True)])
 
     note = forms.CharField(widget=forms.Textarea, label="Notes", required=False)
-    days = forms.IntegerField()
     
     
     
@@ -54,7 +55,8 @@ class PatientListViewForm(forms.ModelForm):
 
     class Meta:
         model = Patient
-        fields = ('name', 'phoneNumber', 'birthdate','gender','patientAddress','patientComplaint','referredFrom','cause','diagnose','investigation',"treatment",'note')
+        fields = ('name', 'phoneNumber','days','months','years','gender','patientAddress','patientComplaint','referredFrom','cause','diagnose','investigation',"treatment",'note')
+
      
 
 class AttachmentView(forms.Form):

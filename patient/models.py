@@ -18,7 +18,7 @@ GENDER = (
 class Patient(models.Model):
     name = models.CharField(unique=False, max_length=255)
     phoneNumber = models.CharField(max_length=200, default="0", null=True)
-    birthdate = models.DateField(blank=True)
+    birthdate = models.DateField(blank=True, null=True)
     @property
     def months(self):
         today = date.today()
@@ -79,7 +79,6 @@ class Patient(models.Model):
 
 
     def save(self, *args, **kwargs):
-        # breakpoint()
         self.name = self.name.capitalize()
         checkNewPatientOrEdit = self.checkNewPatientOrEdit()
         super(Patient, self).save(*args, **kwargs)

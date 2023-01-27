@@ -172,9 +172,14 @@ class PatientCreateView(CreateView):
         # address2 = form.cleaned_data['address2']
         # breakpoint()
         days = form.cleaned_data['days']
-        birthdate = date.today() - timedelta(days=int(days))
-        # obj = form.save(commit=False)
-        # obj.address = str(address1) + ', ' + str(address2)
+        months = form.cleaned_data['months']
+        years = form.cleaned_data['years']
+        myOverDate= years * 5
+        myYears= years * 12 * 30
+        myMonths= months * 30
+        myDays= days + myYears + myMonths + myOverDate
+        birthdate = date.today() - timedelta(days=myDays)
+        print(date.today())
         temp_form = super(PatientCreateView, self).form_valid(form = form)
         # obj.save()
         form.instance.birthdate = birthdate
