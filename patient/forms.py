@@ -46,6 +46,15 @@ class PatientListViewForm(forms.ModelForm):
     
     def __init__(self, *args, **kwargs):
         super(PatientListViewForm, self).__init__(*args, **kwargs)
+        # breakpoint()
+        if self.instance.birthdate != None:
+            self.fields['days'].initial = self.instance.days
+            self.fields['months'].initial = self.instance.months
+            self.fields['years'].initial = self.instance.years
+        else:
+            self.fields['days'].initial = 0
+            self.fields['months'].initial = 0
+            # self.fields['years'].initial = self.instance.years
         for visible in self.visible_fields():
             if visible.name in ["referredFrom","cause","diagnose","investigation","treatment"]:
                 # print(visible.field._queryset)
