@@ -22,6 +22,8 @@ from django.core.files.base import ContentFile
 from io import StringIO
 from PIL import Image as PilImage
 import os
+from datetime import timedelta, date
+from dateutil.relativedelta import relativedelta
 
 class PatientListView(ListView):
     model = Patient
@@ -165,15 +167,28 @@ class PatientCreateView(CreateView):
     model = Patient
     form_class = PatientListViewForm
     template_name = 'patient_new.html'
-    # fields = ('name', 'phoneNumber', 'birthdate','gender','patientAddress','referredFrom','cause','diagnose','investigation','attachment','note')
+    def form_valid(self, form):
+        days = form.cleaned_data['days']
+        months = form.cleaned_data['months']
+        years = form.cleaned_data['years']
+        today= date.today()
+        birthdate = today - relativedelta(years=years)
+        birthdate = birthdate - relativedelta(months=months)
+        birthdate = birthdate - relativedelta(days=days)                
+        temp_form = super(PatientCreateView, self).form_valid(form = form)
+        form.instance.birthdate = birthdate
+        # breakpoint()
+        form.save()
+        return temp_form
+
 
 class PatientUpdateView(UpdateView):
     model = Patient
+    # breakpoint()
     template_name = 'patient_edit.html'
     form_class = PatientListViewForm
 
     # fields = ['name', 'phoneNumber', 'birthdate' ,'gender','patientAddress','cause','diagnose','investigation','treatment','referredFrom','note']
-
 
 
 

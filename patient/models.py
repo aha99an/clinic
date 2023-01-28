@@ -1,6 +1,6 @@
 from django.db import models
-from datetime import date
-import datetime
+from datetime import date, datetime
+# import datetime
 from referrer.models import Referrer
 from cause.models import Cause
 from django.urls import reverse
@@ -9,6 +9,9 @@ from investigation.models import Investigation
 from treatment.models import Treatment
 import appointment.models
 import os
+# from dateutil import parser
+from dateutil.relativedelta import relativedelta
+
 # Create your models here.
 
 GENDER = (
@@ -18,28 +21,29 @@ GENDER = (
 class Patient(models.Model):
     name = models.CharField(unique=False, max_length=255)
     phoneNumber = models.CharField(max_length=200, default="0", null=True)
-    birthdate = models.DateField(blank=True)
+    birthdate = models.DateField(blank=True, null=True)
+    @property
+    def days(self):
+        NOW = datetime.now()
+        age = relativedelta(NOW, self.birthdate)
+        print(age.days)
+        # breakpoint()
+        return age.days
     @property
     def months(self):
-        today = date.today()
-        hismonths = 0
-        hisYears = today.year - self.birthdate.year
-        hismonths = today.month - self.birthdate.month
-        if hismonths < 0:
-            hismonths = 12 + hismonths
-        elif hismonths >= 0:
-            hismonths = hismonths
-        return hismonths
+        NOW = datetime.now()
+        age = relativedelta(NOW, self.birthdate)
+        return age.months
+        # breakpoint()
+
     @property
     def years(self):
-        today = date.today()
-        hisYears = today.year - self.birthdate.year
-        hismonths = today.month - self.birthdate.month
-        if hismonths < 0:
-            hisYears = hisYears - 1 
-        elif hismonths >= 0:
-            hismonths = hismonths
-        return hisYears
+        NOW = datetime.now()
+        age = relativedelta(NOW, self.birthdate)
+        # breakpoint()
+        return age.years
+    
+        
 
     gender = models.CharField(max_length=1,blank=True, choices=GENDER)
     patientAddress = models.CharField(max_length=255, null=True)
@@ -87,7 +91,7 @@ class Patient(models.Model):
 
 class Attachment(models.Model):
     def content_file_name(instance, filename):
-        now = datetime.datetime.now()
+        now = datetime.now()
         ext = filename.split('.')[-1]
         orig_filename= filename.split('.')[0]
         filename = "%s_%s.%s" % (orig_filename, now, ext)        
