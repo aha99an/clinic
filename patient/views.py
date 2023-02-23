@@ -187,7 +187,19 @@ class PatientUpdateView(UpdateView):
     # breakpoint()
     template_name = 'patient_edit.html'
     form_class = PatientListViewForm
-
+    def form_valid(self, form):
+        days = form.cleaned_data['days']
+        months = form.cleaned_data['months']
+        years = form.cleaned_data['years']
+        today= date.today()
+        birthdate = today - relativedelta(years=years)
+        birthdate = birthdate - relativedelta(months=months)
+        birthdate = birthdate - relativedelta(days=days)                
+        temp_form = super(PatientUpdateView, self).form_valid(form = form)
+        form.instance.birthdate = birthdate
+        # breakpoint()
+        form.save()
+        return temp_form
     # fields = ['name', 'phoneNumber', 'birthdate' ,'gender','patientAddress','cause','diagnose','investigation','treatment','referredFrom','note']
 
 
