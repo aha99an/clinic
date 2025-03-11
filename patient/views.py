@@ -29,11 +29,9 @@ class PatientListView(ListView):
     model = Patient
     template_name = 'patients.html'
 
-
     def dispatch(self, request, *args, **kwargs):
         self.paginate_by = self.request.POST.get('pagination_num',default=50)
         return super().dispatch(request, *args, **kwargs)        
-
 
     def get_queryset(self):
         global queryset
@@ -44,7 +42,6 @@ class PatientListView(ListView):
         search_operations = self.request.GET.get('search_operations',default="")
         search_follow = self.request.GET.get('search_follow',default="")
         
-    
         if search_value or search_diagnoses or search_operations or search_follow:
             mypatients = Q(name__icontains=search_value)
             queryset = Patient.objects.filter(mypatients)
@@ -72,7 +69,6 @@ class AllPatientListView(ListView):
         print(self.paginate_by)
         return super().dispatch(request, *args, **kwargs)        
 
-
     def get_queryset(self):
         global queryset
         queryset = Patient.objects.all()
@@ -88,12 +84,9 @@ class AllPatientListView(ListView):
         search_treatment = self.request.GET.get('search_treatment',default="")
         search_operations = self.request.GET.get('search_operations',default="")
         search_follow = self.request.GET.get('search_follow',default="")
-        
     
         if search_name or search_phone or search_gender or search_address or search_referred or search_cause or search_diagnoses or search_investigation or search_treatment or search_operations or search_follow:
             mypatients = Q(name__icontains=search_name)
-            # admin_student_list2 = Q(diagnose__diagnoseName__icontains=search_value)
-            # admin_student_list3 = Q(patient_appointments__operation__operationName__icontains=search_value)
             queryset = Patient.objects.filter(mypatients)
             if search_phone: 
                 queryset = queryset.filter(phoneNumber=search_phone)
@@ -125,8 +118,6 @@ class AllPatientListView(ListView):
         ctx["total_patienst_in_page"] = queryset.count
         return ctx
 
-
-
 class PatienDetailView(DetailView):
     model = Patient
     template_name = 'patient_detail.html'
@@ -137,31 +128,6 @@ class PatienDetailView(DetailView):
         ctx["alloperations"] = appointments
         return ctx
 
-    # def get_object(self):
-    #     my_patient= Patient.objects.get(id=self.kwargs.get("pk"))
-    #     print (self.kwargs.get("pk"))
-    #     print (my_patient)
-    #     return my_patient
-
-
-    # def get_context_data(self):
-    #     ctx = super().get_context_data()
-    #     ctx["alloperations"] = Appointment.objects.all()
-    #     # my_patient
-    #     appointments = Appointment.objects.filter(patient=my_patient).values_list("operation__operationName")
-    #     for appointment in appointments:
-    #         appointment.operations.all().values_list("")
-    #     # Appointment.objects.all()
-    #     Appointment.objects.values("appointmentType")
-    #     ctx["hello"] = {patient1: operation1, pat}
-    #     return ctx
-
-    # def get_context_data(self):
-    #     ctx = super().get_context_data()
-    #     ctx["alloperations"] = Appointment.objects.filter()
-    #     #  Appointment.objects.all()
-    #     ctx["hello"] = "yasser"
-    #     return ctx
 
 class PatientCreateView(CreateView):
     model = Patient
@@ -177,14 +143,12 @@ class PatientCreateView(CreateView):
         birthdate = birthdate - relativedelta(days=days)                
         temp_form = super(PatientCreateView, self).form_valid(form = form)
         form.instance.birthdate = birthdate
-        # breakpoint()
         form.save()
         return temp_form
 
 
 class PatientUpdateView(UpdateView):
     model = Patient
-    # breakpoint()
     template_name = 'patient_edit.html'
     form_class = PatientListViewForm
     def form_valid(self, form):
@@ -197,10 +161,8 @@ class PatientUpdateView(UpdateView):
         birthdate = birthdate - relativedelta(days=days)                
         temp_form = super(PatientUpdateView, self).form_valid(form = form)
         form.instance.birthdate = birthdate
-        # breakpoint()
         form.save()
         return temp_form
-    # fields = ['name', 'phoneNumber', 'birthdate' ,'gender','patientAddress','cause','diagnose','investigation','treatment','referredFrom','note']
 
 
 
@@ -224,21 +186,12 @@ def rotate_Left(request,id):
     im = PilImage.open(image.image)
     rotated_image = im.rotate(270)
     rotated_image.save(item.image.file.name, overwrite=True)
-
-  
-    # Attachment.objects.create(
-    #         patient_id=int(mypatient), attachment=f, id=id)
-
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def uploadAttachment(request):
     files = request.FILES.getlist('attachment')
-    # print (form)
-    # print (request.FILES.getlist('attachment'))
     mypatient = request.POST['patient_pk']
-    # print (request.POST['patient_pk'])
 
-    # print ('0000000000000000000000000000000000000000')
     for f in files:
         Attachment.objects.create(
             patient_id=int(mypatient), attachment=f)
@@ -259,33 +212,98 @@ def Import_attachments(request):
             print (attachment)
             Attachment.objects.create(
                 patient_id=int(patientId), attachment=attachment)
-
-
-
-
-
-
-
     return HttpResponse('Import done')  
-def Export_csv(request):
-    # print('ddddddddddddddddddddddddd')
-    # print (queryset)
+
+def Export_All_csv(request):
+    queryset = Patient.objects.all()
+    print (queryset)
     response = HttpResponse(content_type = 'text/csv')
     response['Content-Disposition'] = 'attachmet; filename = Patient' + str(date.today())+'.csv'
     writer = csv.writer(response)
-    writer.writerow(['Name','Phone number','Years','Months','Gender','Patient address','Causes','Diagnoses','Investigations','Treatments','Operations'])
+    writer.writerow(['Name','Phone number','Years','Months','Gender','Patient address','Causes','Diagnoses','Investigations','Treatments','Operations','Referrers'])
+
     for patient in queryset:
-        # referred = list( patient.referredFrom.all().values_list('referrerName', flat=True))
         cause = list( patient.cause.all().values_list('causeName', flat=True))
         diagnose = list( patient.diagnose.all().values_list('diagnoseName', flat=True))
         investigation = list( patient.investigation.all().values_list('investigationName', flat=True))
         treatment = list( patient.treatment.all().values_list('treatmentName', flat=True))
         operations = list( Appointment.objects.filter(patient = patient, appointmentType = 'Operative').values_list('operation__operationName', flat=True))
+        referred = list( patient.referredFrom.all().values_list('referrerName', flat=True))
+
         writer.writerow([patient.name, patient.phoneNumber, patient.years, patient.months, patient.gender, 
-            patient.patientAddress, cause, diagnose, investigation,treatment, operations])
+            patient.patientAddress, cause, diagnose, investigation,treatment, operations, referred])
 
     return response
 
+
+def Export_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = f'attachment; filename=Patient_{date.today()}.csv'
+    
+    writer = csv.writer(response)
+    writer.writerow(['Name', 'Phone number', 'Years', 'Months', 'Gender', 'Patient address', 'Causes', 
+                     'Diagnoses', 'Investigations', 'Treatments', 'Operations', 'Referrers'])
+
+    # Retrieve the filtered queryset using request parameters
+    queryset = Patient.objects.all()
+
+    search_name = request.GET.get('search_name', "")
+    search_phone = request.GET.get('search_phone', "")
+    search_gender = request.GET.get('search_gender', "")
+    search_address = request.GET.get('search_address', "")
+    search_referred = request.GET.get('search_referred', "")
+    search_cause = request.GET.get('search_cause', "")
+    search_diagnoses = request.GET.get('search_diagnoses', "")
+    search_investigation = request.GET.get('search_investigation', "")
+    search_treatment = request.GET.get('search_treatment', "")
+    search_operations = request.GET.get('search_operations', "")
+    search_follow = request.GET.get('search_follow', "")
+    search_follow = request.GET.get('search_new_visit', "")
+
+    filters = Q()
+    if search_name:
+        filters &= Q(name__icontains=search_name)
+    if search_phone:
+        filters &= Q(phoneNumber=search_phone)
+    if search_gender:
+        filters &= Q(gender=search_gender)
+    if search_address:
+        filters &= Q(patientAddress__icontains=search_address)
+    if search_referred:
+        filters &= Q(referredFrom__referrerName__icontains=search_referred)
+    if search_cause:
+        filters &= Q(cause__causeName__icontains=search_cause)
+    if search_diagnoses:
+        filters &= Q(diagnose__diagnoseName__icontains=search_diagnoses)
+    if search_investigation:
+        filters &= Q(investigation__investigationName__icontains=search_investigation)
+    if search_treatment:
+        filters &= Q(treatment__treatmentName__icontains=search_treatment)
+    if search_operations:
+        filters &= Q(patient_appointments__operation__operationName__icontains=search_operations)
+    if search_follow:
+        filters &= Q(patient_appointments__followup__followupName__icontains=search_follow)
+
+    if filters:
+        queryset = queryset.filter(filters)
+
+    # Write data to CSV
+    for patient in queryset:
+        cause = list(patient.cause.all().values_list('causeName', flat=True))
+        diagnose = list(patient.diagnose.all().values_list('diagnoseName', flat=True))
+        investigation = list(patient.investigation.all().values_list('investigationName', flat=True))
+        treatment = list(patient.treatment.all().values_list('treatmentName', flat=True))
+        operations = list(Appointment.objects.filter(patient=patient, appointmentType='Operative')
+                          .values_list('operation__operationName', flat=True))
+        referred = list(patient.referredFrom.all().values_list('referrerName', flat=True))
+
+        writer.writerow([
+            patient.name, patient.phoneNumber, patient.years, patient.months, patient.gender,
+            patient.patientAddress, ', '.join(cause), ', '.join(diagnose), ', '.join(investigation),
+            ', '.join(treatment), ', '.join(operations), ', '.join(referred)
+        ])
+
+    return response
 
 
 def import_csvpat(request):

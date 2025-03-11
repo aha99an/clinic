@@ -6,30 +6,10 @@
   <table>
     <tbody>
       <td> <a href="{% url 'patient_new' %}" class="button next">Add patient</a></td>
-      <td> <a href="{% url 'export-csv' %}" class="button next">Export csv</a></td>
       <td><a id="print-content" href="" onclick="printDiv('contentToPrint')" class="button primary"> Print</a></td>
-      {% comment %} <td><a href="{% url 'import-csvpat' %}" class="button next">import csv</a></td> {% endcomment %}
-      {% comment %} <td><a href="{% url 'import-attachments' %}" class="button next">import attachments</a></td> {% endcomment %}
     </tbody>
   </table>
 </section>
-
-
-<!-- Section -->
-{% comment %} SEARCH {% endcomment %}
-{% comment %} <section>
-    <form method="get" action="{% url 'patients' %}">
-
-      <table>
-        <tbody>
-          <td style="width:25%">      <input style = "width: auto;" id="al-search" type="text"  name="search_value" value="{{ request.GET.search_value }}"class="form-control" />
-          </td>
-          <td>      <input type="submit" value="Search"  href="" class="button primary" />
-          </td>
-        </tbody>
-      </table>
-    </form>
-</section> {% endcomment %}
 
  <!-- Section -->
  <h2>All patients</h2>
@@ -55,18 +35,19 @@
                 <input style = "width: auto;" id="al-search" type="text" name="search_value" 
                     value="{{ request.GET.search_value }}"class="form-control" onchange="this.form.submit()"/>  
               </td>
+              {% comment %}
               <td>
-                {% comment %} <form method="get" action="{% url 'patients' %}" name = "search">
+                 <form method="get" action="{% url 'patients' %}" name = "search">
                     
                   <input style = "width: 50px;" id="al-search" type="text" name="search_years" 
-                      value="{{ request.GET.search_years }}"class="form-control" onchange="this.form.submit()"/> {% endcomment %}
+                      value="{{ request.GET.search_years }}"class="form-control" onchange="this.form.submit()"/> 
               </td>
               <td>
                 {% comment %} <form method="get" action="{% url 'patients' %}" name = "search">
                     
                   <input style = "width: 50px;" id="al-search" type="text" name="search_mounth" 
-                      value="{{ request.GET.search_mounth }}"class="form-control" onchange="this.form.submit()"/> {% endcomment %}
-              </td>
+                      value="{{ request.GET.search_mounth }}"class="form-control" onchange="this.form.submit()"/> 
+              </td>{% endcomment %}
               <td>
                 <form method="get" action="{% url 'patients' %}" name = "search">
                     
