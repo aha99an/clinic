@@ -354,13 +354,6 @@ def import_csvpat(request):
                 diagnose, _ = Diagnose.objects.get_or_create(diagnoseName=diagnose5)
                 mypatient.diagnose.add(diagnose)
 
-            # investigation_str = row[8]
-            # investigation_name= ast.literal_eval(diagnose_str)
-            # for investigation5 in investigation_name:
-            #     investigation, _ = Investigation.objects.get_or_create(investigationName=diagnose5)
-            #     mypatient.investigation.add(investigation)
-
-
             treatment_str = row[12]
             treatment_name= ast.literal_eval(treatment_str)
             for treatment5 in treatment_name:

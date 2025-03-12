@@ -106,110 +106,80 @@
                 <td> <h>Operations:</h></td>
                 <td> <h1>
                     {% for appointment in patient.patient_appointments.all %}
-                    {% if appointment.appointmentType == 'Operative' %}
-                        {% if not forloop.first %}
-                            <br/>
-                            {% endif %}                       
-                            {% endif %}
-
-                        {% for operation in appointment.operation.all %}
-                            {% if appointment.appointmentType == 'Operative' %}
-                                {{ operation.operationName }}
-                                {% if forloop.first %}
-                                ,
+                        {% if appointment.appointmentType == 'Operative' %}
+                            {% with appointment.operation.all as operations %}
+                                {% if operations|length > 0 %}
+                                    {% if not forloop.first %}<br/>{% endif %}
+                                    {{ operations|join:", " }}
                                 {% endif %}
-                            {% endif %}
-                        {% endfor%}
+                            {% endwith %}
+                        {% endif %}
                     {% endfor %}
-                </td></h></td>
+                </h1></td>
                 <td><h1>
                     {% for appointment in patient.patient_appointments.all %}
-                    {% if appointment.appointmentType == 'Operative' %}
-                        {% if appointment.operation.all %}
-                            {% if not forloop.first %}
-                            <br/>
-                            {% endif %}
+                        {% if appointment.appointmentType == 'Operative' and appointment.operation.all %}
+                            {% if not forloop.first %}<br/>{% endif %}
                             {{ appointment.appointmentDate }}
                         {% endif %}
-                        {% endif %}
-
-                    {% endfor%}
+                    {% endfor %}
                 </h1></td>
                 <td><h></h></td>
                 <td><h></h></td>
             </tr> 
+            
             <tr>
                 <td> <h>Follow up:</h></td>
                 <td> <h1>
                     {% for appointment in patient.patient_appointments.all %}
-                    {% if appointment.appointmentType == 'Follow up' %}
-                        {% if not forloop.first %}
-                            <br/>
-                            {% endif %}                       
-                            {% endif %}
-
-                        {% for followup in appointment.followup.all %}
-                            {% if appointment.appointmentType == 'Follow up' %}
-                                {{ followup.followupName }}
-                                {% if forloop.first %}
-                                ,
+                        {% if appointment.appointmentType == 'Follow up' %}
+                            {% with appointment.followup.all as followups %}
+                                {% if followups|length > 0 %}
+                                    {% if not forloop.first %}<br/>{% endif %}
+                                    {{ followups|join:", " }}
                                 {% endif %}
-                            {% endif %}
-                        {% endfor%}
+                            {% endwith %}
+                        {% endif %}
                     {% endfor %}
-                </td></h></td>
+                </h1></td>
                 <td><h1>
                     {% for appointment in patient.patient_appointments.all %}
-                    {% if appointment.appointmentType == 'Follow up' %}
-                        {% if appointment.followup.all %}
-                            {% if not forloop.first %}
-                            <br/>
-                            {% endif %}
+                        {% if appointment.appointmentType == 'Follow up' and appointment.followup.all %}
+                            {% if not forloop.first %}<br/>{% endif %}
                             {{ appointment.appointmentDate }}
                         {% endif %}
-                        {% endif %}
-
-                    {% endfor%}
+                    {% endfor %}
                 </h1></td>
                 <td><h></h></td>
                 <td><h></h></td>
             </tr> 
+            
             <tr>
                 <td> <h>New visit reason:</h></td>
                 <td> <h1>
                     {% for appointment in patient.patient_appointments.all %}
-                    {% if appointment.appointmentType == 'New Visit' %}
-                        {% if not forloop.first %}
-                            <br/>
-                            {% endif %}                       
-                            {% endif %}
-
-                        {% for newVisit in appointment.new_visit.all %}
-                            {% if appointment.appointmentType == 'New Visit' %}
-                                {{ newVisit.newVisitName }}
-                                {% if forloop.first %}
-                                ,
+                        {% if appointment.appointmentType == 'New Visit' %}
+                            {% with appointment.new_visit.all as newVisits %}
+                                {% if newVisits|length > 0 %}
+                                    {% if not forloop.first %}<br/>{% endif %}
+                                    {{ newVisits|join:", " }}
                                 {% endif %}
-                            {% endif %}
-                        {% endfor%}
+                            {% endwith %}
+                        {% endif %}
                     {% endfor %}
-                </td></h></td>
+                </h1></td>
                 <td><h1>
                     {% for appointment in patient.patient_appointments.all %}
-                    {% if appointment.appointmentType == 'New Visit' %}
-                        {% if appointment.new_visit.all %}
-                            {% if not forloop.first %}
-                            <br/>
-                            {% endif %}
+                        {% if appointment.appointmentType == 'New Visit' and appointment.new_visit.all %}
+                            {% if not forloop.first %}<br/>{% endif %}
                             {{ appointment.appointmentDate }}
                         {% endif %}
-                        {% endif %}
-
-                    {% endfor%}
+                    {% endfor %}
                 </h1></td>
                 <td><h></h></td>
                 <td><h></h></td>
             </tr> 
+            
             <tr>
                 <td><h>Notes:</h></td>
                 <td><h>{{ patient.note | urlize |linebreaks}}</h></td>
