@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import PatientListView, PatienDetailView, PatientCreateView, PatientUpdateView, PatientDeleteView, AllPatientListView, Export_csv, import_csvpat, uploadAttachment, AttachmentDetailView, delete_image, rotate_Left, Import_attachments, Export_All_csv
+from .views import PatientListView, PatienDetailView, PatientCreateView, PatientUpdateView, PatientDeleteView, AllPatientListView, Export_csv, import_csvpat, uploadAttachment, AttachmentDetailView, delete_image, rotate_Left, Import_attachments
 
 
 urlpatterns = [
@@ -10,7 +10,6 @@ path('patient/new/', PatientCreateView.as_view(), name='patient_new'),
 path('patient/<int:pk>/edit/', PatientUpdateView.as_view(), name='patient_edit'),
 path('patient/<int:pk>/delete/',  PatientDeleteView.as_view(), name='patient_delete'),
 path('export_csv',  Export_csv, name='export-csv'),
-path('export_all_csv',  Export_All_csv, name='export-all-csv'),
 path('import_csvpat',  import_csvpat, name='import-csvpat'),
 path('uploadAttachment',  uploadAttachment, name='uploadAttachment'),
 path('patient/<int:pk>/attachments/', AttachmentDetailView.as_view(), name='attachments'),
