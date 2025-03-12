@@ -3,14 +3,9 @@
 
 <!-- Section -->
 <section>
-    <table>
-        <tbody>
           <td> <a href="{% url 'patient_new' %}" class="button next">Add patient</a></td>
           <td> <a href="{% url 'export-csv' %}?{{ request.GET.urlencode }}" class="button next">Export CSV</a></td>
-          <td> <a href="{% url 'export-all-csv' %}" class="button next">Export csv for all patients</a></td>
           <td><a id="print-content" href="" onclick="printDiv('contentToPrint')" class="button primary"> Print</a></td>
-        </tbody>
-      </table>
 </section>
 
  <!-- Section -->

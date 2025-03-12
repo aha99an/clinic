@@ -214,27 +214,6 @@ def Import_attachments(request):
                 patient_id=int(patientId), attachment=attachment)
     return HttpResponse('Import done')  
 
-def Export_All_csv(request):
-    queryset = Patient.objects.all()
-    print (queryset)
-    response = HttpResponse(content_type = 'text/csv')
-    response['Content-Disposition'] = 'attachmet; filename = Patient' + str(date.today())+'.csv'
-    writer = csv.writer(response)
-    writer.writerow(['Name','Phone number','Years','Months','Gender','Patient address','Causes','Diagnoses','Investigations','Treatments','Operations','Referrers'])
-
-    for patient in queryset:
-        cause = list( patient.cause.all().values_list('causeName', flat=True))
-        diagnose = list( patient.diagnose.all().values_list('diagnoseName', flat=True))
-        investigation = list( patient.investigation.all().values_list('investigationName', flat=True))
-        treatment = list( patient.treatment.all().values_list('treatmentName', flat=True))
-        operations = list( Appointment.objects.filter(patient = patient, appointmentType = 'Operative').values_list('operation__operationName', flat=True))
-        referred = list( patient.referredFrom.all().values_list('referrerName', flat=True))
-
-        writer.writerow([patient.name, patient.phoneNumber, patient.years, patient.months, patient.gender, 
-            patient.patientAddress, cause, diagnose, investigation,treatment, operations, referred])
-
-    return response
-
 
 def Export_csv(request):
     response = HttpResponse(content_type='text/csv')
@@ -289,19 +268,20 @@ def Export_csv(request):
 
     # Write data to CSV
     for patient in queryset:
-        cause = list(patient.cause.all().values_list('causeName', flat=True))
-        diagnose = list(patient.diagnose.all().values_list('diagnoseName', flat=True))
-        investigation = list(patient.investigation.all().values_list('investigationName', flat=True))
-        treatment = list(patient.treatment.all().values_list('treatmentName', flat=True))
-        operations = list(Appointment.objects.filter(patient=patient, appointmentType='Operative')
-                          .values_list('operation__operationName', flat=True))
-        referred = list(patient.referredFrom.all().values_list('referrerName', flat=True))
+        cause = [c if c else '' for c in patient.cause.all().values_list('causeName', flat=True)]
+        diagnose = [d if d else '' for d in patient.diagnose.all().values_list('diagnoseName', flat=True)]
+        investigation = [i if i else '' for i in patient.investigation.all().values_list('investigationName', flat=True)]
+        treatment = [t if t else '' for t in patient.treatment.all().values_list('treatmentName', flat=True)]
+        operations = [o if o else '' for o in Appointment.objects.filter(patient=patient, appointmentType='Operative')
+                    .values_list('operation__operationName', flat=True)]
+        referred = [r if r else '' for r in patient.referredFrom.all().values_list('referrerName', flat=True)]
 
         writer.writerow([
-            patient.name, patient.phoneNumber, patient.years, patient.months, patient.gender,
-            patient.patientAddress, ', '.join(cause), ', '.join(diagnose), ', '.join(investigation),
+            patient.name or '', patient.phoneNumber or '', patient.years or '', patient.months or '', patient.gender or '',
+            patient.patientAddress or '', ', '.join(cause), ', '.join(diagnose), ', '.join(investigation),
             ', '.join(treatment), ', '.join(operations), ', '.join(referred)
         ])
+
 
     return response
 
