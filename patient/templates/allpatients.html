@@ -6,27 +6,12 @@
     <table>
         <tbody>
           <td> <a href="{% url 'patient_new' %}" class="button next">Add patient</a></td>
-          <td> <a href="{% url 'export-csv' %}" class="button next">Export csv</a></td>
+          <td> <a href="{% url 'export-csv' %}?{{ request.GET.urlencode }}" class="button next">Export CSV</a></td>
+          <td> <a href="{% url 'export-all-csv' %}" class="button next">Export csv for all patients</a></td>
           <td><a id="print-content" href="" onclick="printDiv('contentToPrint')" class="button primary"> Print</a></td>
         </tbody>
       </table>
 </section>
-
-
-<!-- Section -->
-{% comment %} SEARCH {% endcomment %}
-{% comment %} <section>
-    <form method="get" action="{% url 'allpatients' %}">
-        <table>
-            <tbody>
-              <td style="width:25%">         <input style = "width: auto;" id="al-search" type="text" name="search_value" value="{{ request.GET.search_value }}"class="form-control" />
-              </td>
-              <td>         <input type="submit" value="Search" class="button primary" />    
-              </td>
-            </tbody>
-          </table>
-    </form>
-</section> {% endcomment %}
 
  <!-- Section -->
  <section>
@@ -128,8 +113,8 @@
                   <td>
                     <form method="get" action="{% url 'allpatients' %}" name = "search">
                         
-                      <input style = "width: 50;" id="al-search" type="text" name="search_follow" 
-                          value="{{ request.GET.search_follow }}"class="form-control" onchange="this.form.submit()"/>  
+                      <input style = "width: 50;" id="al-search" type="text" name="search_new_visit" 
+                          value="{{ request.GET.search_new_visit }}"class="form-control" onchange="this.form.submit()"/>  
                   </td>
             </tr>
             {% for patient in object_list %}
