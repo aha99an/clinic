@@ -13,27 +13,27 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
 from django.urls import path
-from django.urls import path, include # new
+from django.urls import path, include  # new
 from django.conf.urls.static import static
 from django.conf import settings
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('pages.urls')), # new
-    path('patients/', include('patient.urls')), # new
-    path('referrers/', include('referrer.urls')), # new
-    path('causes/', include('cause.urls')), # new
-    path('investigations/', include('investigation.urls')), # new
-    path('diagnose/', include('diagnose.urls')), # new
-    path('operation/', include('operation.urls')), # new
-    path('treatment/', include('treatment.urls')), # new
-    path('appointment/', include('appointment.urls')), # new
-    path('accounts/', include('django.contrib.auth.urls')), # new
-    path('followup/', include('followup.urls')), # new
-    path('newVisit/', include('newVisit.urls')), # new
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path("admin/", admin.site.urls),
+    path("", include("pages.urls")),  # new
+    path("patients/", include("patient.urls")),  # new
+    path("referrers/", include("referrer.urls")),  # new
+    path("causes/", include("cause.urls")),  # new
+    path("investigations/", include("investigation.urls")),  # new
+    path("diagnose/", include("diagnose.urls")),  # new
+    path("operation/", include("operation.urls")),  # new
+    path("treatment/", include("treatment.urls")),  # new
+    path("appointment/", include("appointment.urls")),  # new
+    path("accounts/", include("django.contrib.auth.urls")),  # new
+    path("followup/", include("followup.urls")),  # new
+    path("newVisit/", include("newVisit.urls")),  # new
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
