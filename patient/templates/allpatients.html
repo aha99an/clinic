@@ -21,6 +21,7 @@
             <th scope="col">Phone</th>
             <th scope="col">G</th>
             <th scope="col">Address</th>
+            <th scope="col">Patient complaint</th>
             <th scope="col">Referred</th>
             <th scope="col">Cause</th>
             <th scope="col">Diagnose</th>
@@ -62,6 +63,8 @@
                       
                     <input style = "width: 50;" id="al-search" type="text" name="search_address" 
                         value="{{ request.GET.search_address }}"class="form-control" onchange="this.form.submit()"/>  
+                </td>
+                <td>
                 </td>
                 <td>
                     <form method="get" action="{% url 'allpatients' %}" name = "search">
@@ -131,6 +134,9 @@
                     </td>
                     <td>
                         <h> {{ patient.patientAddress }}</a></h>
+                    </td>
+                    <td>
+                        <h> {{ patient.patientComplaint }}</a></h>
                     </td>
                     <td>
                         <h>{% for referredFrom in patient.referredFrom.all %}{{ referredFrom }}<br/>{% endfor %}</h>
