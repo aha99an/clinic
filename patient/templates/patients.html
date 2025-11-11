@@ -21,6 +21,7 @@
             <th scope="col">Operations</th>
             <th scope="col">Follow up</th>
             <th scope="col">New visit reason</th>
+            <th scope="col">Patient complaint</th>
         </tr>
         </thead>
         <tbody>
@@ -59,6 +60,7 @@
                   <input style = "width: auto;" id="al-search" type="text" name="" 
                       value=""class="form-control" onchange="this.form.submit()"/>  
               </td>
+              <td></td>
           </tr>
           <tr>
             {% for patient in object_list %}
@@ -113,6 +115,9 @@
                     </a></h>                   
 
                 </td>
+                   <td>
+                        <h> {{ patient.patientComplaint }}</a></h>
+                    </td>
                 </tr>
                 {% endfor %}
                 </tbody>
