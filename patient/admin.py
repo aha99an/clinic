@@ -4,15 +4,12 @@ from django.contrib import admin
 from .models import Patient, Attachment
 
 
-
-
 class PatientAdmin(admin.ModelAdmin):
     class Meta:
         model = Patient
 
- 
-    readonly_fields = ( 'created_at', 'updated_at')
+    readonly_fields = ("created_at", "updated_at")
 
-admin.site.register(Patient,PatientAdmin)
+
+admin.site.register(Patient, PatientAdmin)
 admin.site.register(Attachment)
-
